@@ -12,17 +12,16 @@ import {
   BookOpen, 
   Award, 
   BarChart3, 
-  Settings,
-  FileText,
-  PlusCircle,
-  ChevronRight,
   TrendingUp,
-  Clock,
   AlertTriangle,
   CheckCircle,
   Shield,
-  Database,
-  UserCog
+  PlusCircle,
+  ChevronRight,
+  Clock,
+  FileText,
+  UserCheck,
+  GraduationCap
 } from 'lucide-react'
 
 export default function AdminDashboardPage() {
@@ -30,7 +29,6 @@ export default function AdminDashboardPage() {
   const supabase = createClient()
   const [user, setUser] = useState<any>(null)
   const [loading, setLoading] = useState(true)
-  const [isAdmin, setIsAdmin] = useState(false)
 
   useEffect(() => {
     const getUser = async () => {
@@ -39,17 +37,7 @@ export default function AdminDashboardPage() {
         router.push('/login')
         return
       }
-      
-      // Verificar se é admin
-      const role = user?.user_metadata?.role || 'user'
-      if (role !== 'admin' && role !== 'super_admin') {
-        // Se não for admin, redirecionar para dashboard do aluno
-        router.push('/dashboard')
-        return
-      }
-      
       setUser(user)
-      setIsAdmin(true)
       setLoading(false)
     }
     getUser()
@@ -57,59 +45,47 @@ export default function AdminDashboardPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-[#F8FAFC]">
+      <div className="flex items-center justify-center h-[calc(100vh-80px)]">
         <div className="text-center">
           <div className="w-12 h-12 border-4 border-[#D4AF37] border-t-transparent rounded-full animate-spin mx-auto"></div>
-          <p className="mt-4 text-[#6B7280]">Carregando painel administrativo...</p>
+          <p className="mt-4 text-[#6B7280]">Carregando...</p>
         </div>
       </div>
     )
   }
 
-  if (!isAdmin) {
-    return null // Redirecionado pelo useEffect
-  }
-
-  // Dados mock para admin
-  const adminStats = {
-    totalUsuarios: 342,
-    totalCursos: 28,
-    totalCertificados: 156,
-    taxaConclusao: 78,
-    cursosAtivos: 12,
-    usuariosAtivos: 89,
-    questoesBanco: 245,
-    empresasAtivas: 18
-  }
-
-  const atividadesRecentes = [
-    { id: 1, usuario: 'João Silva', acao: 'Concluiu o curso "Liderança 360°"', data: '2h atrás' },
-    { id: 2, usuario: 'Maria Santos', acao: 'Iniciou o curso "NR-10"', data: '4h atrás' },
-    { id: 3, usuario: 'Carlos Souza', acao: 'Solicitou certificado', data: '6h atrás' },
-    { id: 4, usuario: 'Ana Oliveira', acao: 'Atualizou perfil', data: '8h atrás' },
+  const stats = [
+    { label: 'Usuários', value: '342', icon: Users, color: '#0A2540', bg: 'bg-[#0A2540]/10' },
+    { label: 'Cursos', value: '28', icon: BookOpen, color: '#D4AF37', bg: 'bg-[#D4AF37]/10' },
+    { label: 'Certificados', value: '156', icon: Award, color: '#1E3A8A', bg: 'bg-[#1E3A8A]/10' },
+    { label: 'Taxa de conclusão', value: '78%', icon: TrendingUp, color: '#16A34A', bg: 'bg-[#16A34A]/10' },
   ]
 
-  const alertas = [
-    { id: 1, tipo: 'warning', mensagem: '3 cursos com NR-10 precisam de atualização', link: '/admin/cursos' },
-    { id: 2, tipo: 'info', mensagem: '42 usuários não confirmaram e-mail', link: '/admin/usuarios' },
-    { id: 3, tipo: 'success', mensagem: 'Novo certificado ISO 9001 emitido', link: '/admin/certificados' },
+  const alerts = [
+    { type: 'warning', message: '3 cursos com NR-10 precisam de atualização' },
+    { type: 'info', message: '42 usuários não confirmaram e-mail' },
+    { type: 'success', message: 'Novo certificado ISO 9001 emitido' },
+  ]
+
+  const recentActivities = [
+    { user: 'João Silva', action: 'Concluiu "Liderança 360°"', time: '2h atrás' },
+    { user: 'Maria Santos', action: 'Iniciou "NR-10"', time: '4h atrás' },
+    { user: 'Carlos Souza', action: 'Solicitou certificado', time: '6h atrás' },
+    { user: 'Ana Oliveira', action: 'Atualizou perfil', time: '8h atrás' },
   ]
 
   return (
-    <div className="max-w-[1400px] mx-auto px-6 lg:px-10 py-8">
+    <div>
       {/* Header */}
-      <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-8">
+      <div className="flex items-center justify-between mb-8">
         <div>
-          <div className="flex items-center gap-2">
-            <Shield className="w-6 h-6 text-[#D4AF37]" />
-            <h1 className="text-3xl font-bold text-[#0A2540]" style={{ fontFamily: 'Poppins' }}>
-              Painel Administrativo
-            </h1>
-            <Badge variant="gold" className="ml-2">ADMIN</Badge>
-          </div>
-          <p className="text-[#6B7280]">Gerencie todos os aspectos da plataforma Vigorre Academy</p>
+          <h1 className="text-2xl font-bold text-[#0A2540]" style={{ fontFamily: 'Poppins' }}>
+            Dashboard Administrativo
+          </h1>
+          <p className="text-[#6B7280]">Bem-vindo, {user?.user_metadata?.name || 'Admin'} 👋</p>
         </div>
         <div className="flex items-center gap-3">
+          <Badge className="bg-[#D4AF37] text-white">Admin</Badge>
           <Link href="/admin/cursos/novo">
             <Button className="bg-[#D4AF37] hover:bg-[#C49F27] text-white">
               <PlusCircle className="w-4 h-4 mr-2" />
@@ -120,147 +96,62 @@ export default function AdminDashboardPage() {
       </div>
 
       {/* Alertas */}
-      {alertas.length > 0 && (
-        <div className="grid gap-3 mb-8">
-          {alertas.map((alerta) => (
-            <div
-              key={alerta.id}
-              className={`p-4 rounded-xl border flex items-center justify-between ${
-                alerta.tipo === 'warning' ? 'bg-amber-50 border-amber-200' :
-                alerta.tipo === 'info' ? 'bg-blue-50 border-blue-200' :
-                'bg-green-50 border-green-200'
-              }`}
-            >
-              <div className="flex items-center gap-3">
-                {alerta.tipo === 'warning' && <AlertTriangle className="w-5 h-5 text-amber-500" />}
-                {alerta.tipo === 'info' && <AlertTriangle className="w-5 h-5 text-blue-500" />}
-                {alerta.tipo === 'success' && <CheckCircle className="w-5 h-5 text-green-500" />}
-                <span className="text-sm font-medium text-[#0A2540]">{alerta.mensagem}</span>
-              </div>
-              <Link href={alerta.link}>
-                <Button variant="ghost" size="sm" className="text-[#0A2540]">
-                  Ver
-                  <ChevronRight className="w-4 h-4 ml-1" />
-                </Button>
-              </Link>
-            </div>
-          ))}
-        </div>
-      )}
+      <div className="grid gap-3 mb-8">
+        {alerts.map((alert, index) => (
+          <div
+            key={index}
+            className={`p-4 rounded-xl border flex items-center gap-3 ${
+              alert.type === 'warning' ? 'bg-amber-50 border-amber-200' :
+              alert.type === 'info' ? 'bg-blue-50 border-blue-200' :
+              'bg-green-50 border-green-200'
+            }`}
+          >
+            {alert.type === 'warning' && <AlertTriangle className="w-5 h-5 text-amber-500" />}
+            {alert.type === 'info' && <AlertTriangle className="w-5 h-5 text-blue-500" />}
+            {alert.type === 'success' && <CheckCircle className="w-5 h-5 text-green-500" />}
+            <span className="text-sm text-[#0A2540]">{alert.message}</span>
+          </div>
+        ))}
+      </div>
 
       {/* Stats */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
-        <Card className="border-[#E5E7EB] rounded-2xl shadow-sm">
-          <CardContent className="p-5 flex items-center gap-4">
-            <div className="p-3 rounded-xl bg-[#0A2540]/10">
-              <Users className="w-6 h-6 text-[#0A2540]" />
-            </div>
-            <div>
-              <p className="text-2xl font-bold text-[#0A2540]">{adminStats.totalUsuarios}</p>
-              <p className="text-sm text-[#6B7280]">Usuários</p>
-            </div>
-          </CardContent>
-        </Card>
-
-        <Card className="border-[#E5E7EB] rounded-2xl shadow-sm">
-          <CardContent className="p-5 flex items-center gap-4">
-            <div className="p-3 rounded-xl bg-[#D4AF37]/10">
-              <BookOpen className="w-6 h-6 text-[#D4AF37]" />
-            </div>
-            <div>
-              <p className="text-2xl font-bold text-[#0A2540]">{adminStats.totalCursos}</p>
-              <p className="text-sm text-[#6B7280]">Cursos</p>
-            </div>
-          </CardContent>
-        </Card>
-
-        <Card className="border-[#E5E7EB] rounded-2xl shadow-sm">
-          <CardContent className="p-5 flex items-center gap-4">
-            <div className="p-3 rounded-xl bg-[#1E3A8A]/10">
-              <Award className="w-6 h-6 text-[#1E3A8A]" />
-            </div>
-            <div>
-              <p className="text-2xl font-bold text-[#0A2540]">{adminStats.totalCertificados}</p>
-              <p className="text-sm text-[#6B7280]">Certificados</p>
-            </div>
-          </CardContent>
-        </Card>
-
-        <Card className="border-[#E5E7EB] rounded-2xl shadow-sm">
-          <CardContent className="p-5 flex items-center gap-4">
-            <div className="p-3 rounded-xl bg-[#16A34A]/10">
-              <TrendingUp className="w-6 h-6 text-[#16A34A]" />
-            </div>
-            <div>
-              <p className="text-2xl font-bold text-[#0A2540]">{adminStats.taxaConclusao}%</p>
-              <p className="text-sm text-[#6B7280]">Taxa de conclusão</p>
-            </div>
-          </CardContent>
-        </Card>
+        {stats.map((stat) => (
+          <Card key={stat.label} className="border-[#E5E7EB] rounded-2xl shadow-sm">
+            <CardContent className="p-5 flex items-center gap-4">
+              <div className={`p-3 rounded-xl ${stat.bg}`}>
+                <stat.icon className="w-6 h-6" style={{ color: stat.color }} />
+              </div>
+              <div>
+                <p className="text-2xl font-bold text-[#0A2540]">{stat.value}</p>
+                <p className="text-sm text-[#6B7280]">{stat.label}</p>
+              </div>
+            </CardContent>
+          </Card>
+        ))}
       </div>
 
-      {/* Admin Actions */}
-      <div className="grid md:grid-cols-4 gap-4 mb-8">
-        <Link href="/admin/usuarios">
-          <Card className="border-[#E5E7EB] rounded-2xl shadow-sm hover:shadow-md transition cursor-pointer">
-            <CardContent className="p-6 text-center">
-              <UserCog className="w-8 h-8 mx-auto text-[#0A2540] mb-2" />
-              <h3 className="font-semibold text-[#0A2540]">Usuários</h3>
-              <p className="text-sm text-[#6B7280]">Gerenciar contas</p>
-            </CardContent>
-          </Card>
-        </Link>
-
-        <Link href="/admin/cursos">
-          <Card className="border-[#E5E7EB] rounded-2xl shadow-sm hover:shadow-md transition cursor-pointer">
-            <CardContent className="p-6 text-center">
-              <BookOpen className="w-8 h-8 mx-auto text-[#D4AF37] mb-2" />
-              <h3 className="font-semibold text-[#0A2540]">Cursos</h3>
-              <p className="text-sm text-[#6B7280]">Gerenciar catálogo</p>
-            </CardContent>
-          </Card>
-        </Link>
-
-        <Link href="/admin/certificados">
-          <Card className="border-[#E5E7EB] rounded-2xl shadow-sm hover:shadow-md transition cursor-pointer">
-            <CardContent className="p-6 text-center">
-              <Award className="w-8 h-8 mx-auto text-[#1E3A8A] mb-2" />
-              <h3 className="font-semibold text-[#0A2540]">Certificados</h3>
-              <p className="text-sm text-[#6B7280]">Emissão e validação</p>
-            </CardContent>
-          </Card>
-        </Link>
-
-        <Link href="/admin/relatorios">
-          <Card className="border-[#E5E7EB] rounded-2xl shadow-sm hover:shadow-md transition cursor-pointer">
-            <CardContent className="p-6 text-center">
-              <BarChart3 className="w-8 h-8 mx-auto text-[#16A34A] mb-2" />
-              <h3 className="font-semibold text-[#0A2540]">Relatórios</h3>
-              <p className="text-sm text-[#6B7280]">Métricas e análise</p>
-            </CardContent>
-          </Card>
-        </Link>
-      </div>
-
-      {/* Atividades Recentes */}
+      {/* Grid inferior */}
       <div className="grid lg:grid-cols-2 gap-6">
+        {/* Atividades recentes */}
         <Card className="border-[#E5E7EB] rounded-2xl shadow-sm">
           <CardHeader>
             <CardTitle className="text-[#0A2540]">Atividades Recentes</CardTitle>
           </CardHeader>
           <CardContent className="space-y-3">
-            {atividadesRecentes.map((item) => (
-              <div key={item.id} className="flex items-center justify-between border-b border-[#E5E7EB] pb-3 last:border-0">
+            {recentActivities.map((item, index) => (
+              <div key={index} className="flex items-center justify-between border-b border-[#E5E7EB] pb-3 last:border-0">
                 <div>
-                  <p className="font-medium text-[#0A2540]">{item.usuario}</p>
-                  <p className="text-sm text-[#6B7280]">{item.acao}</p>
+                  <p className="font-medium text-[#0A2540]">{item.user}</p>
+                  <p className="text-sm text-[#6B7280]">{item.action}</p>
                 </div>
-                <span className="text-xs text-[#6B7280]">{item.data}</span>
+                <span className="text-xs text-[#6B7280]">{item.time}</span>
               </div>
             ))}
           </CardContent>
         </Card>
 
+        {/* Ações rápidas */}
         <Card className="border-[#E5E7EB] rounded-2xl shadow-sm">
           <CardHeader>
             <CardTitle className="text-[#0A2540]">Ações Rápidas</CardTitle>
@@ -272,22 +163,22 @@ export default function AdminDashboardPage() {
                 Criar novo curso
               </Button>
             </Link>
-            <Link href="/admin/usuarios/novo">
+            <Link href="/admin/usuarios">
               <Button variant="outline" className="w-full justify-start border-[#E5E7EB] text-[#0A2540]">
                 <Users className="w-4 h-4 mr-2" />
-                Adicionar usuário
+                Gerenciar usuários
               </Button>
             </Link>
-            <Link href="/admin/matriz-treinamentos">
+            <Link href="/admin/certificados/emitir">
               <Button variant="outline" className="w-full justify-start border-[#E5E7EB] text-[#0A2540]">
-                <Database className="w-4 h-4 mr-2" />
-                Matriz de treinamentos (NRs)
+                <FileText className="w-4 h-4 mr-2" />
+                Emitir certificado
               </Button>
             </Link>
-            <Link href="/admin/configuracoes">
+            <Link href="/admin/governanca/nr-1">
               <Button variant="outline" className="w-full justify-start border-[#E5E7EB] text-[#0A2540]">
-                <Settings className="w-4 h-4 mr-2" />
-                Configurações da plataforma
+                <Shield className="w-4 h-4 mr-2" />
+                NR-1 Compliance
               </Button>
             </Link>
           </CardContent>
