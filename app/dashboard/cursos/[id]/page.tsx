@@ -9,6 +9,9 @@ import { Progress } from '@/components/ui/progress'
 import { Badge } from '@/components/ui/badge'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { VideoPlayer } from '@/components/courses/VideoPlayer'
+import { TempoMinimoIndicator } from '@/components/courses/TempoMinimoIndicator'
+import { PartePraticaForm } from '@/components/courses/PartePraticaForm'
+import { NRBadge } from '@/components/courses/NRBadge'
 import { createClient } from '@/lib/supabase/client'
 import { 
   ArrowLeft, 
@@ -20,7 +23,10 @@ import {
   Lock,
   Play,
   FileText,
-  Download
+  Download,
+  AlertTriangle,
+  Shield,
+  GraduationCap
 } from 'lucide-react'
 
 interface Aula {
@@ -32,7 +38,9 @@ interface Aula {
   duracao_minutos: number
   ordem: number
   is_obrigatorio: boolean
+  tempo_minimo_segundos: number
   concluida?: boolean
+  tempo_assistido?: number
 }
 
 interface Modulo {
@@ -49,8 +57,12 @@ interface Curso {
   descricao: string
   carga_horaria: number
   nivel: string
-  modulos: Modulo[]
+  nr_aplicavel: string[]
+  modalidade: string
+  responsavel_tecnico: string
+  possui_parte_pratica: boolean
   progresso_total: number
+  modulos: Modulo[]
 }
 
 export default function CursoDetalhePage() {
@@ -62,65 +74,76 @@ export default function CursoDetalhePage() {
   const [aulaAtual, setAulaAtual] = useState<Aula | null>(null)
   const [moduloAtual, setModuloAtual] = useState<string | null>(null)
   const [progressoTotal, setProgressoTotal] = useState(0)
+  const [tempoMinimoOk, setTempoMinimoOk] = useState(false)
 
   useEffect(() => {
     const carregarCurso = async () => {
       try {
-        // Simular dados do curso
+        // Simular dados do curso com NR-1
         const cursoMock: Curso = {
           id: params.id as string,
-          titulo: 'Liderança e Gestão de Equipes',
-          descricao: 'Aprenda a liderar equipes de alta performance com técnicas modernas de gestão',
-          carga_horaria: 20,
-          nivel: 'INTERMEDIARIO',
+          titulo: 'Segurança em Instalações Elétricas - NR-10',
+          descricao: 'Curso completo de segurança em instalações elétricas conforme NR-10',
+          carga_horaria: 40,
+          nivel: 'AVANCADO',
+          nr_aplicavel: ['NR-10', 'NR-1'],
+          modalidade: 'EAD',
+          responsavel_tecnico: 'Dr. Carlos Mendes - Eng. Eletricista CREA 123456',
+          possui_parte_pratica: true,
           progresso_total: 45,
           modulos: [
             {
               id: 'mod1',
-              titulo: 'Fundamentos da Liderança',
-              descricao: 'Conceitos básicos e estilos de liderança',
+              titulo: 'Fundamentos da NR-10',
+              descricao: 'Conceitos básicos e legislação',
               ordem: 1,
               aulas: [
                 {
                   id: 'aul1',
-                  titulo: 'Introdução à Liderança',
-                  descricao: 'O que é liderança e por que é importante',
-                  tipo: 'video',
-                  video_url: 'https://www.youtube.com/embed/dQw4w9WgXcQ',
-                  duracao_minutos: 10,
-                  ordem: 1,
-                  is_obrigatorio: true,
-                  concluida: true
-                },
-                {
-                  id: 'aul2',
-                  titulo: 'Estilos de Liderança',
-                  descricao: 'Conheça os diferentes estilos e quando aplicá-los',
+                  titulo: 'Introdução à NR-10',
+                  descricao: 'O que é a NR-10 e sua aplicação',
                   tipo: 'video',
                   video_url: 'https://www.youtube.com/embed/dQw4w9WgXcQ',
                   duracao_minutos: 15,
+                  ordem: 1,
+                  is_obrigatorio: true,
+                  tempo_minimo_segundos: 600,
+                  concluida: true,
+                  tempo_assistido: 620
+                },
+                {
+                  id: 'aul2',
+                  titulo: 'Riscos Elétricos',
+                  descricao: 'Identificação e avaliação de riscos',
+                  tipo: 'video',
+                  video_url: 'https://www.youtube.com/embed/dQw4w9WgXcQ',
+                  duracao_minutos: 20,
                   ordem: 2,
                   is_obrigatorio: true,
-                  concluida: false
+                  tempo_minimo_segundos: 900,
+                  concluida: false,
+                  tempo_assistido: 350
                 }
               ]
             },
             {
               id: 'mod2',
-              titulo: 'Gestão de Equipes',
-              descricao: 'Técnicas para gerenciar e motivar equipes',
+              titulo: 'Medidas de Controle',
+              descricao: 'Proteção coletiva e individual',
               ordem: 2,
               aulas: [
                 {
                   id: 'aul3',
-                  titulo: 'Motivação e Engajamento',
-                  descricao: 'Como manter sua equipe motivada',
+                  titulo: 'EPIs para eletricidade',
+                  descricao: 'Equipamentos de proteção individual',
                   tipo: 'video',
                   video_url: 'https://www.youtube.com/embed/dQw4w9WgXcQ',
-                  duracao_minutos: 20,
+                  duracao_minutos: 25,
                   ordem: 1,
                   is_obrigatorio: true,
-                  concluida: false
+                  tempo_minimo_segundos: 1200,
+                  concluida: false,
+                  tempo_assistido: 0
                 }
               ]
             }
@@ -158,6 +181,10 @@ export default function CursoDetalhePage() {
     carregarCurso()
   }, [params.id])
 
+  const handleTempoMinimoCompleto = () => {
+    setTempoMinimoOk(true)
+  }
+
   const handleAulaConcluida = () => {
     if (aulaAtual) {
       // Marcar aula como concluída
@@ -185,9 +212,15 @@ export default function CursoDetalhePage() {
         
         if (proximaAula) {
           setAulaAtual(proximaAula)
+          setTempoMinimoOk(false)
         } else {
-          // Todas concluídas - mostrar certificado
-          router.push(`/dashboard/certificados/${curso.id}`)
+          // Verificar se tem parte prática
+          if (curso.possui_parte_pratica) {
+            // Mostrar formulário de parte prática
+            // Implementar navegação para página de parte prática
+          } else {
+            router.push(`/dashboard/certificados/${curso.id}`)
+          }
         }
       }
     }
@@ -230,10 +263,12 @@ export default function CursoDetalhePage() {
             </Button>
             <div>
               <h1 className="text-xl font-bold">{curso.titulo}</h1>
-              <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                <Badge variant="blue">{curso.nivel}</Badge>
-                <span>•</span>
-                <span className="flex items-center gap-1">
+              <div className="flex items-center gap-2 text-sm">
+                <NRBadge nrs={curso.nr_aplicavel} size="sm" />
+                <span className="text-muted-foreground">•</span>
+                <span className="text-muted-foreground">{curso.modalidade}</span>
+                <span className="text-muted-foreground">•</span>
+                <span className="text-muted-foreground flex items-center gap-1">
                   <Clock className="w-3 h-3" />
                   {curso.carga_horaria}h
                 </span>
@@ -255,59 +290,82 @@ export default function CursoDetalhePage() {
         <div className="grid lg:grid-cols-3 gap-8">
           {/* Conteúdo principal */}
           <div className="lg:col-span-2 space-y-6">
+            {/* Responsável Técnico */}
+            {curso.responsavel_tecnico && (
+              <div className="flex items-center gap-2 p-3 bg-blue-50 rounded-lg border border-blue-200 text-sm">
+                <Shield className="w-4 h-4 text-blue-600" />
+                <span className="text-blue-800">
+                  <span className="font-medium">Responsável Técnico:</span> {curso.responsavel_tecnico}
+                </span>
+              </div>
+            )}
+
             {/* Player */}
             <Card>
               <CardContent className="p-0">
                 {aulaAtual ? (
-                  <VideoPlayer
-                    videoUrl={aulaAtual.video_url}
-                    title={aulaAtual.titulo}
-                    onComplete={handleAulaConcluida}
-                  />
+                  <>
+                    <VideoPlayer
+                      videoUrl={aulaAtual.video_url}
+                      title={aulaAtual.titulo}
+                      onProgress={(progress) => {
+                        // Atualizar tempo assistido
+                      }}
+                      onComplete={handleAulaConcluida}
+                    />
+                    <div className="p-4 border-t">
+                      <TempoMinimoIndicator
+                        tempoMinimoSegundos={aulaAtual.tempo_minimo_segundos}
+                        tempoAssistidoSegundos={aulaAtual.tempo_assistido || 0}
+                        onTempoCompleto={handleTempoMinimoCompleto}
+                      />
+                    </div>
+                  </>
                 ) : (
                   <div className="aspect-video bg-gray-900 flex items-center justify-center text-white">
                     <div className="text-center">
                       <Award className="w-16 h-16 mx-auto mb-4 text-vigorre-gold" />
                       <h3 className="text-xl font-semibold">Curso concluído! 🎉</h3>
                       <p className="text-gray-400">Você completou todas as aulas</p>
-                      <Button 
-                        className="mt-4 bg-vigorre-gold text-white hover:bg-vigorre-gold/90"
-                        onClick={() => router.push(`/dashboard/certificados/${curso.id}`)}
-                      >
-                        Ver certificado
-                      </Button>
+                      {curso.possui_parte_pratica ? (
+                        <div className="mt-4 text-amber-400 text-sm">
+                          <AlertTriangle className="w-4 h-4 inline mr-1" />
+                          Aguarde a validação da parte prática
+                        </div>
+                      ) : (
+                        <Button 
+                          className="mt-4 bg-vigorre-gold text-white hover:bg-vigorre-gold/90"
+                          onClick={() => router.push(`/dashboard/certificados/${curso.id}`)}
+                        >
+                          Ver certificado
+                        </Button>
+                      )}
                     </div>
                   </div>
                 )}
               </CardContent>
             </Card>
 
-            {/* Descrição do curso */}
-            <Card>
-              <CardHeader>
-                <CardTitle>Sobre o curso</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <p className="text-muted-foreground">{curso.descricao}</p>
-                <div className="flex items-center gap-4 mt-4 text-sm">
-                  <span className="flex items-center gap-1">
-                    <BookOpen className="w-4 h-4" />
-                    {curso.modulos.length} módulos
-                  </span>
-                  <span className="flex items-center gap-1">
-                    <Clock className="w-4 h-4" />
-                    {curso.carga_horaria} horas
-                  </span>
-                </div>
-              </CardContent>
-            </Card>
+            {/* Parte Prática (quando necessário) */}
+            {curso.possui_parte_pratica && (
+              <PartePraticaForm
+                cursoId={curso.id}
+                aulaId={aulaAtual?.id || ''}
+                onComplete={() => {
+                  router.push(`/dashboard/certificados/${curso.id}`)
+                }}
+              />
+            )}
           </div>
 
           {/* Sidebar - Conteúdo do curso */}
           <div className="space-y-6">
             <Card>
               <CardHeader>
-                <CardTitle className="text-lg">Conteúdo do curso</CardTitle>
+                <CardTitle className="text-lg flex items-center gap-2">
+                  <GraduationCap className="w-5 h-5" />
+                  Conteúdo do curso
+                </CardTitle>
               </CardHeader>
               <CardContent className="space-y-4">
                 {curso.modulos.map((modulo) => (
@@ -334,6 +392,7 @@ export default function CursoDetalhePage() {
                           onClick={() => {
                             if (aula.concluida || aula.id === aulaAtual?.id) {
                               setAulaAtual(aula)
+                              setTempoMinimoOk(false)
                             }
                           }}
                         >
@@ -348,6 +407,11 @@ export default function CursoDetalhePage() {
                           <span className="text-xs text-muted-foreground">
                             {aula.duracao_minutos}min
                           </span>
+                          {aula.tempo_minimo_segundos > 0 && (
+                            <span className="text-xs text-amber-500" title="Tempo mínimo obrigatório">
+                              ⏱
+                            </span>
+                          )}
                         </button>
                       ))}
                     </div>
@@ -356,20 +420,33 @@ export default function CursoDetalhePage() {
               </CardContent>
             </Card>
 
-            {/* Materiais de apoio */}
+            {/* Informações NR */}
             <Card>
               <CardHeader>
-                <CardTitle className="text-lg">Materiais de apoio</CardTitle>
+                <CardTitle className="text-lg flex items-center gap-2">
+                  <Shield className="w-5 h-5" />
+                  Informações NR
+                </CardTitle>
               </CardHeader>
-              <CardContent className="space-y-2">
-                <button className="w-full text-left px-3 py-2 rounded-lg hover:bg-gray-100 flex items-center gap-2 text-sm">
-                  <Download className="w-4 h-4 text-muted-foreground" />
-                  <span>Apostila do curso (PDF)</span>
-                </button>
-                <button className="w-full text-left px-3 py-2 rounded-lg hover:bg-gray-100 flex items-center gap-2 text-sm">
-                  <FileText className="w-4 h-4 text-muted-foreground" />
-                  <span>Material complementar</span>
-                </button>
+              <CardContent className="space-y-2 text-sm">
+                <div className="flex items-center justify-between">
+                  <span className="text-muted-foreground">Normas aplicáveis</span>
+                  <NRBadge nrs={curso.nr_aplicavel} />
+                </div>
+                <div className="flex items-center justify-between">
+                  <span className="text-muted-foreground">Carga horária</span>
+                  <span className="font-medium">{curso.carga_horaria}h</span>
+                </div>
+                <div className="flex items-center justify-between">
+                  <span className="text-muted-foreground">Modalidade</span>
+                  <span className="font-medium">{curso.modalidade}</span>
+                </div>
+                {curso.responsavel_tecnico && (
+                  <div className="border-t pt-2 mt-2">
+                    <p className="text-xs text-muted-foreground">Responsável Técnico</p>
+                    <p className="text-xs font-medium">{curso.responsavel_tecnico}</p>
+                  </div>
+                )}
               </CardContent>
             </Card>
           </div>
