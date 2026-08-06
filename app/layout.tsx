@@ -16,7 +16,6 @@ const poppins = Poppins({
 export const metadata: Metadata = {
   title: 'VIGORRE ACADEMY™ - Educação Corporativa com IA',
   description: 'Plataforma inteligente de educação corporativa, treinamentos e certificação com IA',
-  keywords: 'educação corporativa, LMS, treinamentos, certificação, IA, cursos online',
 }
 
 export default function RootLayout({
@@ -30,20 +29,16 @@ export default function RootLayout({
         className={`${inter.className} ${poppins.variable}`}
         suppressHydrationWarning
       >
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="light"
-          enableSystem={false}
-          disableTransitionOnChange
-          forcedTheme="light"
-        >
-          <Header platformName="VIGORRE" platformTagline="Inteligência e Gestão Estratégica" />
-          
-          <main className="min-h-[calc(100vh-200px)] pt-[70px] lg:pt-[80px]">
-            {children}
-          </main>
-          
-          <Footer platformName="VIGORRE" />
+        <ThemeProvider>
+          <div className="flex min-h-screen flex-col">
+            <Header platformName="VIGORRE" platformTagline="Inteligência e Gestão Estratégica" />
+            
+            <main className="flex-1 pt-[70px] lg:pt-[80px]">
+              {children}
+            </main>
+            
+            <Footer platformName="VIGORRE" />
+          </div>
           <Toaster />
         </ThemeProvider>
       </body>
