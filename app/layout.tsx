@@ -1,22 +1,29 @@
+// app/layout.tsx
 import type { Metadata } from 'next'
 import { Inter, Poppins } from 'next/font/google'
 import './globals.css'
-import Header from '@/components/layout/Header'
-import Footer from '@/components/layout/Footer'
 import { Toaster } from '@/components/ui/toaster'
-import { ThemeProvider } from '@/components/theme-provider'
+import { Header } from '@/components/layout/Header'
+import { Footer } from '@/components/layout/Footer'
 
-const inter = Inter({ subsets: ['latin'] })
-const poppins = Poppins({ 
+// Configuração oficial das fontes com next/font
+const inter = Inter({
   subsets: ['latin'],
+  variable: '--font-inter',
+  display: 'swap',
+})
+
+const poppins = Poppins({
   weight: ['400', '500', '600', '700', '800'],
-  variable: '--font-poppins'
+  subsets: ['latin'],
+  variable: '--font-poppins',
+  display: 'swap',
 })
 
 export const metadata: Metadata = {
-  title: 'VIGORRE™ - Inteligência e Gestão Estratégica',
-  description: 'Plataforma inteligente de consultoria estratégica, educação corporativa e people analytics',
-  keywords: 'consultoria estratégica, gestão, RH, people analytics, treinamentos, Vigorre',
+  title: 'Vigorre Academy™ - Educação Corporativa com IA',
+  description: 'Plataforma inteligente de educação corporativa, treinamentos e certificação com IA',
+  // ... outras configurações de metadata
 }
 
 export default function RootLayout({
@@ -26,22 +33,13 @@ export default function RootLayout({
 }) {
   return (
     <html lang="pt-BR" suppressHydrationWarning>
-      <body className={`${inter.className} ${poppins.variable}`}>
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="light"
-          enableSystem
-          disableTransitionOnChange
-        >
-          <Header platformName="VIGORRE™" platformTagline="Inteligência e Gestão Estratégica" />
-          
-          <main className="min-h-[calc(100vh-200px)]">
-            {children}
-          </main>
-          
-          <Footer platformName="VIGORRE™" />
-          <Toaster />
-        </ThemeProvider>
+      <body className={`${inter.variable} ${poppins.variable} font-sans bg-[#F8FAFC]`}>
+        <Header />
+        <main className="pt-[80px] min-h-screen">
+          {children}
+        </main>
+        <Footer />
+        <Toaster />
       </body>
     </html>
   )
