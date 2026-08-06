@@ -39,7 +39,6 @@ export default function SignupPage() {
     try {
       await new Promise(resolve => setTimeout(resolve, 1500))
       
-      // Mock cadastro
       const userData = { 
         id: 'user-1', 
         name,
