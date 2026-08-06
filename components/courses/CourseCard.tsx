@@ -11,7 +11,7 @@ interface CourseCardProps {
   id: string
   title: string
   description: string
-  thumbnail?: string
+  thumbnail?: string | null
   cargaHoraria: number
   nivel: string
   progresso?: number
@@ -35,38 +35,52 @@ export function CourseCard({
   const isMatriculado = progresso > 0
 
   return (
-    <Card className="overflow-hidden hover:shadow-lg transition-shadow">
-      {thumbnail && (
-        <div className="aspect-video bg-gray-100 relative">
+    <Card className="overflow-hidden hover:shadow-xl hover:-translate-y-1 transition-all duration-300 border-[#E2E8F0] bg-white">
+      {thumbnail ? (
+        <div className="aspect-video bg-gray-100 relative overflow-hidden">
           <img
             src={thumbnail}
             alt={title}
-            className="w-full h-full object-cover"
+            className="w-full h-full object-cover hover:scale-105 transition duration-500"
           />
           {certificado && (
-            <Badge className="absolute top-2 right-2 bg-[#D4AF37] text-white">
+            <Badge className="absolute top-2 right-2 bg-[#D4AF37] text-white border-0">
+              <Award className="w-3 h-3 mr-1" />
+              Certificado
+            </Badge>
+          )}
+        </div>
+      ) : (
+        <div className="aspect-video bg-gradient-to-br from-[#0D2745] to-[#2A7BD8] flex items-center justify-center relative">
+          <span className="text-white text-4xl opacity-30">📚</span>
+          {certificado && (
+            <Badge className="absolute top-2 right-2 bg-[#D4AF37] text-white border-0">
               <Award className="w-3 h-3 mr-1" />
               Certificado
             </Badge>
           )}
         </div>
       )}
-      <CardHeader>
-        <div className="flex items-start justify-between">
-          <CardTitle className="text-lg line-clamp-1">{title}</CardTitle>
-          <Badge variant="outline">{nivel}</Badge>
+      <CardHeader className="pb-2">
+        <div className="flex items-start justify-between gap-2">
+          <CardTitle className="text-lg font-bold text-[#0D2745] line-clamp-1">
+            {title}
+          </CardTitle>
+          <Badge variant="outline" className="text-xs whitespace-nowrap border-[#E2E8F0] text-[#5B7A9A]">
+            {nivel}
+          </Badge>
         </div>
         {categoria && (
-          <Badge variant="secondary" className="text-xs w-fit">
+          <Badge variant="secondary" className="text-xs w-fit bg-[#F6F8FB] text-[#5B7A9A] border-0">
             {categoria}
           </Badge>
         )}
-        <CardDescription className="line-clamp-2">
+        <CardDescription className="line-clamp-2 text-[#5B7A9A]">
           {description}
         </CardDescription>
       </CardHeader>
       <CardContent>
-        <div className="flex items-center gap-4 text-sm text-muted-foreground">
+        <div className="flex items-center gap-4 text-sm text-[#5B7A9A]">
           <div className="flex items-center gap-1">
             <Clock className="w-4 h-4" />
             <span>{cargaHoraria}h</span>
@@ -79,23 +93,23 @@ export function CourseCard({
         {isMatriculado && (
           <div className="mt-4">
             <div className="flex items-center justify-between text-sm mb-1">
-              <span>Progresso</span>
-              <span>{Math.round(progresso)}%</span>
+              <span className="text-[#5B7A9A]">Progresso</span>
+              <span className="font-semibold text-[#0D2745]">{Math.round(progresso)}%</span>
             </div>
-            <Progress value={progresso} className="h-2" />
+            <Progress value={progresso} className="h-2 bg-[#F6F8FB]" />
           </div>
         )}
       </CardContent>
-      <CardFooter>
+      <CardFooter className="pt-2">
         {isMatriculado ? (
           <Link href={`/dashboard/cursos/${id}`} className="w-full">
-            <Button className="w-full bg-[#0D2745] hover:bg-[#14365E]">
+            <Button className="w-full bg-[#0D2745] hover:bg-[#14365E] text-white rounded-full">
               {progresso >= 100 ? 'Ver certificado' : 'Continuar'}
             </Button>
           </Link>
         ) : (
           <Link href={`/cursos/${id}`} className="w-full">
-            <Button className="w-full bg-[#D4AF37] hover:bg-[#C49F27] text-white">
+            <Button className="w-full bg-[#D4AF37] hover:bg-[#C49F27] text-white rounded-full">
               Ver curso
             </Button>
           </Link>
