@@ -8,7 +8,7 @@ import { Card } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { CourseCard } from '@/components/courses/CourseCard'
 import { createClient } from '@/lib/supabase/client'
-import { Search, Filter, BookOpen, Clock, Award, TrendingUp } from 'lucide-react'
+import { Search, BookOpen, Clock, Award, TrendingUp } from 'lucide-react'
 
 export default function CursosPage() {
   const supabase = createClient()
@@ -20,7 +20,7 @@ export default function CursosPage() {
   useEffect(() => {
     const carregarCursos = async () => {
       try {
-        // Simular dados
+        // Dados mock para teste
         const cursosMock = [
           {
             id: '1',
@@ -51,6 +51,36 @@ export default function CursosPage() {
             categoria: 'Comunicação',
             thumb_url: null,
             certificado: false
+          },
+          {
+            id: '4',
+            titulo: 'NR-10 - Segurança em Eletricidade',
+            descricao: 'Curso completo de segurança em instalações elétricas conforme NR-10',
+            carga_horaria: 40,
+            nivel: 'AVANCADO',
+            categoria: 'Segurança',
+            thumb_url: null,
+            certificado: true
+          },
+          {
+            id: '5',
+            titulo: 'Gestão de Projetos Ágeis',
+            descricao: 'Metodologias ágeis para gestão de projetos e equipes',
+            carga_horaria: 16,
+            nivel: 'INTERMEDIARIO',
+            categoria: 'Gestão',
+            thumb_url: null,
+            certificado: true
+          },
+          {
+            id: '6',
+            titulo: 'Excel Avançado para Negócios',
+            descricao: 'Domine as funcionalidades avançadas do Excel para análise de dados',
+            carga_horaria: 12,
+            nivel: 'INTERMEDIARIO',
+            categoria: 'Tecnologia',
+            thumb_url: null,
+            certificado: false
           }
         ]
         setCursos(cursosMock)
@@ -76,51 +106,56 @@ export default function CursosPage() {
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-vigorre-gold"></div>
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#D4AF37]"></div>
       </div>
     )
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-[#F6F8FB]">
       {/* Header */}
       <header className="bg-white border-b sticky top-0 z-10">
         <div className="container mx-auto px-4 py-4 flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            <span className="text-xl font-bold text-vigorre-blue">Vigorre</span>
-            <span className="text-sm text-vigorre-gold font-semibold">Academy™</span>
-          </div>
+          <Link href="/" className="flex items-center gap-2">
+            <span className="text-xl font-bold text-[#0D2745]">Vigorre</span>
+            <span className="text-sm text-[#D4AF37] font-semibold">Academy™</span>
+          </Link>
           <div className="flex items-center gap-4">
             <Link href="/dashboard">
-              <Button variant="ghost">Meu dashboard</Button>
+              <Button variant="ghost" className="text-[#0D2745]">Meu dashboard</Button>
+            </Link>
+            <Link href="/login">
+              <Button variant="outline" className="border-[#0D2745] text-[#0D2745] hover:bg-[#0D2745] hover:text-white">
+                Entrar
+              </Button>
             </Link>
           </div>
         </div>
       </header>
 
       {/* Hero */}
-      <section className="bg-vigorre-blue text-white py-12">
+      <section className="bg-[#0D2745] text-white py-16">
         <div className="container mx-auto px-4 text-center">
-          <h1 className="text-3xl md:text-4xl font-bold mb-4">
+          <h1 className="text-4xl md:text-5xl font-bold mb-4" style={{ fontFamily: 'Plus Jakarta Sans' }}>
             Catálogo de Cursos
           </h1>
-          <p className="text-blue-100 max-w-2xl mx-auto">
-            Explore nossos cursos desenvolvidos com IA e transforme seu conhecimento
+          <p className="text-[#9BB8D9] max-w-2xl mx-auto text-lg">
+            Explore nossos cursos desenvolvidos com IA e transforme seu conhecimento em performance estratégica
           </p>
         </div>
       </section>
 
       {/* Main */}
       <main className="container mx-auto px-4 py-8">
-        {/* Barra de busca e filtros */}
+        {/* Busca e Filtros */}
         <div className="flex flex-col md:flex-row gap-4 mb-8">
           <div className="flex-1 relative">
-            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4" />
+            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-[#5B7A9A] w-4 h-4" />
             <Input
-              placeholder="Buscar cursos..."
+              placeholder="Buscar cursos por título, descrição ou categoria..."
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              className="pl-10"
+              className="pl-10 bg-white border-[#E2E8F0] focus:border-[#2A7BD8]"
             />
           </div>
           <div className="flex gap-2 overflow-x-auto pb-2">
@@ -128,7 +163,7 @@ export default function CursosPage() {
               variant={filtro === 'todos' ? 'default' : 'outline'}
               size="sm"
               onClick={() => setFiltro('todos')}
-              className={filtro === 'todos' ? 'bg-vigorre-blue' : ''}
+              className={filtro === 'todos' ? 'bg-[#0D2745] hover:bg-[#14365E]' : 'border-[#E2E8F0]'}
             >
               Todos
             </Button>
@@ -138,7 +173,7 @@ export default function CursosPage() {
                 variant={filtro === cat ? 'default' : 'outline'}
                 size="sm"
                 onClick={() => setFiltro(cat)}
-                className={filtro === cat ? 'bg-vigorre-blue' : ''}
+                className={filtro === cat ? 'bg-[#0D2745] hover:bg-[#14365E]' : 'border-[#E2E8F0]'}
               >
                 {cat}
               </Button>
@@ -146,41 +181,41 @@ export default function CursosPage() {
           </div>
         </div>
 
-        {/* Stats */}
+        {/* Estatísticas */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
-          <Card className="p-4 text-center">
-            <BookOpen className="w-6 h-6 mx-auto text-vigorre-blue mb-2" />
-            <div className="text-2xl font-bold">{cursos.length}</div>
-            <div className="text-sm text-muted-foreground">Cursos</div>
+          <Card className="p-4 text-center border-[#E2E8F0] shadow-sm">
+            <BookOpen className="w-6 h-6 mx-auto text-[#0D2745] mb-2" />
+            <div className="text-2xl font-bold text-[#0D2745]">{cursos.length}</div>
+            <div className="text-sm text-[#5B7A9A]">Cursos</div>
           </Card>
-          <Card className="p-4 text-center">
-            <Clock className="w-6 h-6 mx-auto text-vigorre-blue mb-2" />
-            <div className="text-2xl font-bold">
+          <Card className="p-4 text-center border-[#E2E8F0] shadow-sm">
+            <Clock className="w-6 h-6 mx-auto text-[#0D2745] mb-2" />
+            <div className="text-2xl font-bold text-[#0D2745]">
               {cursos.reduce((acc, c) => acc + c.carga_horaria, 0)}h
             </div>
-            <div className="text-sm text-muted-foreground">Total de horas</div>
+            <div className="text-sm text-[#5B7A9A]">Total de horas</div>
           </Card>
-          <Card className="p-4 text-center">
-            <Award className="w-6 h-6 mx-auto text-vigorre-blue mb-2" />
-            <div className="text-2xl font-bold">
+          <Card className="p-4 text-center border-[#E2E8F0] shadow-sm">
+            <Award className="w-6 h-6 mx-auto text-[#0D2745] mb-2" />
+            <div className="text-2xl font-bold text-[#0D2745]">
               {cursos.filter(c => c.certificado).length}
             </div>
-            <div className="text-sm text-muted-foreground">Com certificado</div>
+            <div className="text-sm text-[#5B7A9A]">Com certificado</div>
           </Card>
-          <Card className="p-4 text-center">
-            <TrendingUp className="w-6 h-6 mx-auto text-vigorre-blue mb-2" />
-            <div className="text-2xl font-bold">100%</div>
-            <div className="text-sm text-muted-foreground">Online</div>
+          <Card className="p-4 text-center border-[#E2E8F0] shadow-sm">
+            <TrendingUp className="w-6 h-6 mx-auto text-[#0D2745] mb-2" />
+            <div className="text-2xl font-bold text-[#0D2745]">100%</div>
+            <div className="text-sm text-[#5B7A9A]">Online</div>
           </Card>
         </div>
 
-        {/* Grid de cursos */}
+        {/* Grid de Cursos */}
         {cursosFiltrados.length === 0 ? (
           <div className="text-center py-16">
-            <BookOpen className="w-16 h-16 mx-auto text-gray-300 mb-4" />
-            <h3 className="text-xl font-semibold mb-2">Nenhum curso encontrado</h3>
-            <p className="text-muted-foreground">
-              Tente ajustar sua busca ou filtros
+            <BookOpen className="w-16 h-16 mx-auto text-[#5B7A9A] opacity-50 mb-4" />
+            <h3 className="text-xl font-semibold text-[#0D2745] mb-2">Nenhum curso encontrado</h3>
+            <p className="text-[#5B7A9A]">
+              Tente ajustar sua busca ou filtros para encontrar o que procura
             </p>
           </div>
         ) : (
@@ -195,10 +230,19 @@ export default function CursosPage() {
                 cargaHoraria={curso.carga_horaria}
                 nivel={curso.nivel}
                 certificado={curso.certificado}
+                categoria={curso.categoria}
               />
             ))}
           </div>
         )}
+
+        {/* Footer da página */}
+        <div className="mt-12 text-center text-sm text-[#5B7A9A]">
+          <p>Empresas: curadoria sob medida + integração com PDI</p>
+          <Link href="/dashboard/cursos/novo" className="text-[#2A7BD8] hover:underline">
+            Criar curso com IA →
+          </Link>
+        </div>
       </main>
     </div>
   )
