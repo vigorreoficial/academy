@@ -13,36 +13,20 @@ import {
   ChevronRight, Clock, FileText, UserCheck, GraduationCap
 } from 'lucide-react'
 
-export default function AdminDashboardPage() {
-  const router = useRouter()
-  const supabase = createClient()
-  const [user, setUser] = useState<any>(null)
-  const [loading, setLoading] = useState(true)
-
-  useEffect(() => {
-    const getUser = async () => {
-      const { data: { user } } = await supabase.auth.getUser()
-      if (!user) {
-        router.push('/login')
-        return
-      }
-      setUser(user)
-      setLoading(false)
-    }
-    getUser()
-  }, [router, supabase])
-
-  if (loading) {
-    return (
-      <div className="flex items-center justify-center h-[calc(100vh-80px)]">
-        <div className="text-center">
-          <div className="w-12 h-12 border-4 border-[#D4AF37] border-t-transparent rounded-full animate-spin mx-auto"></div>
-          <p className="mt-4 text-[#6B7280]">Carregando...</p>
-        </div>
+// Componente de loading separado
+function AdminLoading() {
+  return (
+    <div className="flex items-center justify-center h-[calc(100vh-80px)]">
+      <div className="text-center">
+        <div className="w-12 h-12 border-4 border-[#D4AF37] border-t-transparent rounded-full animate-spin mx-auto"></div>
+        <p className="mt-4 text-[#6B7280]">Carregando...</p>
       </div>
-    )
-  }
+    </div>
+  )
+}
 
+// Componente principal que só renderiza no cliente
+function AdminContent({ user }: { user: any }) {
   const stats = [
     { label: 'Usuários', value: '342', icon: Users, color: '#0A2540', bg: 'bg-[#0A2540]/10' },
     { label: 'Cursos', value: '28', icon: BookOpen, color: '#D4AF37', bg: 'bg-[#D4AF37]/10' },
@@ -87,4 +71,39 @@ export default function AdminDashboardPage() {
       </div>
     </div>
   )
+}
+
+export default function AdminDashboardPage() {
+  const router = useRouter()
+  const supabase = createClient()
+  const [user, setUser] = useState<any>(null)
+  const [loading, setLoading] = useState(true)
+  const [isMounted, setIsMounted] = useState(false)
+
+  useEffect(() => {
+    setIsMounted(true)
+    const getUser = async () => {
+      try {
+        const { data: { user } } = await supabase.auth.getUser()
+        if (!user) {
+          router.push('/login')
+          return
+        }
+        setUser(user)
+      } catch (error) {
+        console.error('Erro ao buscar usuário:', error)
+        router.push('/login')
+      } finally {
+        setLoading(false)
+      }
+    }
+    getUser()
+  }, [router, supabase])
+
+  // Evita hydration mismatch
+  if (!isMounted || loading) {
+    return <AdminLoading />
+  }
+
+  return <AdminContent user={user} />
 }
