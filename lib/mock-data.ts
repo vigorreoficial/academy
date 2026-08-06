@@ -1,93 +1,55 @@
-// ============================================
-// DADOS MOCK - DESENVOLVIMENTO LOCAL
-// ============================================
+// Dados mockados para desenvolvimento
+export const mockUser = {
+  id: '1',
+  name: 'Aluno Vigorre',
+  email: 'aluno@vigorre.com.br',
+  avatar: 'https://i.pravatar.cc/150?img=12',
+  role: 'student' as const,
+  xp: 1250,
+  level: 5,
+  coursesEnrolled: 3,
+  certificates: 2,
+}
 
-export const mockCursos = [
+export const mockCourses = [
   {
-    id: '1',
-    titulo: 'Liderança e Gestão de Equipes',
-    descricao: 'Aprenda a liderar equipes de alta performance com técnicas modernas',
-    descricao_curta: 'Curso completo de liderança',
-    carga_horaria: 20,
-    modalidade: 'EAD',
-    nivel: 'INTERMEDIARIO',
-    categoria: 'Liderança',
-    preco: 0,
-    thumb_url: null,
-    certificado_incluso: true,
-    status: 'publicado',
-    modulos: [
-      {
-        id: 'm1',
-        titulo: 'Fundamentos da Liderança',
-        descricao: 'Conceitos básicos',
-        aulas: [
-          { id: 'a1', titulo: 'O que é liderança', descricao: 'Definição', duracao_minutos: 15 },
-          { id: 'a2', titulo: 'Estilos de liderança', descricao: 'Tipos', duracao_minutos: 20 },
-        ]
-      }
-    ]
+    id: 1,
+    title: 'Liderança Estratégica 360°',
+    category: 'Liderança',
+    progress: 78,
+    duration: '18h',
+    image: 'https://images.unsplash.com/photo-1553877522-43269d4ea984?w=600&q=80',
   },
   {
-    id: '2',
-    titulo: 'Gestão de Pessoas com IA',
-    descricao: 'Como a inteligência artificial está transformando o RH',
-    descricao_curta: 'IA aplicada ao RH',
-    carga_horaria: 15,
-    modalidade: 'EAD',
-    nivel: 'AVANCADO',
-    categoria: 'RH',
-    preco: 0,
-    thumb_url: null,
-    certificado_incluso: true,
-    status: 'publicado',
-    modulos: []
+    id: 2,
+    title: 'NRs e Segurança do Trabalho',
+    category: 'Operacional',
+    progress: 45,
+    duration: '24h',
+    image: 'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=600&q=80',
   },
   {
-    id: '3',
-    titulo: 'NR-10 - Segurança em Eletricidade',
-    descricao: 'Curso completo de segurança em instalações elétricas',
-    descricao_curta: 'NR-10 completa',
-    carga_horaria: 40,
-    modalidade: 'EAD',
-    nivel: 'AVANCADO',
-    categoria: 'Segurança',
-    preco: 0,
-    thumb_url: null,
-    certificado_incluso: true,
-    status: 'publicado',
-    modulos: []
-  }
+    id: 3,
+    title: 'Analytics & Data Driven HR',
+    category: 'Tecnologia',
+    progress: 92,
+    duration: '10h',
+    image: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=600&q=80',
+  },
 ]
 
-export const mockAluno = {
-  id: 'user-1',
-  nome: 'João Silva',
-  email: 'joao@email.com',
-  cpf: '123.456.789-00',
-  cargo: 'Analista de RH',
-  empresa_atual: 'Vigorre',
-  certificados: [
-    {
-      id: 'cert-1',
-      curso_nome: 'Liderança e Gestão de Equipes',
-      codigo: 'VIG-2026-001',
-      data_emissao: '2026-01-15',
-      carga_horaria: 20
-    }
-  ],
-  inscricoes: [
-    {
-      curso_id: '1',
-      progresso: 75,
-      status: 'em_andamento'
-    }
-  ]
+export const mockStats = {
+  totalCourses: 3,
+  completedCourses: 1,
+  totalHours: 52,
+  certificates: 2,
+  xp: 1250,
+  level: 5,
 }
 
-export const mockStats = {
-  cursosEmAndamento: 3,
-  certificados: 5,
-  horasTreinadas: 42,
-  cursosConcluidos: 8
-}
+export const mockAchievements = [
+  { id: 1, name: 'Primeiro Curso', icon: '🎯', unlocked: true },
+  { id: 2, name: 'Maratonista', icon: '🏃', unlocked: true },
+  { id: 3, name: 'Expert', icon: '⭐', unlocked: false },
+  { id: 4, name: 'Mentor', icon: '👑', unlocked: false },
+]
