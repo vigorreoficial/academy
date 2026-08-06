@@ -2,8 +2,32 @@
 @tailwind components;
 @tailwind utilities;
 
+/* ============================================
+   VIGORRE ACADEMY™ - DESIGN SYSTEM
+   ============================================ */
+
 @layer base {
   :root {
+    /* Cores principais - Vigorre */
+    --color-primary: 13 39 69;    /* #0D2745 */
+    --color-primary-light: 30 77 123;  /* #1E4D7B */
+    --color-secondary: 42 123 216;     /* #2A7BD8 */
+    --color-gold: 212 175 55;          /* #D4AF37 */
+    
+    /* Cores de status */
+    --color-success: 16 185 129;       /* #10B981 */
+    --color-warning: 245 158 11;       /* #F59E0B */
+    --color-error: 239 68 68;          /* #EF4444 */
+    
+    /* Cores neutras */
+    --color-background: 246 248 251;   /* #F6F8FB */
+    --color-surface: 255 255 255;      /* #FFFFFF */
+    --color-text-primary: 13 39 69;    /* #0D2745 */
+    --color-text-secondary: 74 101 130; /* #4A6582 */
+    --color-text-muted: 91 122 154;    /* #5B7A9A */
+    --color-border: 226 232 240;       /* #E2E8F0 */
+
+    /* shadcn/ui compatibilidade */
     --background: 0 0% 100%;
     --foreground: 222.2 84% 4.9%;
     --card: 0 0% 100%;
@@ -54,54 +78,127 @@
     @apply border-border;
   }
   body {
-    @apply bg-background text-foreground;
+    @apply bg-[#F6F8FB] text-[#0D2745];
+    font-family: 'Instrument Sans', system-ui, sans-serif;
+  }
+  
+  /* Headings com Plus Jakarta Sans */
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
   }
 }
 
-/* Animações personalizadas */
+/* ============================================
+   COMPONENTES UTILITÁRIOS
+   ============================================ */
+
+@layer components {
+  /* Cards */
+  .card-vigorre {
+    @apply bg-white rounded-[24px] border border-[#E2E8F0] shadow-[0_4px_6px_-1px_rgba(0,0,0,0.05)] p-6;
+  }
+  .card-vigorre-hover {
+    @apply hover:shadow-[0_10px_15px_-3px_rgba(0,0,0,0.08)] hover:border-[#D4AF37]/30 transition-all duration-300;
+  }
+  .card-vigorre-dark {
+    @apply bg-[#0D2745] border-white/10 text-white;
+  }
+
+  /* Botões */
+  .btn-primary {
+    @apply bg-[#0D2745] hover:bg-[#14365E] text-white rounded-full font-bold shadow-lg shadow-[#0D2745]/20 px-6 py-3 transition-all duration-300;
+  }
+  .btn-secondary {
+    @apply bg-[#2A7BD8] hover:bg-[#1A5BB8] text-white rounded-full font-bold shadow-lg shadow-[#2A7BD8]/20 px-6 py-3 transition-all duration-300;
+  }
+  .btn-gold {
+    @apply bg-[#D4AF37] hover:bg-[#C49F27] text-white rounded-full font-bold shadow-lg shadow-[#D4AF37]/20 px-6 py-3 transition-all duration-300;
+  }
+  .btn-outline {
+    @apply bg-white border-2 border-[#E2E8F0] hover:bg-[#F6F8FB] text-[#0D2745] rounded-full font-bold px-6 py-3 transition-all duration-300;
+  }
+
+  /* Gradientes */
+  .gradient-primary {
+    @apply bg-gradient-to-r from-[#0D2745] via-[#1E4D7B] to-[#2A7BD8];
+  }
+  .gradient-gold {
+    @apply bg-gradient-to-r from-[#D4AF37] to-[#E4BF47];
+  }
+  .gradient-hero {
+    @apply bg-gradient-to-br from-[#0D2745] via-[#14365E] to-[#1E4D7B];
+  }
+
+  /* Texto com gradiente */
+  .text-gradient-primary {
+    @apply bg-gradient-to-r from-[#1E4D7B] to-[#2A7BD8] bg-clip-text text-transparent;
+  }
+  .text-gradient-gold {
+    @apply bg-gradient-to-r from-[#D4AF37] to-[#E4BF47] bg-clip-text text-transparent;
+  }
+
+  /* Badges */
+  .badge-gold {
+    @apply bg-[#D4AF37] text-white border-transparent;
+  }
+  .badge-blue {
+    @apply bg-[#2A7BD8] text-white border-transparent;
+  }
+  .badge-dark {
+    @apply bg-[#0D2745] text-white border-transparent;
+  }
+}
+
+/* ============================================
+   ANIMAÇÕES
+   ============================================ */
+
 @keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(10px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slideIn {
+  from { opacity: 0; transform: translateX(-20px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
 }
 
 .animate-fadeIn {
   animation: fadeIn 0.5s ease-out forwards;
 }
 
-/* Loading shimmer */
-.shimmer {
-  background: linear-gradient(
-    90deg,
-    rgba(255, 255, 255, 0) 0%,
-    rgba(255, 255, 255, 0.3) 50%,
-    rgba(255, 255, 255, 0) 100%
-  );
-  background-size: 200% 100%;
-  animation: shimmer 2s infinite;
+.animate-slideIn {
+  animation: slideIn 0.3s ease-out forwards;
 }
 
-/* Scrollbar personalizada */
+.animate-pulse-slow {
+  animation: pulse 2s ease-in-out infinite;
+}
+
+/* ============================================
+   SCROLLBAR PERSONALIZADA
+   ============================================ */
+
 ::-webkit-scrollbar {
   width: 8px;
   height: 8px;
 }
 
 ::-webkit-scrollbar-track {
-  background: rgba(0, 0, 0, 0.05);
+  background: rgba(13, 39, 69, 0.05);
   border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: rgba(26, 42, 108, 0.3);
+  background: rgba(13, 39, 69, 0.3);
   border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(26, 42, 108, 0.5);
+  background: rgba(13, 39, 69, 0.5);
 }
