@@ -14,7 +14,9 @@ import {
   LogOut,
   Menu,
   X,
-  Sparkles
+  Sparkles,
+  Bell,
+  Trophy
 } from 'lucide-react'
 
 interface NavbarProps {
@@ -71,6 +73,13 @@ export function Navbar({ user }: NavbarProps) {
 
           {/* User & Actions */}
           <div className="flex items-center gap-4">
+            <Button variant="ghost" size="icon" className="relative">
+              <Bell className="w-5 h-5" />
+              <span className="absolute -top-1 -right-1 w-4 h-4 bg-red-500 text-white text-[10px] rounded-full flex items-center justify-center">
+                3
+              </span>
+            </Button>
+            
             {user && (
               <div className="hidden md:flex items-center gap-2">
                 <span className="text-sm text-muted-foreground">
