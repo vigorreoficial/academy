@@ -2,10 +2,9 @@ import type { Metadata } from 'next'
 import { Inter, Poppins } from 'next/font/google'
 import './globals.css'
 import { Toaster } from '@/components/ui/toaster'
-import { Header } from '@/components/layout/Header'
-import { Footer } from '@/components/layout/Footer'
+import Header from '@/components/layout/Header'   // ✅ IMPORT CORRETO
+import Footer from '@/components/layout/Footer'   // ✅ IMPORT CORRETO
 
-// Configuração oficial das fontes com next/font
 const inter = Inter({
   subsets: ['latin'],
   variable: '--font-inter',
