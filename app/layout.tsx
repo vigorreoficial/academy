@@ -1,4 +1,3 @@
-// app/layout.tsx
 import type { Metadata } from 'next'
 import { Inter, Poppins } from 'next/font/google'
 import './globals.css'
@@ -23,7 +22,16 @@ const poppins = Poppins({
 export const metadata: Metadata = {
   title: 'Vigorre Academy™ - Educação Corporativa com IA',
   description: 'Plataforma inteligente de educação corporativa, treinamentos e certificação com IA',
-  // ... outras configurações de metadata
+  keywords: 'educação corporativa, LMS, treinamentos, certificação, IA, cursos online',
+  authors: [{ name: 'Vigorre Academy' }],
+  robots: 'index, follow',
+  openGraph: {
+    title: 'Vigorre Academy™ - Educação Corporativa com IA',
+    description: 'Plataforma inteligente de educação corporativa, treinamentos e certificação',
+    url: 'https://academy.vigorre.com.br',
+    siteName: 'Vigorre Academy',
+    type: 'website',
+  },
 }
 
 export default function RootLayout({
