@@ -4,7 +4,20 @@ import { useState, useEffect } from 'react'
 import { useParams } from 'next/navigation'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
-import { CheckCircle, XCircle, Award, Calendar, Clock, User } from 'lucide-react'
+import { Button } from '@/components/ui/button'
+import { 
+  CheckCircle, 
+  XCircle, 
+  Award, 
+  Calendar, 
+  Clock, 
+  User, 
+  BookOpen,
+  Download,
+  Share2,
+  QrCode
+} from 'lucide-react'
+import QRCode from 'react-qr-code'
 
 interface ValidacaoCertificado {
   valido: boolean
@@ -16,6 +29,7 @@ interface ValidacaoCertificado {
   codigo?: string
   hash?: string
   status?: string
+  nr_aplicavel?: string[]
   mensagem?: string
 }
 
@@ -28,21 +42,21 @@ export default function ValidarCertificadoPage() {
   useEffect(() => {
     const validarCertificado = async () => {
       try {
-        // Simular validação
-        await new Promise(resolve => setTimeout(resolve, 1500))
+        await new Promise(resolve => setTimeout(resolve, 1000))
 
-        // Mock - substituir por consulta real ao Supabase
-        if (codigo === 'VIG-2026-001') {
+        // Simular validação - substituir por consulta real ao Supabase
+        if (codigo === 'VIG-2026-001' || codigo.startsWith('VIG')) {
           setDados({
             valido: true,
             nome: 'João Silva',
-            curso: 'Liderança e Gestão de Equipes',
-            carga_horaria: 20,
-            data_emissao: '2026-01-15',
-            data_validade: '2027-01-15',
+            curso: 'NR-10 - Segurança em Instalações Elétricas',
+            carga_horaria: 40,
+            data_emissao: '2026-08-01',
+            data_validade: '2027-08-01',
             codigo: codigo,
             hash: 'a1b2c3d4e5f6g7h8i9j0',
-            status: 'ativo'
+            status: 'ativo',
+            nr_aplicavel: ['NR-1', 'NR-10']
           })
         } else {
           setDados({
@@ -77,44 +91,75 @@ export default function ValidarCertificadoPage() {
   return (
     <div className="min-h-screen bg-gray-50 flex items-center justify-center px-4 py-8">
       <div className="w-full max-w-2xl">
-        <Card>
-          <CardHeader className="text-center">
-            <div className="flex items-center justify-center gap-2 mb-2">
-              <Award className="w-8 h-8 text-vigorre-gold" />
-              <span className="text-2xl font-bold text-vigorre-blue">Vigorre Academy</span>
+        <Card className="shadow-xl">
+          <CardHeader className="text-center border-b">
+            <div className="flex items-center justify-center gap-3 mb-2">
+              <div className="w-12 h-12 bg-vigorre-blue rounded-full flex items-center justify-center text-white text-xl font-bold">
+                V
+              </div>
+              <div>
+                <span className="text-2xl font-bold text-vigorre-blue">Vigorre Academy</span>
+                <p className="text-xs text-muted-foreground">Validação de Certificado</p>
+              </div>
             </div>
             <CardTitle className="text-xl">
-              Validação de Certificado
+              {dados?.valido ? '✅ Certificado Válido' : '❌ Certificado Inválido'}
             </CardTitle>
           </CardHeader>
-          <CardContent className="space-y-6">
+          <CardContent className="p-6 space-y-6">
             {dados?.valido ? (
               <>
+                {/* Status */}
                 <div className="flex items-center gap-3 p-4 bg-green-50 rounded-lg border border-green-200">
                   <CheckCircle className="w-8 h-8 text-green-600 flex-shrink-0" />
                   <div>
-                    <h3 className="font-semibold text-green-800">Certificado Válido ✅</h3>
+                    <h3 className="font-semibold text-green-800">Certificado Autêntico</h3>
                     <p className="text-sm text-green-700">
-                      Este certificado foi emitido pela Vigorre Academy e é autêntico
+                      Este certificado foi emitido pela Vigorre Academy e é válido
                     </p>
                   </div>
                 </div>
 
+                {/* Informações */}
                 <div className="space-y-3">
                   <div className="flex items-center justify-between border-b pb-2">
-                    <span className="text-muted-foreground">Certificado para</span>
+                    <span className="text-muted-foreground flex items-center gap-2">
+                      <User className="w-4 h-4" />
+                      Certificado para
+                    </span>
                     <span className="font-semibold">{dados.nome}</span>
                   </div>
                   <div className="flex items-center justify-between border-b pb-2">
-                    <span className="text-muted-foreground">Curso</span>
+                    <span className="text-muted-foreground flex items-center gap-2">
+                      <BookOpen className="w-4 h-4" />
+                      Curso
+                    </span>
                     <span className="font-semibold">{dados.curso}</span>
                   </div>
+                  {dados.nr_aplicavel && dados.nr_aplicavel.length > 0 && (
+                    <div className="flex items-center justify-between border-b pb-2">
+                      <span className="text-muted-foreground">Normas aplicáveis</span>
+                      <div className="flex gap-1">
+                        {dados.nr_aplicavel.map((nr) => (
+                          <Badge key={nr} variant="gold" className="font-mono">
+                            {nr}
+                          </Badge>
+                        ))}
+                      </div>
+                    </div>
+                  )}
                   <div className="flex items-center justify-between border-b pb-2">
-                    <span className="text-muted-foreground">Carga horária</span>
+                    <span className="text-muted-foreground flex items-center gap-2">
+                      <Clock className="w-4 h-4" />
+                      Carga horária
+                    </span>
                     <span className="font-semibold">{dados.carga_horaria}h</span>
                   </div>
                   <div className="flex items-center justify-between border-b pb-2">
-                    <span className="text-muted-foreground">Data de emissão</span>
+                    <span className="text-muted-foreground flex items-center gap-2">
+                      <Calendar className="w-4 h-4" />
+                      Data de emissão
+                    </span>
                     <span className="font-semibold">
                       {new Date(dados.data_emissao!).toLocaleDateString('pt-BR')}
                     </span>
@@ -137,13 +182,37 @@ export default function ValidarCertificadoPage() {
                   </div>
                 </div>
 
-                <div className="p-4 bg-gray-50 rounded-lg text-center">
-                  <p className="text-sm text-muted-foreground">
-                    Hash de autenticação: <span className="font-mono text-xs">{dados.hash}</span>
-                  </p>
-                  <p className="text-xs text-muted-foreground mt-1">
-                    Este certificado pode ser verificado publicamente pela Vigorre Academy
-                  </p>
+                {/* QR Code */}
+                <div className="flex items-center justify-center gap-6 p-4 bg-gray-50 rounded-lg">
+                  <div className="text-center">
+                    <div className="bg-white p-2 rounded-lg inline-block border">
+                      <QRCode value={`${window.location.origin}/validar/${dados.codigo}`} size={100} />
+                    </div>
+                    <p className="text-xs text-muted-foreground mt-1">QR Code de validação</p>
+                  </div>
+                  <div className="text-sm">
+                    <p className="font-medium">Hash de autenticação</p>
+                    <p className="font-mono text-xs text-muted-foreground">{dados.hash}</p>
+                    <p className="text-xs text-muted-foreground mt-2">
+                      Este certificado pode ser verificado publicamente
+                    </p>
+                  </div>
+                </div>
+
+                {/* Ações */}
+                <div className="flex flex-wrap gap-2 justify-center pt-4 border-t">
+                  <Button variant="outline" size="sm" className="gap-2">
+                    <Download className="w-4 h-4" />
+                    Baixar PDF
+                  </Button>
+                  <Button variant="outline" size="sm" className="gap-2">
+                    <Share2 className="w-4 h-4" />
+                    Compartilhar
+                  </Button>
+                  <Button variant="outline" size="sm" className="gap-2" onClick={() => window.print()}>
+                    <QrCode className="w-4 h-4" />
+                    Imprimir
+                  </Button>
                 </div>
               </>
             ) : (
