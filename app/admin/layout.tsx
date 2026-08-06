@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
-import Header from '@/components/layout/Header'  // ✅ IMPORT CORRETO (sem chaves)
+import Header from '@/components/layout/Header'   // ✅ IMPORT CORRETO
 
 export default function AdminLayout({
   children,
