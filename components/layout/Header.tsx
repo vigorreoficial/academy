@@ -59,11 +59,9 @@ export default function Header({
             className="flex items-center gap-3 group"
             aria-label="Vigorre Academy - Página inicial"
           >
-            <img
-              src="/logo-vigorre.png"
-              alt="Vigorre Logo"
-              className="h-10 lg:h-12 w-auto object-contain transition-transform duration-300 group-hover:scale-105"
-            />
+            <div className="w-10 h-10 lg:w-11 lg:h-11 rounded-xl bg-gradient-to-br from-[#0A2540] to-[#1E3A8A] flex items-center justify-center text-white font-extrabold text-lg shadow-lg shadow-[#0A2540]/20 group-hover:scale-105 transition-transform duration-300">
+              V
+            </div>
             <div className="hidden sm:flex flex-col leading-none">
               <div className="flex items-baseline gap-1">
                 <span 
@@ -132,12 +130,16 @@ export default function Header({
               </svg>
               WhatsApp
             </a>
-            <button 
-              className="px-6 py-2.5 bg-[#D4AF37] hover:bg-[#C49F27] text-white font-bold text-sm rounded-full shadow-lg shadow-[#D4AF37]/20 hover:shadow-xl hover:shadow-[#D4AF37]/30 transition-all duration-300 hover:-translate-y-0.5"
-              style={{ fontFamily: 'Poppins, sans-serif' }}
-            >
-              Solicitar Diagnóstico
-            </button>
+            
+            {/* BOTÃO ENTRAR - LINK PARA LOGIN */}
+            <Link href="/login">
+              <button 
+                className="px-6 py-2.5 bg-[#0A2540] hover:bg-[#1E3A8A] text-white font-bold text-sm rounded-full shadow-lg shadow-[#0A2540]/20 hover:shadow-xl hover:shadow-[#0A2540]/30 transition-all duration-300 hover:-translate-y-0.5"
+                style={{ fontFamily: 'Poppins, sans-serif' }}
+              >
+                Entrar
+              </button>
+            </Link>
           </div>
 
           {/* BOTÃO MENU MOBILE */}
@@ -185,9 +187,13 @@ export default function Header({
                 </svg>
                 WhatsApp
               </a>
-              <button className="w-full py-3 bg-[#D4AF37] hover:bg-[#C49F27] text-white font-bold rounded-full shadow-lg transition-all">
-                Solicitar Diagnóstico
-              </button>
+              
+              {/* BOTÃO ENTRAR - MOBILE */}
+              <Link href="/login" className="block">
+                <button className="w-full py-3 bg-[#0A2540] hover:bg-[#1E3A8A] text-white font-bold rounded-full shadow-lg transition-all">
+                  Entrar
+                </button>
+              </Link>
             </div>
           </div>
         </div>
