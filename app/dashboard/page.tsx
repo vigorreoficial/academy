@@ -16,9 +16,7 @@ import {
   Sparkles,
   Flame,
   Trophy,
-  ChevronRight,
-  Calendar,
-  Star
+  ChevronRight
 } from 'lucide-react'
 
 export default function AlunoDashboardPage() {
@@ -26,21 +24,30 @@ export default function AlunoDashboardPage() {
   const supabase = createClient()
   const [user, setUser] = useState<any>(null)
   const [loading, setLoading] = useState(true)
+  const [isMounted, setIsMounted] = useState(false)
 
   useEffect(() => {
+    setIsMounted(true)
     const getUser = async () => {
-      const { data: { user } } = await supabase.auth.getUser()
-      if (!user) {
+      try {
+        const { data: { user } } = await supabase.auth.getUser()
+        if (!user) {
+          router.push('/login')
+          return
+        }
+        setUser(user)
+      } catch (error) {
+        console.error('Erro ao buscar usuário:', error)
         router.push('/login')
-        return
+      } finally {
+        setLoading(false)
       }
-      setUser(user)
-      setLoading(false)
     }
     getUser()
   }, [router, supabase])
 
-  if (loading) {
+  // Evita hydration mismatch
+  if (!isMounted || loading) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-[#F8FAFC]">
         <div className="text-center">
@@ -50,6 +57,9 @@ export default function AlunoDashboardPage() {
       </div>
     )
   }
+
+  // Proteção contra Promise/undefined (previne erro #423)
+  const userName = String(user?.user_metadata?.name || user?.email?.split('@')[0] || 'Aluno')
 
   const stats = {
     cursosEmAndamento: 3,
@@ -70,7 +80,7 @@ export default function AlunoDashboardPage() {
       <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-8">
         <div>
           <h1 className="text-3xl font-bold text-[#0A2540]" style={{ fontFamily: 'Poppins' }}>
-            Olá, {user?.user_metadata?.name || 'Aluno'} 👋
+            Olá, {userName} 👋
           </h1>
           <p className="text-[#6B7280]">Continue aprendendo e evoluindo sua carreira</p>
         </div>
@@ -193,7 +203,7 @@ export default function AlunoDashboardPage() {
                 </div>
                 <span className="text-sm font-medium text-[#0A2540]">{curso.progresso}%</span>
               </div>
-              <Progress value={curso.progresso} className="h-1.5 mt-3 bg-[#E5E7EB]" />
+              <Progress value={Number(curso.progresso) || 0} className="h-1.5 mt-3 bg-[#E5E7EB]" />
               <Link href={`/dashboard/cursos/${curso.id}`} className="mt-3 inline-block">
                 <Button size="sm" variant="outline" className="border-[#E5E7EB] text-[#0A2540] rounded-full">
                   Continuar
