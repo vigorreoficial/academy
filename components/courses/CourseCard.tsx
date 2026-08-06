@@ -17,6 +17,7 @@ interface CourseCardProps {
   progresso?: number
   status?: string
   certificado?: boolean
+  categoria?: string
 }
 
 export function CourseCard({
@@ -29,6 +30,7 @@ export function CourseCard({
   progresso = 0,
   status = 'disponivel',
   certificado = true,
+  categoria,
 }: CourseCardProps) {
   const isMatriculado = progresso > 0
 
@@ -42,7 +44,7 @@ export function CourseCard({
             className="w-full h-full object-cover"
           />
           {certificado && (
-            <Badge className="absolute top-2 right-2 bg-vigorre-gold text-white">
+            <Badge className="absolute top-2 right-2 bg-[#D4AF37] text-white">
               <Award className="w-3 h-3 mr-1" />
               Certificado
             </Badge>
@@ -51,9 +53,14 @@ export function CourseCard({
       )}
       <CardHeader>
         <div className="flex items-start justify-between">
-          <CardTitle className="text-lg">{title}</CardTitle>
+          <CardTitle className="text-lg line-clamp-1">{title}</CardTitle>
           <Badge variant="outline">{nivel}</Badge>
         </div>
+        {categoria && (
+          <Badge variant="secondary" className="text-xs w-fit">
+            {categoria}
+          </Badge>
+        )}
         <CardDescription className="line-clamp-2">
           {description}
         </CardDescription>
@@ -82,13 +89,13 @@ export function CourseCard({
       <CardFooter>
         {isMatriculado ? (
           <Link href={`/dashboard/cursos/${id}`} className="w-full">
-            <Button className="w-full bg-vigorre-blue hover:bg-vigorre-blue/90">
-              {progresso === 100 ? 'Ver certificado' : 'Continuar'}
+            <Button className="w-full bg-[#0D2745] hover:bg-[#14365E]">
+              {progresso >= 100 ? 'Ver certificado' : 'Continuar'}
             </Button>
           </Link>
         ) : (
           <Link href={`/cursos/${id}`} className="w-full">
-            <Button className="w-full bg-vigorre-gold hover:bg-vigorre-gold/90 text-white">
+            <Button className="w-full bg-[#D4AF37] hover:bg-[#C49F27] text-white">
               Ver curso
             </Button>
           </Link>
