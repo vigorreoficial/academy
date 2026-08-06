@@ -4,89 +4,80 @@
 
 /* ============================================
    VIGORRE ACADEMY™ - DESIGN SYSTEM
-   Brand System: VIGORRE (azul) + ACADEMY (roxo)
+   Paleta Oficial - Educação Corporativa Premium
    ============================================ */
 
 @layer base {
   :root {
     /* ========================================
-       VIGORRE - Azul Institucional (sempre)
+       CORES OFICIAIS VIGORRE ACADEMY™
        ======================================== */
-    --vigorre-blue: 0 87 217;         /* #0057D9 */
-    --vigorre-blue-dark: 0 60 153;    /* #003C99 */
-    --vigorre-blue-light: 61 139 255; /* #3D8BFF */
+    --vigorre-primary: 10 37 64;         /* #0A2540 - Azul Institucional */
+    --vigorre-academy: 30 58 138;        /* #1E3A8A - Azul Educacional */
+    --vigorre-hover: 37 99 235;          /* #2563EB - Hover Blue */
+    --vigorre-gold: 212 175 55;          /* #D4AF37 - Dourado */
 
     /* ========================================
-       ACADEMY™ - Roxo (cor da plataforma)
+       CORES NEUTRAS
        ======================================== */
-    --academy: 124 58 237;            /* #7C3AED */
-    --academy-light: 168 85 247;      /* #A855F7 */
-    --academy-dark: 91 33 182;        /* #5B21B6 */
-    --academy-glow: rgba(124, 58, 237, 0.18);
-    --academy-pale: rgba(124, 58, 237, 0.08);
+    --color-background: 248 250 252;     /* #F8FAFC */
+    --color-surface: 255 255 255;        /* #FFFFFF */
+    --color-border: 229 231 235;         /* #E5E7EB */
+    --color-text: 31 41 55;              /* #1F2937 */
+    --color-text-secondary: 107 114 128; /* #6B7280 */
 
     /* ========================================
-       Cores de status
+       CORES DE STATUS
        ======================================== */
-    --color-success: 16 185 129;      /* #10B981 */
-    --color-warning: 245 158 11;      /* #F59E0B */
-    --color-error: 239 68 68;         /* #EF4444 */
-
-    /* ========================================
-       Cores neutras
-       ======================================== */
-    --color-background: 246 248 251;  /* #F6F8FB */
-    --color-surface: 255 255 255;     /* #FFFFFF */
-    --color-text-primary: 13 39 69;   /* #0D2745 */
-    --color-text-secondary: 74 101 130; /* #4A6582 */
-    --color-text-muted: 91 122 154;   /* #5B7A9A */
-    --color-border: 226 232 240;      /* #E2E8F0 */
+    --color-success: 22 163 74;          /* #16A34A */
+    --color-warning: 245 158 11;         /* #F59E0B */
+    --color-danger: 220 38 38;           /* #DC2626 */
 
     /* ========================================
        shadcn/ui compatibilidade
        ======================================== */
     --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
+    --foreground: 222 47% 11%;
     --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
+    --card-foreground: 222 47% 11%;
     --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
-    --primary: 258 90% 66%;           /* Roxo Academy */
+    --popover-foreground: 222 47% 11%;
+    --primary: 10 37 64;
     --primary-foreground: 210 40% 98%;
-    --secondary: 45 65% 52%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
+    --secondary: 210 40% 96.1%;
+    --secondary-foreground: 222 47% 11%;
     --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
-    --accent: 258 90% 66%;            /* Roxo Academy */
-    --accent-foreground: 210 40% 98%;
-    --destructive: 0 84.2% 60.2%;
+    --muted-foreground: 215 16% 47%;
+    --accent: 210 40% 96.1%;
+    --accent-foreground: 222 47% 11%;
+    --destructive: 0 84% 60%;
     --destructive-foreground: 210 40% 98%;
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 258 90% 66%;              /* Roxo Academy */
-    --radius: 0.5rem;
+    --border: 214 32% 91%;
+    --input: 214 32% 91%;
+    --ring: 10 37 64;
+    --radius: 1rem;
   }
 
   .dark {
-    --background: 222.2 84% 4.9%;
+    --background: 222 47% 11%;
     --foreground: 210 40% 98%;
-    --card: 222.2 84% 4.9%;
+    --card: 222 47% 11%;
     --card-foreground: 210 40% 98%;
-    --popover: 222.2 84% 4.9%;
+    --popover: 222 47% 11%;
     --popover-foreground: 210 40% 98%;
-    --primary: 258 90% 66%;
-    --primary-foreground: 222.2 47.4% 11.2%;
-    --secondary: 45 65% 52%;
+    --primary: 210 40% 98%;
+    --primary-foreground: 222 47% 11%;
+    --secondary: 217 33% 17%;
     --secondary-foreground: 210 40% 98%;
-    --muted: 217.2 32.6% 17.5%;
-    --muted-foreground: 215 20.2% 65.1%;
-    --accent: 258 90% 66%;
+    --muted: 217 33% 17%;
+    --muted-foreground: 215 20% 65%;
+    --accent: 217 33% 17%;
     --accent-foreground: 210 40% 98%;
-    --destructive: 0 62.8% 30.6%;
+    --destructive: 0 63% 31%;
     --destructive-foreground: 210 40% 98%;
-    --border: 217.2 32.6% 17.5%;
-    --input: 217.2 32.6% 17.5%;
-    --ring: 258 90% 66%;
+    --border: 217 33% 17%;
+    --input: 217 33% 17%;
+    --ring: 213 27% 84%;
   }
 }
 
@@ -95,12 +86,12 @@
     @apply border-border;
   }
   body {
-    @apply bg-[#F6F8FB] text-[#0D2745];
-    font-family: 'Instrument Sans', system-ui, sans-serif;
+    @apply bg-white text-[#1F2937];
+    font-family: 'Inter', system-ui, sans-serif;
   }
   
   h1, h2, h3, h4, h5, h6 {
-    font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+    font-family: 'Poppins', system-ui, sans-serif;
   }
 }
 
@@ -110,67 +101,46 @@
 
 @layer components {
   /* Cards */
-  .card-vigorre {
-    @apply bg-white rounded-[24px] border border-[#E2E8F0] shadow-[0_4px_6px_-1px_rgba(0,0,0,0.05)] p-6;
+  .card-academy {
+    @apply bg-white rounded-2xl border border-[#E5E7EB] shadow-sm hover:shadow-md transition-all duration-300;
   }
-  .card-vigorre-hover {
-    @apply hover:shadow-[0_10px_15px_-3px_rgba(124,58,237,0.15)] hover:border-[#7C3AED]/30 transition-all duration-300;
-  }
-  .card-vigorre-dark {
-    @apply bg-[#0057D9] border-white/10 text-white;
+  .card-academy-hover {
+    @apply hover:border-[#D4AF37]/30 hover:-translate-y-1;
   }
 
-  /* Botões - Roxo Academy */
+  /* Botões */
   .btn-primary {
-    @apply bg-[#7C3AED] hover:bg-[#5B21B6] text-white rounded-full font-bold shadow-lg shadow-[#7C3AED]/25 px-6 py-3 transition-all duration-300;
+    @apply bg-[#0A2540] hover:bg-[#1E3A8A] text-white rounded-full font-semibold shadow-sm px-6 py-3 transition-all duration-300;
   }
-  .btn-secondary {
-    @apply bg-[#0057D9] hover:bg-[#003C99] text-white rounded-full font-bold shadow-lg shadow-[#0057D9]/25 px-6 py-3 transition-all duration-300;
+  .btn-gold {
+    @apply bg-[#D4AF37] hover:bg-[#C49F27] text-white rounded-full font-bold shadow-lg shadow-[#D4AF37]/20 px-6 py-3 transition-all duration-300;
   }
   .btn-outline {
-    @apply bg-white border-2 border-[#E2E8F0] hover:bg-[#F6F8FB] text-[#0D2745] rounded-full font-bold px-6 py-3 transition-all duration-300;
+    @apply bg-white border-2 border-[#E5E7EB] hover:border-[#0A2540] text-[#0A2540] rounded-full font-semibold px-6 py-3 transition-all duration-300;
   }
 
   /* Gradientes */
-  .gradient-vigorre {
-    background: linear-gradient(90deg, #0057D9 0%, #003C99 100%);
-  }
   .gradient-academy {
-    background: linear-gradient(90deg, #5B21B6 0%, #7C3AED 50%, #A855F7 100%);
+    background: linear-gradient(135deg, #0A2540 0%, #1E3A8A 100%);
   }
-  .gradient-hero {
-    @apply bg-gradient-to-br from-[#003C99] via-[#0057D9] to-[#3D8BFF];
+  .gradient-gold {
+    background: linear-gradient(135deg, #D4AF37 0%, #F28C28 100%);
   }
 
   /* Texto com gradiente */
-  .text-gradient-vigorre {
-    @apply bg-gradient-to-r from-[#0057D9] to-[#3D8BFF] bg-clip-text text-transparent;
-  }
   .text-gradient-academy {
-    background: linear-gradient(90deg, #5B21B6 0%, #7C3AED 50%, #A855F7 100%);
-    -webkit-background-clip: text;
-    background-clip: text;
-    -webkit-text-fill-color: transparent;
-    color: transparent;
+    @apply bg-gradient-to-r from-[#0A2540] to-[#1E3A8A] bg-clip-text text-transparent;
+  }
+  .text-gradient-gold {
+    @apply bg-gradient-to-r from-[#D4AF37] to-[#F28C28] bg-clip-text text-transparent;
   }
 
   /* Badges */
   .badge-academy {
-    @apply bg-[#7C3AED] text-white border-transparent;
+    @apply bg-[#1E3A8A] text-white rounded-full px-3 py-1 text-xs font-semibold;
   }
-  .badge-vigorre {
-    @apply bg-[#0057D9] text-white border-transparent;
-  }
-  .badge-outline-academy {
-    @apply border border-[#7C3AED] text-[#7C3AED] bg-[#7C3AED]/5;
-  }
-
-  /* Glow effect para Academy */
-  .glow-academy {
-    box-shadow: 0 0 30px rgba(124, 58, 237, 0.18);
-  }
-  .glow-academy-hover:hover {
-    box-shadow: 0 0 40px rgba(124, 58, 237, 0.25);
+  .badge-gold {
+    @apply bg-[#D4AF37] text-white rounded-full px-3 py-1 text-xs font-semibold;
   }
 }
 
@@ -188,21 +158,12 @@
   to { opacity: 1; transform: translateX(0); }
 }
 
-@keyframes pulse {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.5; }
-}
-
 .animate-fadeIn {
   animation: fadeIn 0.5s ease-out forwards;
 }
 
 .animate-slideIn {
   animation: slideIn 0.3s ease-out forwards;
-}
-
-.animate-pulse-slow {
-  animation: pulse 2s ease-in-out infinite;
 }
 
 /* ============================================
@@ -215,15 +176,15 @@
 }
 
 ::-webkit-scrollbar-track {
-  background: rgba(124, 58, 237, 0.05);
+  background: #F8FAFC;
   border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: rgba(124, 58, 237, 0.3);
+  background: #1E3A8A;
   border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(124, 58, 237, 0.5);
+  background: #0A2540;
 }
