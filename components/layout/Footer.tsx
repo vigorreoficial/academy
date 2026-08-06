@@ -4,7 +4,7 @@ interface FooterProps {
   platformName?: string
 }
 
-export default function Footer({ platformName = 'VIGORRE™' }: FooterProps) {
+export default function Footer({ platformName = 'VIGORRE' }: FooterProps) {
   const currentYear = new Date().getFullYear()
 
   const companyLinks = [
@@ -62,14 +62,14 @@ export default function Footer({ platformName = 'VIGORRE™' }: FooterProps) {
   return (
     <footer
       role="contentinfo"
-      className="bg-white border-t border-[#F5F5F5] mt-20"
+      className="bg-white border-t border-[#E5E7EB] mt-20"
       style={{ fontFamily: 'Inter, system-ui, sans-serif' }}
     >
       {/* AVISO LGPD */}
-      <div className="bg-[#F5F5F5] border-b border-[#F5F5F5]">
+      <div className="bg-[#F8FAFC] border-b border-[#E5E7EB]">
         <div className="max-w-[1400px] mx-auto px-6 lg:px-10 py-4">
-          <p className="text-[12px] lg:text-[13px] text-[#666666] leading-relaxed text-center max-w-4xl mx-auto">
-            <span className="font-semibold text-[#002147]">LGPD:</span>{' '}
+          <p className="text-[12px] lg:text-[13px] text-[#6B7280] leading-relaxed text-center max-w-4xl mx-auto">
+            <span className="font-semibold text-[#0A2540]">LGPD:</span>{' '}
             A Vigorre™ trata seus dados pessoais em conformidade com a Lei Geral de Proteção de Dados (Lei nº 13.709/2018), adotando medidas técnicas e administrativas para garantir a segurança, confidencialidade e integridade das informações.
           </p>
         </div>
@@ -88,19 +88,27 @@ export default function Footer({ platformName = 'VIGORRE™' }: FooterProps) {
                 className="h-12 w-auto object-contain transition-transform duration-300 group-hover:scale-105"
               />
               <div className="flex flex-col leading-none">
-                <span 
-                  className="font-extrabold text-[18px] tracking-tight uppercase"
-                  style={{ fontFamily: 'Poppins, sans-serif', color: '#002147' }}
-                >
-                  {platformName}
-                </span>
+                <div className="flex items-baseline gap-1">
+                  <span 
+                    className="font-extrabold text-[16px] tracking-tight uppercase"
+                    style={{ fontFamily: 'Poppins, sans-serif', color: '#0A2540' }}
+                  >
+                    {platformName}
+                  </span>
+                  <span 
+                    className="font-extrabold text-[16px] tracking-tight uppercase"
+                    style={{ fontFamily: 'Poppins, sans-serif', color: '#D4AF37' }}
+                  >
+                    ACADEMY™
+                  </span>
+                </div>
               </div>
             </Link>
 
             <div className="space-y-3 mb-6">
               <a 
                 href="mailto:contato@vigorre.com.br"
-                className="flex items-center gap-2 text-[14px] text-[#666666] hover:text-[#002147] transition-colors"
+                className="flex items-center gap-2 text-[14px] text-[#6B7280] hover:text-[#0A2540] transition-colors"
               >
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" className="flex-shrink-0">
                   <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/>
@@ -109,7 +117,7 @@ export default function Footer({ platformName = 'VIGORRE™' }: FooterProps) {
               </a>
               <a 
                 href="tel:+5534999999999"
-                className="flex items-center gap-2 text-[14px] text-[#666666] hover:text-[#002147] transition-colors"
+                className="flex items-center gap-2 text-[14px] text-[#6B7280] hover:text-[#0A2540] transition-colors"
               >
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" className="flex-shrink-0">
                   <path d="M20.01 15.38c-1.23 0-2.42-.2-3.53-.56-.35-.12-.74-.03-1.01.24l-1.57 1.97c-2.83-1.35-5.48-3.9-6.89-6.83l1.95-1.66c.27-.28.35-.67.24-1.02-.37-1.11-.56-2.3-.56-3.53 0-.54-.45-.99-.99-.99H4.19C3.65 3 3 3.24 3 3.99 3 13.28 10.73 21 20.01 21c.71 0 .99-.63.99-1.18v-3.45c0-.54-.45-.99-.99-.99z"/>
@@ -120,7 +128,7 @@ export default function Footer({ platformName = 'VIGORRE™' }: FooterProps) {
                 href="https://www.vigorre.com.br"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center gap-2 text-[14px] text-[#666666] hover:text-[#002147] transition-colors"
+                className="flex items-center gap-2 text-[14px] text-[#6B7280] hover:text-[#0A2540] transition-colors"
               >
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" className="flex-shrink-0">
                   <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/>
@@ -134,7 +142,7 @@ export default function Footer({ platformName = 'VIGORRE™' }: FooterProps) {
           <div>
             <h3 
               className="font-bold text-[14px] tracking-wider uppercase mb-5"
-              style={{ fontFamily: 'Poppins, sans-serif', color: '#002147' }}
+              style={{ fontFamily: 'Poppins, sans-serif', color: '#0A2540' }}
             >
               Empresa
             </h3>
@@ -143,7 +151,7 @@ export default function Footer({ platformName = 'VIGORRE™' }: FooterProps) {
                 <li key={link.href}>
                   <Link 
                     href={link.href}
-                    className="text-[14.5px] text-[#666666] hover:text-[#002147] hover:translate-x-1 transition-all duration-200 inline-block"
+                    className="text-[14.5px] text-[#6B7280] hover:text-[#0A2540] hover:translate-x-1 transition-all duration-200 inline-block"
                   >
                     {link.label}
                   </Link>
@@ -156,7 +164,7 @@ export default function Footer({ platformName = 'VIGORRE™' }: FooterProps) {
           <div>
             <h3 
               className="font-bold text-[14px] tracking-wider uppercase mb-5"
-              style={{ fontFamily: 'Poppins, sans-serif', color: '#002147' }}
+              style={{ fontFamily: 'Poppins, sans-serif', color: '#0A2540' }}
             >
               Soluções
             </h3>
@@ -165,7 +173,7 @@ export default function Footer({ platformName = 'VIGORRE™' }: FooterProps) {
                 <li key={link.href}>
                   <Link 
                     href={link.href}
-                    className="text-[14.5px] text-[#666666] hover:text-[#002147] hover:translate-x-1 transition-all duration-200 inline-block"
+                    className="text-[14.5px] text-[#6B7280] hover:text-[#0A2540] hover:translate-x-1 transition-all duration-200 inline-block"
                   >
                     {link.label}
                   </Link>
@@ -178,7 +186,7 @@ export default function Footer({ platformName = 'VIGORRE™' }: FooterProps) {
           <div>
             <h3 
               className="font-bold text-[14px] tracking-wider uppercase mb-5"
-              style={{ fontFamily: 'Poppins, sans-serif', color: '#002147' }}
+              style={{ fontFamily: 'Poppins, sans-serif', color: '#0A2540' }}
             >
               Contato
             </h3>
@@ -189,9 +197,9 @@ export default function Footer({ platformName = 'VIGORRE™' }: FooterProps) {
                     href={link.href}
                     target={link.external ? '_blank' : undefined}
                     rel={link.external ? 'noopener noreferrer' : undefined}
-                    className="flex items-center gap-3 text-[14.5px] text-[#666666] hover:text-[#002147] transition-colors group"
+                    className="flex items-center gap-3 text-[14.5px] text-[#6B7280] hover:text-[#0A2540] transition-colors group"
                   >
-                    <span className="w-9 h-9 rounded-lg bg-[#F5F5F5] group-hover:bg-[#D4AF37] group-hover:text-white flex items-center justify-center transition-all duration-300">
+                    <span className="w-9 h-9 rounded-lg bg-[#F8FAFC] group-hover:bg-[#D4AF37] group-hover:text-white flex items-center justify-center transition-all duration-300">
                       {socialIcons[link.icon]}
                     </span>
                     <span className="font-medium">{link.label}</span>
@@ -205,36 +213,37 @@ export default function Footer({ platformName = 'VIGORRE™' }: FooterProps) {
 
       {/* LINHA SEPARADORA */}
       <div className="max-w-[1400px] mx-auto px-6 lg:px-10">
-        <div className="h-px bg-[#E5E5E5]" />
+        <div className="h-px bg-[#E5E7EB]" />
       </div>
 
       {/* PARTE INFERIOR */}
       <div className="max-w-[1400px] mx-auto px-6 lg:px-10 py-6">
         <div className="flex flex-col lg:flex-row items-center justify-between gap-4 text-center lg:text-left">
-          <p className="text-[13px] text-[#666666]">
-            © {currentYear} {platformName} Todos os direitos reservados.{' '}
+          <p className="text-[13px] text-[#6B7280]">
+            © {currentYear} <span style={{ color: '#0A2540' }}>{platformName}</span>{' '}
+            <span style={{ color: '#D4AF37' }}>ACADEMY™</span>. Todos os direitos reservados.{' '}
             <span className="hidden sm:inline">•</span>{' '}
             <span className="block sm:inline">CNPJ: 68.413.252/0001-86</span>
           </p>
 
           <nav className="flex flex-wrap items-center justify-center gap-x-4 gap-y-2 text-[13px]">
-            <Link href="/privacidade" className="text-[#666666] hover:text-[#002147] transition-colors">
+            <Link href="/privacidade" className="text-[#6B7280] hover:text-[#0A2540] transition-colors">
               Política de Privacidade
             </Link>
             <span className="text-[#D4AF37]">•</span>
-            <Link href="/termos" className="text-[#666666] hover:text-[#002147] transition-colors">
+            <Link href="/termos" className="text-[#6B7280] hover:text-[#0A2540] transition-colors">
               Termos de Uso
             </Link>
             <span className="text-[#D4AF37]">•</span>
-            <Link href="/lgpd" className="text-[#666666] hover:text-[#002147] transition-colors">
+            <Link href="/lgpd" className="text-[#6B7280] hover:text-[#0A2540] transition-colors">
               LGPD
             </Link>
             <span className="text-[#D4AF37]">•</span>
-            <Link href="/cookies" className="text-[#666666] hover:text-[#002147] transition-colors">
+            <Link href="/cookies" className="text-[#6B7280] hover:text-[#0A2540] transition-colors">
               Cookies
             </Link>
             <span className="text-[#D4AF37]">•</span>
-            <Link href="/mapa" className="text-[#666666] hover:text-[#002147] transition-colors">
+            <Link href="/mapa" className="text-[#6B7280] hover:text-[#0A2540] transition-colors">
               Mapa do Site
             </Link>
           </nav>
