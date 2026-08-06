@@ -1,36 +1,22 @@
 import type { Metadata } from 'next'
 import { Inter, Poppins } from 'next/font/google'
 import './globals.css'
+import Header from '@/components/layout/Header'
+import Footer from '@/components/layout/Footer'
 import { Toaster } from '@/components/ui/toaster'
-import Header from '@/components/layout/Header'   // ✅ IMPORT CORRETO
-import Footer from '@/components/layout/Footer'   // ✅ IMPORT CORRETO
+import { ThemeProvider } from '@/components/theme-provider'
 
-const inter = Inter({
+const inter = Inter({ subsets: ['latin'] })
+const poppins = Poppins({ 
   subsets: ['latin'],
-  variable: '--font-inter',
-  display: 'swap',
-})
-
-const poppins = Poppins({
   weight: ['400', '500', '600', '700', '800'],
-  subsets: ['latin'],
-  variable: '--font-poppins',
-  display: 'swap',
+  variable: '--font-poppins'
 })
 
 export const metadata: Metadata = {
-  title: 'Vigorre Academy™ - Educação Corporativa com IA',
+  title: 'VIGORRE ACADEMY™ - Educação Corporativa com IA',
   description: 'Plataforma inteligente de educação corporativa, treinamentos e certificação com IA',
   keywords: 'educação corporativa, LMS, treinamentos, certificação, IA, cursos online',
-  authors: [{ name: 'Vigorre Academy' }],
-  robots: 'index, follow',
-  openGraph: {
-    title: 'Vigorre Academy™ - Educação Corporativa com IA',
-    description: 'Plataforma inteligente de educação corporativa, treinamentos e certificação',
-    url: 'https://academy.vigorre.com.br',
-    siteName: 'Vigorre Academy',
-    type: 'website',
-  },
 }
 
 export default function RootLayout({
@@ -40,13 +26,26 @@ export default function RootLayout({
 }) {
   return (
     <html lang="pt-BR" suppressHydrationWarning>
-      <body className={`${inter.variable} ${poppins.variable} font-sans bg-[#F8FAFC]`}>
-        <Header />
-        <main className="pt-[80px] min-h-screen">
-          {children}
-        </main>
-        <Footer />
-        <Toaster />
+      <body 
+        className={`${inter.className} ${poppins.variable}`}
+        suppressHydrationWarning
+      >
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="light"
+          enableSystem={false}
+          disableTransitionOnChange
+          forcedTheme="light"
+        >
+          <Header platformName="VIGORRE" platformTagline="Inteligência e Gestão Estratégica" />
+          
+          <main className="min-h-[calc(100vh-200px)] pt-[70px] lg:pt-[80px]">
+            {children}
+          </main>
+          
+          <Footer platformName="VIGORRE" />
+          <Toaster />
+        </ThemeProvider>
       </body>
     </html>
   )
