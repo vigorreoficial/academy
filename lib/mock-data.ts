@@ -1,4 +1,5 @@
-// Dados mockados para desenvolvimento
+// Dados mockados para desenvolvimento da Vigorre Academy™
+
 export const mockUser = {
   id: '1',
   name: 'Aluno Vigorre',
