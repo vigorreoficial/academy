@@ -1,12 +1,12 @@
 'use client'
 
 import { useState } from 'react'
-import { useRouter } rel="noopener" target="_new">'next/navigation'
+import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
-import { Eye, EyeOff, ArrowRight, Sparkles, Shield } from 'lucide-react'
+import { Eye, EyeOff, ArrowRight, Shield } from 'lucide-react'
 
 export default function LoginPage() {
   const router = useRouter()
@@ -22,10 +22,8 @@ export default function LoginPage() {
     setError(null)
 
     try {
-      // Simular login - substituir por autenticação real
       await new Promise(resolve => setTimeout(resolve, 1500))
       
-      // Mock login
       const userData = { 
         id: 'user-1', 
         name: email.split('@')[0] || 'Usuário', 
@@ -155,14 +153,6 @@ export default function LoginPage() {
             </div>
           </CardFooter>
         </Card>
-
-        {/* Rodapé */}
-        <p className="text-center text-xs text-[#6B7280] mt-6">
-          Ao continuar, você concorda com nossos{' '}
-          <Link href="/termos" className="text-[#0A2540] hover:text-[#D4AF37]">Termos de Uso</Link>
-          {' '}e{' '}
-          <Link href="/privacidade" className="text-[#0A2540] hover:text-[#D4AF37]">Política de Privacidade</Link>
-        </p>
       </div>
     </div>
   )
