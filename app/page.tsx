@@ -25,7 +25,6 @@ const courses: Course[] = [
     duration: "18h",
     level: "Avançado",
     price: 0,
-    originalPrice: 0,
     students: "4.2k",
     rating: 4.9,
     image: "https://images.unsplash.com/photo-1553877522-43269d4ea984?w=600&q=80",
@@ -49,7 +48,6 @@ const courses: Course[] = [
     duration: "24h",
     level: "Essencial",
     price: 0,
-    originalPrice: 0,
     students: "6.1k",
     rating: 4.9,
     image: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=600&q=80",
@@ -84,7 +82,6 @@ const courses: Course[] = [
     duration: "8h",
     level: "Iniciante",
     price: 0,
-    originalPrice: 0,
     students: "5.4k",
     rating: 4.9,
     image: "https://images.unsplash.com/photo-1521791136064-7986c86c6438?w=600&q=80",
@@ -95,22 +92,14 @@ const categories = ["Todos", "Liderança", "Gestão", "Tecnologia", "Operacional
 
 export default function HomePage() {
   const [audience, setAudience] = useState<'b2b' | 'b2c'>('b2b')
-  const [mobileMenu, setMobileMenu] = useState(false)
   const [activeCat, setActiveCat] = useState("Todos")
   const [annual, setAnnual] = useState(true)
   const [openFaq, setOpenFaq] = useState<number | null>(0)
   const [cart, setCart] = useState<number[]>([])
   const [showCheckout, setShowCheckout] = useState(false)
   const [showLeadModal, setShowLeadModal] = useState(false)
-  const [scrolled, setScrolled] = useState(false)
   const [email, setEmail] = useState("")
   const [toast, setToast] = useState<string | null>(null)
-
-  useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 20)
-    window.addEventListener('scroll', onScroll)
-    return () => window.removeEventListener('scroll', onScroll)
-  }, [])
 
   useEffect(() => {
     if (toast) {
@@ -133,174 +122,84 @@ export default function HomePage() {
 
   const scrollTo = (id: string) => {
     document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' })
-    setMobileMenu(false)
   }
 
   return (
-    <div className="min-h-screen bg-[#F6F8FB] text-[#0D2745] selection:bg-[#7C3AED] selection:text-white" style={{ fontFamily: 'Instrument Sans, system-ui, sans-serif' }}>
-      <style>{`@import url('https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@700;800&display=swap');`}</style>
+    <div className="min-h-screen bg-white text-[#1F2937] selection:bg-[#1E3A8A] selection:text-white" style={{ fontFamily: 'Inter, system-ui, sans-serif' }}>
+      <style>{`@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap');`}</style>
 
       {/* Toast */}
       {toast && (
-        <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-[100] bg-[#0057D9] text-white px-5 py-3 rounded-full shadow-2xl flex items-center gap-3 text-sm font-medium animate-in fade-in slide-in-from-bottom-2">
-          <span className="w-2 h-2 bg-emerald-400 rounded-full animate-pulse" />
+        <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-[100] bg-[#0A2540] text-white px-5 py-3 rounded-full shadow-2xl flex items-center gap-3 text-sm font-medium animate-in fade-in slide-in-from-bottom-2">
+          <span className="w-2 h-2 bg-[#D4AF37] rounded-full animate-pulse" />
           {toast}
         </div>
       )}
 
-      {/* Header */}
-      <header className={`fixed top-0 w-full z-50 transition-all duration-300 ${scrolled ? 'bg-white/90 backdrop-blur-xl border-b border-slate-200 shadow-sm' : 'bg-transparent border-b border-transparent'}`}>
-        <div className="max-w-[1280px] mx-auto px-6 lg:px-8 h-[76px] flex items-center justify-between">
-          <div className="flex items-center gap-10">
-            {/* Logo - VIGORRE ACADEMY lado a lado */}
-            <Link href="/" className="flex items-center gap-3">
-              <div className="relative w-11 h-11 flex items-center justify-center">
-                <div className="absolute inset-0 bg-gradient-to-br from-[#0057D9] to-[#003C99] rounded-[10px] shadow-lg shadow-[#0057D9]/25" />
-                <div className="relative flex flex-col items-center leading-none">
-                  <span className="text-white font-black text-[20px] tracking-tighter" style={{ fontFamily: 'Plus Jakarta Sans' }}>V</span>
-                  <span className="w-5 h-[2px] bg-gradient-to-r from-[#A855F7] to-white -mt-[2px] rounded-full" />
-                </div>
-                <div className="absolute -top-1 -right-1 w-3 h-3 bg-[#7C3AED] rounded-full border-2 border-white flex items-center justify-center">
-                  <span className="w-1 h-1 bg-white rounded-full" />
-                </div>
-              </div>
-              <div className="flex items-baseline gap-2">
-                <span className="font-extrabold text-[20px] tracking-tight uppercase" style={{ fontFamily: 'Plus Jakarta Sans', color: '#0057D9' }}>VIGORRE</span>
-                <span className="font-extrabold text-[20px] tracking-tight uppercase" style={{ fontFamily: 'Plus Jakarta Sans', color: '#7C3AED' }}>ACADEMY™</span>
-              </div>
-            </Link>
-
-            <nav className="hidden lg:flex items-center gap-1">
-              {[
-                { label: 'Soluções', id: 'solucoes' },
-                { label: 'Catálogo', id: 'catalogo' },
-                { label: 'Preços', id: 'precos' },
-                { label: 'White-Label', id: 'whitelabel' },
-              ].map(item => (
-                <button key={item.id} onClick={() => scrollTo(item.id)} className="px-4 py-2 text-sm font-medium text-[#364F6B] hover:text-[#7C3AED] hover:bg-[#7C3AED]/5 rounded-full transition">
-                  {item.label}
-                </button>
-              ))}
-            </nav>
-          </div>
-
-          <div className="hidden lg:flex items-center gap-3">
-            <div className="flex items-center gap-1 p-1 bg-slate-100 rounded-full">
-              <button onClick={() => setAudience('b2b')} className={`px-4 py-1.5 rounded-full text-xs font-bold tracking-wide transition ${audience === 'b2b' ? 'bg-[#0057D9] text-white shadow' : 'text-slate-500 hover:text-slate-700'}`}>PARA EMPRESAS</button>
-              <button onClick={() => setAudience('b2c')} className={`px-4 py-1.5 rounded-full text-xs font-bold tracking-wide transition ${audience === 'b2c' ? 'bg-[#7C3AED] text-white shadow' : 'text-slate-500 hover:text-slate-700'}`}>PARA VOCÊ</button>
-            </div>
-            <div className="w-px h-6 bg-slate-200 mx-2" />
-            <Link href="/login">
-              <button className="text-sm font-semibold text-[#0057D9] px-4 hover:text-[#003C99] transition">Entrar</button>
-            </Link>
-            <Link href="/signup">
-              <button className="bg-[#7C3AED] hover:bg-[#5B21B6] text-white text-sm font-bold px-6 py-3 rounded-full shadow-lg shadow-[#7C3AED]/25 transition flex items-center gap-2">
-                {audience === 'b2b' ? 'Solicitar Demo' : 'Começar grátis'}
-                <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M6 12L10 8L6 4" stroke="white" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" /></svg>
-              </button>
-            </Link>
-            {cart.length > 0 && (
-              <button onClick={() => setShowCheckout(true)} className="relative w-10 h-10 bg-white border border-slate-200 rounded-full flex items-center justify-center">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#7C3AED" strokeWidth="1.8"><path d="M6 6h15l-1.5 9h-13z" /><path d="M6 6L5 2H2" /><circle cx="9" cy="20" r="1.8" /><circle cx="18" cy="20" r="1.8" /></svg>
-                <span className="absolute -top-1 -right-1 bg-[#7C3AED] text-white text-[11px] font-bold w-5 h-5 rounded-full grid place-items-center">{cart.length}</span>
-              </button>
-            )}
-          </div>
-
-          <button onClick={() => setMobileMenu(!mobileMenu)} className="lg:hidden w-10 h-10 rounded-full bg-white border border-slate-200 grid place-items-center">
-            <div className="space-y-1.5">
-              <div className={`w-5 h-0.5 bg-[#0057D9] transition ${mobileMenu ? 'rotate-45 translate-y-2' : ''}`} />
-              <div className={`w-5 h-0.5 bg-[#0057D9] transition ${mobileMenu ? 'opacity-0' : ''}`} />
-              <div className={`w-5 h-0.5 bg-[#0057D9] transition ${mobileMenu ? '-rotate-45 -translate-y-2' : ''}`} />
-            </div>
-          </button>
-        </div>
-
-        {mobileMenu && (
-          <div className="lg:hidden bg-white border-t border-slate-200 px-6 py-6 space-y-4">
-            <div className="flex p-1 bg-slate-100 rounded-full w-fit">
-              <button onClick={() => setAudience('b2b')} className={`px-4 py-2 rounded-full text-xs font-bold ${audience === 'b2b' ? 'bg-[#0057D9] text-white' : 'text-slate-600'}`}>PARA EMPRESAS</button>
-              <button onClick={() => setAudience('b2c')} className={`px-4 py-2 rounded-full text-xs font-bold ${audience === 'b2c' ? 'bg-[#7C3AED] text-white' : 'text-slate-600'}`}>PARA VOCÊ</button>
-            </div>
-            <div className="grid gap-2">
-              <button onClick={() => scrollTo('solucoes')} className="text-left py-2 font-medium">Soluções</button>
-              <button onClick={() => scrollTo('catalogo')} className="text-left py-2 font-medium">Catálogo</button>
-              <button onClick={() => scrollTo('precos')} className="text-left py-2 font-medium">Preços</button>
-            </div>
-            <Link href="/signup">
-              <button className="w-full bg-[#7C3AED] text-white font-bold py-3 rounded-full">Começar agora</button>
-            </Link>
-          </div>
-        )}
-      </header>
-
       {/* HERO */}
-      <section className="relative pt-[76px] overflow-hidden">
-        <div className="absolute inset-0 bg-[#F6F8FB]">
-          <div className="absolute inset-0 opacity-[0.04]" style={{ backgroundImage: `radial-gradient(circle at 1px 1px, #0057D9 1px, transparent 0)`, backgroundSize: '28px 28px' }} />
-          <div className="absolute -top-32 -right-32 w-[900px] h-[900px] bg-gradient-to-br from-[#7C3AED]/10 via-[#0057D9]/5 to-transparent rounded-full blur-3xl" />
-          <div className="absolute top-20 -left-32 w-[600px] h-[600px] bg-gradient-to-tr from-[#A855F7]/15 to-transparent rounded-full blur-3xl" />
-        </div>
+      <section className="relative pt-8 lg:pt-14 pb-10 overflow-hidden bg-[#F8FAFC]">
+        <div className="absolute inset-0 opacity-[0.03]" style={{ backgroundImage: `radial-gradient(circle at 1px 1px, #0A2540 1px, transparent 0)`, backgroundSize: '28px 28px' }} />
+        <div className="absolute -top-32 -right-32 w-[900px] h-[900px] bg-gradient-to-br from-[#1E3A8A]/10 via-[#0A2540]/5 to-transparent rounded-full blur-3xl" />
 
         <div className="relative max-w-[1280px] mx-auto px-6 lg:px-8">
-          <div className="grid lg:grid-cols-[1.1fr_0.9fr] gap-8 lg:gap-4 pt-8 lg:pt-14 pb-10 items-center">
+          <div className="grid lg:grid-cols-[1.1fr_0.9fr] gap-8 lg:gap-4 items-center">
 
             <div className="space-y-6">
-              <div className="inline-flex items-center gap-2 bg-white border border-slate-200 rounded-full px-3 py-1.5 shadow-sm">
-                <span className="bg-[#7C3AED] text-white text-[11px] font-bold tracking-widest px-2.5 py-1 rounded-full">NOVO</span>
-                <span className="text-sm font-medium text-slate-700">Ecossistema B2B + B2C em uma única plataforma</span>
+              <div className="inline-flex items-center gap-2 bg-white border border-[#E5E7EB] rounded-full px-3 py-1.5 shadow-sm">
+                <span className="bg-[#1E3A8A] text-white text-[11px] font-bold tracking-widest px-2.5 py-1 rounded-full">NOVO</span>
+                <span className="text-sm font-medium text-[#6B7280]">Ecossistema B2B + B2C em uma única plataforma</span>
               </div>
 
               <div className="space-y-4">
-                <h1 className="text-[36px] sm:text-[44px] lg:text-[56px] font-extrabold leading-[0.92] tracking-tight" style={{ fontFamily: 'Plus Jakarta Sans' }}>
-                  <span className="text-[#0D2745]">Transforme</span>{' '}
+                <h1 className="text-[36px] sm:text-[44px] lg:text-[56px] font-extrabold leading-[0.92] tracking-tight" style={{ fontFamily: 'Poppins' }}>
+                  <span className="text-[#0A2540]">Transforme</span>{' '}
                   <span className="relative inline-block">
-                    <span className="relative z-10 bg-gradient-to-r from-[#5B21B6] via-[#7C3AED] to-[#A855F7] bg-clip-text text-transparent">conhecimento</span>
-                    <span className="absolute bottom-1.5 left-0 right-0 h-3 bg-[#7C3AED]/15 -rotate-1" />
+                    <span className="relative z-10 bg-gradient-to-r from-[#1E3A8A] to-[#2563EB] bg-clip-text text-transparent">conhecimento</span>
+                    <span className="absolute bottom-1.5 left-0 right-0 h-3 bg-[#D4AF37]/15 -rotate-1" />
                   </span>
                   <br />
-                  <span className="text-[#0D2745]">em performance</span>
+                  <span className="text-[#0A2540]">em performance</span>
                   <br />
-                  <span className="text-[#5B7A9A] font-light">estratégica.</span>
+                  <span className="text-[#6B7280] font-light">estratégica.</span>
                 </h1>
-                <p className="text-[17px] leading-7 text-[#4A6582] max-w-[560px]">
-                  A <strong className="text-[#0057D9]">Vigorre Academy™</strong> capacita empresas e profissionais com trilhas inteligentes, certificações reconhecidas e <span className="bg-white border border-slate-200 px-2 py-0.5 rounded-full text-sm font-semibold text-[#7C3AED]">Vigorre Analytics™</span> — a inteligência que mede o ROI do aprendizado.
+                <p className="text-[17px] leading-7 text-[#6B7280] max-w-[560px]">
+                  A <strong className="text-[#0A2540]">Vigorre Academy™</strong> capacita empresas e profissionais com trilhas inteligentes, certificações reconhecidas e <span className="bg-white border border-[#E5E7EB] px-2 py-0.5 rounded-full text-sm font-semibold text-[#1E3A8A]">Vigorre Analytics™</span> — a inteligência que mede o ROI do aprendizado.
                 </p>
               </div>
 
-              <div className="bg-white rounded-[20px] p-2 shadow-xl shadow-slate-200/50 border border-slate-200 flex gap-2 max-w-[520px]">
-                <button onClick={() => setAudience('b2b')} className={`flex-1 rounded-2xl p-[18px] text-left transition border ${audience === 'b2b' ? 'bg-[#0057D9] border-[#0057D9] text-white shadow-lg' : 'bg-slate-50 border-slate-200 hover:border-slate-300'}`}>
+              <div className="bg-white rounded-[20px] p-2 shadow-lg shadow-[#0A2540]/5 border border-[#E5E7EB] flex gap-2 max-w-[520px]">
+                <button onClick={() => setAudience('b2b')} className={`flex-1 rounded-2xl p-[18px] text-left transition border ${audience === 'b2b' ? 'bg-[#0A2540] border-[#0A2540] text-white shadow-lg' : 'bg-[#F8FAFC] border-[#E5E7EB] hover:border-[#1E3A8A]/30'}`}>
                   <div className="flex items-center justify-between mb-1">
-                    <span className={`text-xs font-bold tracking-widest ${audience === 'b2b' ? 'text-[#9BB8D9]' : 'text-[#0057D9]'}`}>PARA EMPRESAS • B2B</span>
+                    <span className={`text-xs font-bold tracking-widest ${audience === 'b2b' ? 'text-[#D4AF37]' : 'text-[#1E3A8A]'}`}>PARA EMPRESAS • B2B</span>
                     <span className={`w-6 h-6 rounded-full grid place-items-center ${audience === 'b2b' ? 'bg-white/15' : 'bg-white border'}`}>
-                      <span className={`w-2 h-2 rounded-full ${audience === 'b2b' ? 'bg-white' : 'bg-[#0057D9]'}`} />
+                      <span className={`w-2 h-2 rounded-full ${audience === 'b2b' ? 'bg-white' : 'bg-[#1E3A8A]'}`} />
                     </span>
                   </div>
-                  <div className={`text-[15px] font-bold leading-tight ${audience === 'b2b' ? 'text-white' : 'text-[#0D2745]'}`}>Academy corporativa + White Label</div>
-                  <div className={`text-sm ${audience === 'b2b' ? 'text-white/70' : 'text-slate-500'}`}>Acesso gratuito para empresas</div>
+                  <div className={`text-[15px] font-bold leading-tight ${audience === 'b2b' ? 'text-white' : 'text-[#0A2540]'}`}>Academy corporativa + White Label</div>
+                  <div className={`text-sm ${audience === 'b2b' ? 'text-white/70' : 'text-[#6B7280]'}`}>Acesso gratuito para empresas</div>
                 </button>
 
-                <button onClick={() => setAudience('b2c')} className={`flex-1 rounded-2xl p-[18px] text-left transition border ${audience === 'b2c' ? 'bg-[#7C3AED] border-[#7C3AED] text-white shadow-lg' : 'bg-slate-50 border-slate-200 hover:border-slate-300'}`}>
+                <button onClick={() => setAudience('b2c')} className={`flex-1 rounded-2xl p-[18px] text-left transition border ${audience === 'b2c' ? 'bg-[#1E3A8A] border-[#1E3A8A] text-white shadow-lg' : 'bg-[#F8FAFC] border-[#E5E7EB] hover:border-[#1E3A8A]/30'}`}>
                   <div className="flex items-center justify-between mb-1">
-                    <span className={`text-xs font-bold tracking-widest ${audience === 'b2c' ? 'text-white/70' : 'text-slate-500'}`}>PARA VOCÊ • B2C</span>
+                    <span className={`text-xs font-bold tracking-widest ${audience === 'b2c' ? 'text-white/70' : 'text-[#6B7280]'}`}>PARA VOCÊ • B2C</span>
                     <span className={`w-6 h-6 rounded-full grid place-items-center ${audience === 'b2c' ? 'bg-white/15' : 'bg-white border'}`}>
-                      <span className={`w-2 h-2 rounded-full ${audience === 'b2c' ? 'bg-white' : 'bg-[#7C3AED]'}`} />
+                      <span className={`w-2 h-2 rounded-full ${audience === 'b2c' ? 'bg-white' : 'bg-[#1E3A8A]'}`} />
                     </span>
                   </div>
-                  <div className={`text-[15px] font-bold leading-tight ${audience === 'b2c' ? 'text-white' : 'text-[#0D2745]'}`}>Cursos avulsos & trilhas</div>
-                  <div className={`text-sm ${audience === 'b2c' ? 'text-white/80' : 'text-slate-500'}`}>100% gratuito</div>
+                  <div className={`text-[15px] font-bold leading-tight ${audience === 'b2c' ? 'text-white' : 'text-[#0A2540]'}`}>Cursos avulsos & trilhas</div>
+                  <div className={`text-sm ${audience === 'b2c' ? 'text-white/80' : 'text-[#6B7280]'}`}>100% gratuito</div>
                 </button>
               </div>
 
               <div className="flex flex-wrap items-center gap-3">
-                <button onClick={() => audience === 'b2b' ? setShowLeadModal(true) : scrollTo('catalogo')} className="bg-[#7C3AED] hover:bg-[#5B21B6] text-white font-bold px-8 py-4 rounded-full shadow-xl shadow-[#7C3AED]/25 flex items-center gap-3 transition">
+                <button onClick={() => audience === 'b2b' ? setShowLeadModal(true) : scrollTo('catalogo')} className="bg-[#0A2540] hover:bg-[#1E3A8A] text-white font-bold px-8 py-4 rounded-full shadow-xl shadow-[#0A2540]/20 flex items-center gap-3 transition">
                   {audience === 'b2b' ? 'Agendar demo com especialista' : 'Explorar catálogo completo'}
                   <span className="w-8 h-8 bg-white/15 rounded-full grid place-items-center">
                     <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M5 8h7M9 4l4 4-4 4" stroke="white" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" /></svg>
                   </span>
                 </button>
-                <button onClick={() => scrollTo('solucoes')} className="bg-white border border-slate-200 font-semibold px-6 py-4 rounded-full hover:bg-slate-50 hover:border-[#7C3AED]/30 transition">Ver como funciona →</button>
-                <div className="flex items-center gap-2 text-sm text-slate-600">
+                <button onClick={() => scrollTo('solucoes')} className="bg-white border border-[#E5E7EB] font-semibold px-6 py-4 rounded-full hover:border-[#1E3A8A]/30 transition">Ver como funciona →</button>
+                <div className="flex items-center gap-2 text-sm text-[#6B7280]">
                   <div className="flex -space-x-2">
                     {[1, 2, 3].map(i => (
                       <img key={i} src={`https://i.pravatar.cc/100?img=${10 + i}`} alt="" className="w-8 h-8 rounded-full border-2 border-white object-cover" />
@@ -311,16 +210,16 @@ export default function HomePage() {
               </div>
 
               <div className="flex flex-wrap gap-6 pt-2 text-sm">
-                <span className="flex items-center gap-2"><span className="w-5 h-5 rounded-full bg-[#7C3AED]/10 grid place-items-center text-[#7C3AED]">✓</span> Certificado com validação LinkedIn</span>
-                <span className="flex items-center gap-2"><span className="w-5 h-5 rounded-full bg-[#7C3AED]/10 grid place-items-center text-[#7C3AED]">✓</span> Acesso totalmente gratuito</span>
-                <span className="flex items-center gap-2"><span className="w-5 h-5 rounded-full bg-[#7C3AED]/10 grid place-items-center text-[#7C3AED]">✓</span> SSO & Integração RH</span>
+                <span className="flex items-center gap-2"><span className="w-5 h-5 rounded-full bg-[#16A34A]/10 grid place-items-center text-[#16A34A]">✓</span> Certificado com validação LinkedIn</span>
+                <span className="flex items-center gap-2"><span className="w-5 h-5 rounded-full bg-[#16A34A]/10 grid place-items-center text-[#16A34A]">✓</span> Acesso totalmente gratuito</span>
+                <span className="flex items-center gap-2"><span className="w-5 h-5 rounded-full bg-[#16A34A]/10 grid place-items-center text-[#16A34A]">✓</span> SSO & Integração RH</span>
               </div>
             </div>
 
             {/* Right - Dashboard Mock */}
             <div className="relative lg:pl-8">
-              <div className="relative bg-white rounded-[32px] shadow-[0_32px_80px_-20px_rgba(0,87,217,0.25)] border border-slate-200 overflow-hidden">
-                <div className="h-14 bg-gradient-to-r from-[#0057D9] via-[#7C3AED] to-[#A855F7] flex items-center justify-between px-6">
+              <div className="relative bg-white rounded-[32px] shadow-[0_32px_80px_-20px_rgba(10,37,64,0.15)] border border-[#E5E7EB] overflow-hidden">
+                <div className="h-14 bg-gradient-to-r from-[#0A2540] via-[#1E3A8A] to-[#2563EB] flex items-center justify-between px-6">
                   <div className="flex items-center gap-3">
                     <div className="w-8 h-8 rounded-lg bg-white/15 backdrop-blur flex items-center justify-center text-white font-black text-sm">V</div>
                     <div>
@@ -329,35 +228,35 @@ export default function HomePage() {
                     </div>
                   </div>
                   <div className="flex items-center gap-2">
-                    <span className="w-2 h-2 bg-emerald-400 rounded-full animate-pulse" />
+                    <span className="w-2 h-2 bg-[#16A34A] rounded-full animate-pulse" />
                     <span className="text-white/90 text-xs font-medium">Ao vivo</span>
                   </div>
                 </div>
 
                 <div className="p-6 grid grid-cols-3 gap-3">
                   {[
-                    { k: 'Progresso', v: '78%', sub: '+12% vs mês anterior', color: 'from-[#0057D9] to-[#3D8BFF]' },
-                    { k: 'Certificações', v: '342', sub: '84% conclusão', color: 'from-[#7C3AED] to-[#A855F7]' },
-                    { k: 'ROI Treinamento', v: '3.2x', sub: 'Vigorre Analytics™', color: 'from-amber-500 to-orange-500' },
+                    { k: 'Progresso', v: '78%', sub: '+12% vs mês anterior', color: 'from-[#0A2540] to-[#1E3A8A]' },
+                    { k: 'Certificações', v: '342', sub: '84% conclusão', color: 'from-[#1E3A8A] to-[#2563EB]' },
+                    { k: 'ROI Treinamento', v: '3.2x', sub: 'Vigorre Analytics™', color: 'from-[#D4AF37] to-[#F59E0B]' },
                   ].map(m => (
-                    <div key={m.k} className="bg-[#F6F8FB] rounded-2xl p-3 border border-slate-100">
-                      <div className="text-[11px] font-bold tracking-widest text-slate-500">{m.k.toUpperCase()}</div>
-                      <div className="text-xl font-black text-[#0D2745] mt-1">{m.v}</div>
-                      <div className="text-[11px] text-slate-500">{m.sub}</div>
+                    <div key={m.k} className="bg-[#F8FAFC] rounded-2xl p-3 border border-[#E5E7EB]">
+                      <div className="text-[11px] font-bold tracking-widest text-[#6B7280]">{m.k.toUpperCase()}</div>
+                      <div className="text-xl font-black text-[#0A2540] mt-1">{m.v}</div>
+                      <div className="text-[11px] text-[#6B7280]">{m.sub}</div>
                       <div className={`mt-2 h-1.5 rounded-full bg-gradient-to-r ${m.color} opacity-80`} />
                     </div>
                   ))}
                 </div>
 
                 <div className="px-6">
-                  <div className="bg-[#003C99] rounded-2xl p-4 text-white relative overflow-hidden">
+                  <div className="bg-[#0A2540] rounded-2xl p-4 text-white relative overflow-hidden">
                     <div className="flex justify-between items-center mb-3">
                       <span className="text-sm font-semibold">Engajamento por trilha</span>
                       <span className="text-xs bg-white/15 px-2 py-1 rounded-full">Últimos 30 dias</span>
                     </div>
                     <div className="flex items-end gap-2 h-20">
                       {[35, 55, 45, 78, 62, 88, 52, 74, 68, 92].map((h, i) => (
-                        <div key={i} className="flex-1 bg-gradient-to-t from-[#7C3AED] to-[#A855F7] rounded-t-lg" style={{ height: `${h}%`, opacity: i === 9 ? 1 : 0.6 + i * 0.03 }} />
+                        <div key={i} className="flex-1 bg-gradient-to-t from-[#1E3A8A] to-[#2563EB] rounded-t-lg" style={{ height: `${h}%`, opacity: i === 9 ? 1 : 0.6 + i * 0.03 }} />
                       ))}
                     </div>
                     <div className="flex justify-between text-[10px] text-white/50 mt-2">
@@ -368,44 +267,40 @@ export default function HomePage() {
 
                 <div className="p-6 space-y-3">
                   <div className="flex justify-between items-center">
-                    <h4 className="font-bold text-[#0D2745]">Trilhas ativas</h4>
-                    <span className="text-xs font-bold text-[#7C3AED] bg-[#7C3AED]/10 px-2 py-1 rounded-full">Ver todas →</span>
+                    <h4 className="font-bold text-[#0A2540]">Trilhas ativas</h4>
+                    <span className="text-xs font-bold text-[#1E3A8A] bg-[#1E3A8A]/10 px-2 py-1 rounded-full">Ver todas →</span>
                   </div>
                   {[
                     { title: "Liderança Estratégica 360°", progress: 78, people: "342 colaboradores" },
                     { title: "NR-35 Trabalho em Altura", progress: 94, people: "128 colaboradores" },
                     { title: "Analytics para RH", progress: 45, people: "89 colaboradores" },
                   ].map(item => (
-                    <div key={item.title} className="flex items-center gap-3 p-3 rounded-2xl border border-slate-100 hover:border-slate-200 hover:bg-slate-50 transition">
-                      <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-[#0057D9] to-[#7C3AED] grid place-items-center text-white">▶</div>
+                    <div key={item.title} className="flex items-center gap-3 p-3 rounded-2xl border border-[#E5E7EB] hover:border-[#1E3A8A]/30 hover:bg-[#F8FAFC] transition">
+                      <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-[#0A2540] to-[#1E3A8A] grid place-items-center text-white">▶</div>
                       <div className="flex-1 min-w-0">
                         <div className="font-semibold text-sm truncate">{item.title}</div>
-                        <div className="text-xs text-slate-500">{item.people}</div>
-                        <div className="mt-1.5 h-1.5 bg-slate-100 rounded-full overflow-hidden">
-                          <div className="h-full bg-[#7C3AED] rounded-full" style={{ width: `${item.progress}%` }} />
+                        <div className="text-xs text-[#6B7280]">{item.people}</div>
+                        <div className="mt-1.5 h-1.5 bg-[#E5E7EB] rounded-full overflow-hidden">
+                          <div className="h-full bg-[#1E3A8A] rounded-full" style={{ width: `${item.progress}%` }} />
                         </div>
                       </div>
-                      <div className="text-sm font-bold text-[#0D2745]">{item.progress}%</div>
+                      <div className="text-sm font-bold text-[#0A2540]">{item.progress}%</div>
                     </div>
                   ))}
                 </div>
 
-                <div className="absolute -left-4 top-28 hidden xl:flex bg-white border border-slate-200 rounded-2xl p-3 shadow-xl items-center gap-3">
-                  <div className="w-10 h-10 rounded-xl bg-[#7C3AED] grid place-items-center text-white">✓</div>
+                <div className="absolute -left-4 top-28 hidden xl:flex bg-white border border-[#E5E7EB] rounded-2xl p-3 shadow-xl items-center gap-3">
+                  <div className="w-10 h-10 rounded-xl bg-[#16A34A] grid place-items-center text-white">✓</div>
                   <div>
-                    <div className="text-xs font-bold text-[#7C3AED]">CERTIFICADO EMITIDO</div>
+                    <div className="text-xs font-bold text-[#16A34A]">CERTIFICADO EMITIDO</div>
                     <div className="text-sm font-bold">ISO 9001 • validado no LinkedIn</div>
                   </div>
                 </div>
 
-                <div className="absolute -right-6 bottom-24 hidden xl:flex bg-[#0057D9] text-white rounded-2xl p-4 shadow-xl">
+                <div className="absolute -right-6 bottom-24 hidden xl:flex bg-[#0A2540] text-white rounded-2xl p-4 shadow-xl">
                   <div className="text-2xl font-black">500+</div>
                   <div className="text-xs text-white/70 ml-3 leading-tight">empresas<br />capacitadas</div>
                 </div>
-              </div>
-
-              <div className="absolute inset-0 pointer-events-none rounded-[32px] overflow-hidden">
-                <div className="absolute -top-1/2 -right-1/2 w-[600px] h-[600px] bg-gradient-to-br from-white/20 to-transparent rotate-12 blur-2xl" />
               </div>
             </div>
           </div>
@@ -415,14 +310,14 @@ export default function HomePage() {
       {/* DUAL MODALIDADES */}
       <section id="solucoes" className="max-w-[1280px] mx-auto px-6 lg:px-8 py-16 lg:py-20">
         <div className="text-center max-w-3xl mx-auto space-y-4 mb-12">
-          <div className="inline-flex items-center gap-2 bg-[#0057D9] text-white rounded-full px-4 py-1.5 text-xs font-bold tracking-widest">ARQUITETURA INTELIGENTE • B2B + B2C</div>
-          <h2 className="text-[32px] lg:text-[44px] font-extrabold leading-[0.95] tracking-tight" style={{ fontFamily: 'Plus Jakarta Sans' }}>
-            Uma única <span className="text-gradient-academy">academia</span>, dois<br />modelos de sucesso
+          <div className="inline-flex items-center gap-2 bg-[#0A2540] text-white rounded-full px-4 py-1.5 text-xs font-bold tracking-widest">ARQUITETURA INTELIGENTE • B2B + B2C</div>
+          <h2 className="text-[32px] lg:text-[44px] font-extrabold leading-[0.95] tracking-tight" style={{ fontFamily: 'Poppins' }}>
+            Uma única <span className="bg-gradient-to-r from-[#1E3A8A] to-[#2563EB] bg-clip-text text-transparent">academia</span>, dois<br />modelos de sucesso
           </h2>
-          <p className="text-slate-600 text-lg">Escolha a jornada ideal. Mesma qualidade Vigorre, experiências sob medida para empresas e profissionais.</p>
-          <div className="flex justify-center p-1 bg-slate-100 rounded-full w-fit mx-auto mt-6">
-            <button onClick={() => setAudience('b2b')} className={`px-8 py-3 rounded-full text-sm font-bold transition ${audience === 'b2b' ? 'bg-[#0057D9] text-white shadow' : 'text-slate-600'}`}>Sou Empresa (B2B)</button>
-            <button onClick={() => setAudience('b2c')} className={`px-8 py-3 rounded-full text-sm font-bold transition ${audience === 'b2c' ? 'bg-[#7C3AED] text-white shadow' : 'text-slate-600'}`}>Sou Pessoa Física (B2C)</button>
+          <p className="text-[#6B7280] text-lg">Escolha a jornada ideal. Mesma qualidade Vigorre, experiências sob medida para empresas e profissionais.</p>
+          <div className="flex justify-center p-1 bg-[#F8FAFC] rounded-full w-fit mx-auto mt-6">
+            <button onClick={() => setAudience('b2b')} className={`px-8 py-3 rounded-full text-sm font-bold transition ${audience === 'b2b' ? 'bg-[#0A2540] text-white shadow' : 'text-[#6B7280]'}`}>Sou Empresa (B2B)</button>
+            <button onClick={() => setAudience('b2c')} className={`px-8 py-3 rounded-full text-sm font-bold transition ${audience === 'b2c' ? 'bg-[#1E3A8A] text-white shadow' : 'text-[#6B7280]'}`}>Sou Pessoa Física (B2C)</button>
           </div>
         </div>
 
@@ -434,15 +329,15 @@ export default function HomePage() {
               { icon: '⬣', title: 'Programas sob Demanda', desc: 'Trilhas personalizadas: NRs, liderança, gestão de obras.', price: 'Projeto exclusivo', highlight: false },
               { icon: '⬔', title: 'Créditos Corporativos', desc: 'Distribua acessos entre equipes conforme a demanda.', price: 'Sob consulta', highlight: false },
             ].map(card => (
-              <div key={card.title} className={`rounded-[24px] p-6 border-2 flex flex-col ${card.highlight ? 'bg-[#0057D9] text-white border-[#0057D9] shadow-xl shadow-[#0057D9]/25' : 'bg-white border-slate-200 hover:border-[#7C3AED]/30 hover:shadow-lg'}`}>
-                <div className={`w-12 h-12 rounded-2xl grid place-items-center text-xl mb-4 ${card.highlight ? 'bg-white/15 text-white' : 'bg-[#7C3AED]/10 text-[#7C3AED]'}`}>{card.icon}</div>
-                <h3 className={`font-bold text-lg leading-tight ${card.highlight ? 'text-white' : 'text-[#0D2745]'}`}>{card.title}</h3>
-                <p className={`text-sm mt-2 flex-1 ${card.highlight ? 'text-white/70' : 'text-slate-500'}`}>{card.desc}</p>
-                <div className={`mt-6 pt-4 border-t ${card.highlight ? 'border-white/15' : 'border-slate-100'}`}>
-                  <div className={`text-xs font-bold tracking-widest ${card.highlight ? 'text-[#9BB8D9]' : 'text-slate-400'}`}>INVESTIMENTO</div>
-                  <div className={`font-bold ${card.highlight ? 'text-white' : 'text-[#0D2745]'}`}>{card.price}</div>
+              <div key={card.title} className={`rounded-2xl p-6 border-2 flex flex-col ${card.highlight ? 'bg-[#0A2540] text-white border-[#0A2540] shadow-xl shadow-[#0A2540]/20' : 'bg-white border-[#E5E7EB] hover:border-[#1E3A8A]/30 hover:shadow-lg'}`}>
+                <div className={`w-12 h-12 rounded-2xl grid place-items-center text-xl mb-4 ${card.highlight ? 'bg-white/15 text-white' : 'bg-[#1E3A8A]/10 text-[#1E3A8A]'}`}>{card.icon}</div>
+                <h3 className={`font-bold text-lg leading-tight ${card.highlight ? 'text-white' : 'text-[#0A2540]'}`}>{card.title}</h3>
+                <p className={`text-sm mt-2 flex-1 ${card.highlight ? 'text-white/70' : 'text-[#6B7280]'}`}>{card.desc}</p>
+                <div className={`mt-6 pt-4 border-t ${card.highlight ? 'border-white/15' : 'border-[#E5E7EB]'}`}>
+                  <div className={`text-xs font-bold tracking-widest ${card.highlight ? 'text-[#D4AF37]' : 'text-[#6B7280]'}`}>INVESTIMENTO</div>
+                  <div className={`font-bold ${card.highlight ? 'text-white' : 'text-[#0A2540]'}`}>{card.price}</div>
                 </div>
-                <button onClick={() => setShowLeadModal(true)} className={`mt-4 w-full py-3 rounded-full font-bold text-sm ${card.highlight ? 'bg-white text-[#0057D9] hover:bg-slate-100' : 'bg-[#7C3AED] text-white hover:bg-[#5B21B6]'}`}>Saber mais →</button>
+                <button onClick={() => setShowLeadModal(true)} className={`mt-4 w-full py-3 rounded-full font-bold text-sm ${card.highlight ? 'bg-[#D4AF37] text-white hover:bg-[#C49F27]' : 'bg-[#0A2540] text-white hover:bg-[#1E3A8A]'}`}>Saber mais →</button>
               </div>
             ))}
           </div>
@@ -454,31 +349,31 @@ export default function HomePage() {
               { icon: '✦', title: 'Certificação Avulsa', desc: 'Já domina o tema? Faça só a prova e garanta seu certificado.', price: 'Grátis', cta: 'Ver provas' },
               { icon: '⬣', title: 'Acesso Total', desc: 'Acesso ilimitado ao catálogo inteiro. Para sempre.', price: 'Grátis', cta: 'Acessar agora' },
             ].map(card => (
-              <div key={card.title} className="rounded-[24px] p-6 bg-white border border-slate-200 hover:border-[#7C3AED]/30 hover:shadow-xl transition flex flex-col">
-                <div className="w-12 h-12 rounded-2xl bg-[#7C3AED]/10 text-[#7C3AED] grid place-items-center font-bold mb-4">{card.icon}</div>
-                <h3 className="font-bold text-lg text-[#0D2745]">{card.title}</h3>
-                <p className="text-sm text-slate-500 mt-2 flex-1">{card.desc}</p>
-                <div className="mt-6 pt-4 border-t border-slate-100">
-                  <div className="text-xs font-bold tracking-widest text-slate-400">INVESTIMENTO</div>
-                  <div className="font-bold text-[#7C3AED]">{card.price}</div>
+              <div key={card.title} className="rounded-2xl p-6 bg-white border border-[#E5E7EB] hover:border-[#1E3A8A]/30 hover:shadow-xl transition flex flex-col">
+                <div className="w-12 h-12 rounded-2xl bg-[#1E3A8A]/10 text-[#1E3A8A] grid place-items-center font-bold mb-4">{card.icon}</div>
+                <h3 className="font-bold text-lg text-[#0A2540]">{card.title}</h3>
+                <p className="text-sm text-[#6B7280] mt-2 flex-1">{card.desc}</p>
+                <div className="mt-6 pt-4 border-t border-[#E5E7EB]">
+                  <div className="text-xs font-bold tracking-widest text-[#6B7280]">INVESTIMENTO</div>
+                  <div className="font-bold text-[#1E3A8A]">{card.price}</div>
                 </div>
-                <button onClick={() => scrollTo('catalogo')} className="mt-4 w-full py-3 rounded-full font-bold text-sm bg-white border border-slate-200 hover:bg-slate-50 hover:border-[#7C3AED]/30 text-[#0D2745]">{card.cta} →</button>
+                <button onClick={() => scrollTo('catalogo')} className="mt-4 w-full py-3 rounded-full font-bold text-sm bg-white border border-[#E5E7EB] hover:border-[#1E3A8A]/30 text-[#0A2540]">{card.cta} →</button>
               </div>
             ))}
           </div>
         )}
 
         {/* Fluxo */}
-        <div className="mt-14 bg-gradient-to-br from-[#003C99] via-[#0057D9] to-[#7C3AED] rounded-[28px] p-8 lg:p-10 text-white relative overflow-hidden">
+        <div className="mt-14 bg-gradient-to-br from-[#0A2540] via-[#1E3A8A] to-[#2563EB] rounded-[28px] p-8 lg:p-10 text-white relative overflow-hidden">
           <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-white/5 rounded-full blur-3xl -mr-48 -mt-48" />
           <div className="grid lg:grid-cols-[420px_1fr] gap-10 items-center relative">
             <div>
-              <div className="text-[#A855F7] text-xs font-bold tracking-[0.18em]">COMO FUNCIONA</div>
-              <h3 className="text-3xl font-extrabold leading-tight mt-2" style={{ fontFamily: 'Plus Jakarta Sans' }}>
+              <div className="text-[#D4AF37] text-xs font-bold tracking-[0.18em]">COMO FUNCIONA</div>
+              <h3 className="text-3xl font-extrabold leading-tight mt-2" style={{ fontFamily: 'Poppins' }}>
                 Fluxo {audience === 'b2b' ? 'corporativo' : 'individual'} em <br />{audience === 'b2b' ? '5 passos' : '4 cliques'}
               </h3>
               <p className="text-white/70 mt-3">{audience === 'b2b' ? 'Do contrato ao relatório de ROI sem fricção. Integração com seu RH em até 48h.' : 'Cadastro com CPF e acesso liberado na hora. Certificado digital com QR Code.'}</p>
-              <button onClick={() => setShowLeadModal(true)} className="mt-6 bg-white text-[#0057D9] font-bold px-6 py-3 rounded-full hover:bg-slate-100 transition">
+              <button onClick={() => setShowLeadModal(true)} className="mt-6 bg-[#D4AF37] text-white font-bold px-6 py-3 rounded-full hover:bg-[#C49F27] transition">
                 {audience === 'b2b' ? 'Falar com consultor →' : 'Criar minha conta gratuita →'}
               </button>
             </div>
@@ -500,7 +395,7 @@ export default function HomePage() {
                 <div key={s.n} className="relative text-center">
                   <div className="w-full aspect-square max-w-[110px] mx-auto bg-white/10 backdrop-blur border border-white/15 rounded-2xl grid place-items-center">
                     <div>
-                      <div className="text-[#A855F7] font-black text-xs">{s.n}</div>
+                      <div className="text-[#D4AF37] font-black text-xs">{s.n}</div>
                       <div className="text-white font-bold text-sm lg:text-[15px] leading-tight mt-1">{s.t}</div>
                       <div className="text-white/60 text-xs hidden lg:block">{s.d}</div>
                     </div>
@@ -516,23 +411,23 @@ export default function HomePage() {
       </section>
 
       {/* CATÁLOGO */}
-      <section id="catalogo" className="bg-white border-y border-slate-200">
+      <section id="catalogo" className="bg-[#F8FAFC] border-y border-[#E5E7EB]">
         <div className="max-w-[1280px] mx-auto px-6 lg:px-8 py-16">
           <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6 mb-8">
             <div>
-              <div className="inline-flex items-center gap-2 bg-slate-100 rounded-full px-3 py-1 text-xs font-bold tracking-widest text-slate-600">
-                <span className="w-2 h-2 bg-[#7C3AED] rounded-full animate-pulse" /> CATÁLOGO VIGORRE • 200+ CURSOS
+              <div className="inline-flex items-center gap-2 bg-white rounded-full px-3 py-1 text-xs font-bold tracking-widest text-[#6B7280] border border-[#E5E7EB]">
+                <span className="w-2 h-2 bg-[#16A34A] rounded-full animate-pulse" /> CATÁLOGO VIGORRE • 200+ CURSOS
               </div>
-              <h2 className="text-3xl lg:text-4xl font-extrabold tracking-tight mt-3" style={{ fontFamily: 'Plus Jakarta Sans' }}>Trilhas que o mercado <span className="text-gradient-academy">reconhece</span></h2>
-              <p className="text-slate-500 mt-2 max-w-xl">Conteúdo validado por especialistas, com certificação digital e integração LinkedIn. Filtre por setor, duração ou nível.</p>
+              <h2 className="text-3xl lg:text-4xl font-extrabold tracking-tight mt-3" style={{ fontFamily: 'Poppins' }}>Trilhas que o mercado <span className="bg-gradient-to-r from-[#1E3A8A] to-[#2563EB] bg-clip-text text-transparent">reconhece</span></h2>
+              <p className="text-[#6B7280] mt-2 max-w-xl">Conteúdo validado por especialistas, com certificação digital e integração LinkedIn. Filtre por setor, duração ou nível.</p>
             </div>
             <div className="flex items-center gap-3">
               <div className="relative">
-                <input placeholder="Buscar curso, ex: NR-12" className="pl-10 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-full text-sm w-[260px] focus:outline-none focus:border-[#7C3AED] focus:bg-white" />
-                <svg className="absolute left-3.5 top-3.5 text-slate-400" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="11" cy="11" r="7" /><path d="M20 20L16 16" /></svg>
+                <input placeholder="Buscar curso, ex: NR-12" className="pl-10 pr-4 py-3 bg-white border border-[#E5E7EB] rounded-full text-sm w-[260px] focus:outline-none focus:border-[#1E3A8A]" />
+                <svg className="absolute left-3.5 top-3.5 text-[#6B7280]" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="11" cy="11" r="7" /><path d="M20 20L16 16" /></svg>
               </div>
-              <button onClick={() => setShowCheckout(true)} className="hidden lg:flex items-center gap-2 border border-slate-200 rounded-full px-5 py-3 text-sm font-bold hover:bg-slate-50 hover:border-[#7C3AED]/30">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#7C3AED" strokeWidth="1.8"><path d="M6 6h15l-1.5 9h-13z" /><path d="M6 6L5 2H2" /></svg>
+              <button onClick={() => setShowCheckout(true)} className="hidden lg:flex items-center gap-2 border border-[#E5E7EB] rounded-full px-5 py-3 text-sm font-bold hover:border-[#1E3A8A]/30 bg-white">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#0A2540" strokeWidth="1.8"><path d="M6 6h15l-1.5 9h-13z" /><path d="M6 6L5 2H2" /></svg>
                 Carrinho {cart.length > 0 && `• ${cart.length}`}
               </button>
             </div>
@@ -540,22 +435,22 @@ export default function HomePage() {
 
           <div className="flex flex-wrap gap-2 mb-8">
             {categories.map(cat => (
-              <button key={cat} onClick={() => setActiveCat(cat)} className={`px-5 py-2.5 rounded-full text-sm font-semibold border transition ${activeCat === cat ? 'bg-[#7C3AED] text-white border-[#7C3AED] shadow' : 'bg-white border-slate-200 text-slate-600 hover:border-[#7C3AED]/30 hover:text-[#7C3AED]'}`}>
+              <button key={cat} onClick={() => setActiveCat(cat)} className={`px-5 py-2.5 rounded-full text-sm font-semibold border transition ${activeCat === cat ? 'bg-[#0A2540] text-white border-[#0A2540] shadow' : 'bg-white border-[#E5E7EB] text-[#6B7280] hover:border-[#1E3A8A]/30 hover:text-[#0A2540]'}`}>
                 {cat}
               </button>
             ))}
-            <span className="ml-auto text-sm text-slate-500 self-center hidden sm:block">{filtered.length} cursos encontrados • 100% gratuitos</span>
+            <span className="ml-auto text-sm text-[#6B7280] self-center hidden sm:block">{filtered.length} cursos encontrados • 100% gratuitos</span>
           </div>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
             {filtered.map(course => (
-              <div key={course.id} className="group bg-white rounded-[24px] border border-slate-200 overflow-hidden hover:shadow-xl hover:border-[#7C3AED]/30 hover:-translate-y-1 transition-all duration-300 flex flex-col">
+              <div key={course.id} className="group bg-white rounded-2xl border border-[#E5E7EB] overflow-hidden hover:shadow-xl hover:border-[#1E3A8A]/30 hover:-translate-y-1 transition-all duration-300 flex flex-col">
                 <div className="relative h-48 overflow-hidden">
                   <img src={course.image} alt={course.title} className="w-full h-full object-cover group-hover:scale-105 transition duration-500" />
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#003C99]/60 via-transparent to-transparent" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#0A2540]/60 via-transparent to-transparent" />
                   <div className="absolute top-3 left-3 flex gap-2">
-                    <span className="bg-white/95 backdrop-blur text-[#0057D9] text-xs font-bold px-2.5 py-1 rounded-full">{course.category}</span>
-                    {course.badge && <span className="bg-[#7C3AED] text-white text-xs font-bold px-2.5 py-1 rounded-full">{course.badge}</span>}
+                    <span className="bg-white/95 backdrop-blur text-[#0A2540] text-xs font-bold px-2.5 py-1 rounded-full">{course.category}</span>
+                    {course.badge && <span className="bg-[#D4AF37] text-white text-xs font-bold px-2.5 py-1 rounded-full">{course.badge}</span>}
                   </div>
                   <div className="absolute bottom-3 left-3 right-3 flex items-center justify-between text-white">
                     <span className="flex items-center gap-1.5 text-xs font-medium bg-black/30 backdrop-blur px-2.5 py-1 rounded-full">
@@ -567,28 +462,28 @@ export default function HomePage() {
                 </div>
 
                 <div className="p-5 flex-1 flex flex-col">
-                  <h3 className="font-bold text-lg leading-tight text-[#0D2745] line-clamp-2 group-hover:text-[#7C3AED] transition">{course.title}</h3>
-                  <div className="flex items-center gap-2 mt-3 text-sm text-slate-500">
-                    <span className="w-7 h-7 rounded-full bg-slate-100 grid place-items-center text-xs">👨‍🏫</span>
+                  <h3 className="font-bold text-lg leading-tight text-[#0A2540] line-clamp-2 group-hover:text-[#1E3A8A] transition">{course.title}</h3>
+                  <div className="flex items-center gap-2 mt-3 text-sm text-[#6B7280]">
+                    <span className="w-7 h-7 rounded-full bg-[#F8FAFC] grid place-items-center text-xs">👨‍🏫</span>
                     <span>Instrutor Vigorre • Especialista no setor</span>
                   </div>
 
                   <div className="mt-4 flex items-end justify-between">
                     <div>
                       <div className="flex items-baseline gap-2">
-                        <span className="text-2xl font-black text-[#0D2745]">Grátis</span>
+                        <span className="text-2xl font-black text-[#0A2540]">Grátis</span>
                       </div>
-                      <div className="text-xs text-slate-500">Acesso imediato + Certificado incluso</div>
+                      <div className="text-xs text-[#6B7280]">Acesso imediato + Certificado incluso</div>
                     </div>
                     {audience === 'b2c' ? (
                       <button
                         onClick={() => toggleCart(course.id)}
-                        className={`px-5 py-2.5 rounded-full font-bold text-sm transition flex items-center gap-2 ${cart.includes(course.id) ? 'bg-emerald-500 text-white' : 'bg-[#7C3AED] text-white hover:bg-[#5B21B6]'}`}
+                        className={`px-5 py-2.5 rounded-full font-bold text-sm transition flex items-center gap-2 ${cart.includes(course.id) ? 'bg-[#16A34A] text-white' : 'bg-[#0A2540] text-white hover:bg-[#1E3A8A]'}`}
                       >
                         {cart.includes(course.id) ? '✓ Adicionado' : 'Acessar'}
                       </button>
                     ) : (
-                      <button onClick={() => setShowLeadModal(true)} className="px-5 py-2.5 rounded-full font-bold text-sm bg-white border border-slate-200 hover:bg-slate-50 hover:border-[#7C3AED]/30 text-[#0D2745]">
+                      <button onClick={() => setShowLeadModal(true)} className="px-5 py-2.5 rounded-full font-bold text-sm bg-white border border-[#E5E7EB] hover:border-[#1E3A8A]/30 text-[#0A2540]">
                         Incluir no plano
                       </button>
                     )}
@@ -599,8 +494,8 @@ export default function HomePage() {
           </div>
 
           <div className="mt-10 flex flex-wrap items-center justify-center gap-3">
-            <button onClick={() => setToast("Catálogo completo em breve • 200+ cursos")} className="px-8 py-3 rounded-full bg-white border border-slate-200 font-bold hover:bg-slate-50 hover:border-[#7C3AED]/30">Ver catálogo completo (200+ cursos) →</button>
-            <span className="text-sm text-slate-500">Empresas: curadoria sob medida + integração com PDI</span>
+            <button onClick={() => setToast("Catálogo completo em breve • 200+ cursos")} className="px-8 py-3 rounded-full bg-white border border-[#E5E7EB] font-bold hover:border-[#1E3A8A]/30">Ver catálogo completo (200+ cursos) →</button>
+            <span className="text-sm text-[#6B7280]">Empresas: curadoria sob medida + integração com PDI</span>
           </div>
         </div>
       </section>
@@ -609,12 +504,12 @@ export default function HomePage() {
       <section id="whitelabel" className="max-w-[1280px] mx-auto px-6 lg:px-8 py-16">
         <div className="grid lg:grid-cols-2 gap-10 items-center">
           <div>
-            <div className="inline-flex items-center gap-2 bg-[#7C3AED]/10 text-[#7C3AED] rounded-full px-3 py-1 text-xs font-bold tracking-widest">WHITE LABEL • UNIVERSIDADE CORPORATIVA</div>
-            <h2 className="text-3xl lg:text-4xl font-extrabold tracking-tight mt-3 leading-tight" style={{ fontFamily: 'Plus Jakarta Sans' }}>
+            <div className="inline-flex items-center gap-2 bg-[#1E3A8A]/10 text-[#1E3A8A] rounded-full px-3 py-1 text-xs font-bold tracking-widest">WHITE LABEL • UNIVERSIDADE CORPORATIVA</div>
+            <h2 className="text-3xl lg:text-4xl font-extrabold tracking-tight mt-3 leading-tight" style={{ fontFamily: 'Poppins' }}>
               Sua universidade,<br />
-              <span className="text-gradient-academy">nossa inteligência.</span>
+              <span className="bg-gradient-to-r from-[#0A2540] to-[#1E3A8A] bg-clip-text text-transparent">nossa inteligência.</span>
             </h2>
-            <p className="text-slate-600 mt-4 text-lg">Lançamos em 15 dias sua academia com seu domínio, cores e cursos próprios + catálogo Vigorre. O melhor dos dois mundos.</p>
+            <p className="text-[#6B7280] mt-4 text-lg">Lançamos em 15 dias sua academia com seu domínio, cores e cursos próprios + catálogo Vigorre. O melhor dos dois mundos.</p>
             <ul className="mt-6 space-y-3">
               {[
                 "Domínio próprio (universidade.suaempresa.com.br)",
@@ -623,40 +518,39 @@ export default function HomePage() {
                 "Relatórios por filial, cargo e líder direto"
               ].map(item => (
                 <li key={item} className="flex items-center gap-3 text-sm">
-                  <span className="w-6 h-6 rounded-full bg-[#7C3AED]/10 text-[#7C3AED] grid place-items-center text-xs">✓</span>
-                  <span className="font-medium text-slate-700">{item}</span>
+                  <span className="w-6 h-6 rounded-full bg-[#16A34A]/10 text-[#16A34A] grid place-items-center text-xs">✓</span>
+                  <span className="font-medium text-[#1F2937]">{item}</span>
                 </li>
               ))}
             </ul>
             <div className="mt-8 flex gap-3">
-              <button onClick={() => setShowLeadModal(true)} className="bg-[#7C3AED] text-white font-bold px-7 py-3.5 rounded-full hover:bg-[#5B21B6] transition">Agendar visita técnica →</button>
-              <button onClick={() => setToast("Case em PDF enviado para seu e-mail")} className="bg-white border border-slate-200 font-bold px-6 py-3.5 rounded-full hover:bg-slate-50 hover:border-[#7C3AED]/30">Ver cases de sucesso</button>
+              <button onClick={() => setShowLeadModal(true)} className="bg-[#0A2540] text-white font-bold px-7 py-3.5 rounded-full hover:bg-[#1E3A8A] transition">Agendar visita técnica →</button>
+              <button onClick={() => setToast("Case em PDF enviado para seu e-mail")} className="bg-white border border-[#E5E7EB] font-bold px-6 py-3.5 rounded-full hover:border-[#1E3A8A]/30">Ver cases de sucesso</button>
             </div>
-            <div className="mt-6 flex items-center gap-4 text-sm text-slate-500">
-              <span className="flex items-center gap-2"><span className="w-2 h-2 bg-emerald-500 rounded-full" /> Setup em 15 dias</span>
-              <span className="flex items-center gap-2"><span className="w-2 h-2 bg-[#7C3AED] rounded-full" /> Sem fidelidade</span>
+            <div className="mt-6 flex items-center gap-4 text-sm text-[#6B7280]">
+              <span className="flex items-center gap-2"><span className="w-2 h-2 bg-[#16A34A] rounded-full" /> Setup em 15 dias</span>
+              <span className="flex items-center gap-2"><span className="w-2 h-2 bg-[#1E3A8A] rounded-full" /> Sem fidelidade</span>
             </div>
           </div>
 
-          {/* Browser mock */}
           <div className="relative">
-            <div className="bg-white rounded-[20px] border border-slate-200 shadow-2xl overflow-hidden">
-              <div className="h-10 bg-slate-50 border-b border-slate-200 flex items-center gap-2 px-4">
+            <div className="bg-white rounded-[20px] border border-[#E5E7EB] shadow-2xl overflow-hidden">
+              <div className="h-10 bg-[#F8FAFC] border-b border-[#E5E7EB] flex items-center gap-2 px-4">
                 <span className="w-3 h-3 rounded-full bg-red-400" />
                 <span className="w-3 h-3 rounded-full bg-amber-400" />
                 <span className="w-3 h-3 rounded-full bg-emerald-400" />
-                <div className="ml-4 flex-1 bg-white border border-slate-200 rounded-full px-3 py-1 text-xs text-slate-500 flex items-center gap-2">
-                  <span className="w-2 h-2 bg-emerald-500 rounded-full" /> universidade.vigorre.com.br
+                <div className="ml-4 flex-1 bg-white border border-[#E5E7EB] rounded-full px-3 py-1 text-xs text-[#6B7280] flex items-center gap-2">
+                  <span className="w-2 h-2 bg-[#16A34A] rounded-full" /> universidade.vigorre.com.br
                 </div>
               </div>
-              <div className="bg-gradient-to-br from-[#0057D9] via-[#7C3AED] to-[#A855F7] p-6 text-white">
+              <div className="bg-gradient-to-br from-[#0A2540] via-[#1E3A8A] to-[#2563EB] p-6 text-white">
                 <div className="flex justify-between items-start">
                   <div>
                     <div className="text-white/60 text-xs font-bold tracking-widest">UNIVERSIDADE CORPORATIVA</div>
                     <div className="text-2xl font-black mt-1">Vigorre Academy™</div>
                     <div className="text-white/70 text-sm">powered by Vigorre • 2.347 colaboradores ativos</div>
                   </div>
-                  <div className="w-12 h-12 bg-white rounded-xl grid place-items-center text-[#0057D9] font-black">V</div>
+                  <div className="w-12 h-12 bg-white rounded-xl grid place-items-center text-[#0A2540] font-black">V</div>
                 </div>
                 <div className="grid grid-cols-3 gap-3 mt-6">
                   {[
@@ -671,23 +565,23 @@ export default function HomePage() {
                   ))}
                 </div>
               </div>
-              <div className="p-4 grid grid-cols-3 gap-3 bg-slate-50">
+              <div className="p-4 grid grid-cols-3 gap-3 bg-[#F8FAFC]">
                 {[1, 2, 3].map(i => (
-                  <div key={i} className="bg-white rounded-2xl p-3 border border-slate-200">
-                    <div className="w-full h-20 bg-slate-100 rounded-xl mb-3 overflow-hidden">
+                  <div key={i} className="bg-white rounded-2xl p-3 border border-[#E5E7EB]">
+                    <div className="w-full h-20 bg-[#F8FAFC] rounded-xl mb-3 overflow-hidden">
                       <img src={`https://images.unsplash.com/photo-${['1553877522-43269d4ea984', '1552664730-d307ca884978', '1581091226825-a6a2a5aee158'][i - 1]}?w=300&q=80`} alt="" className="w-full h-full object-cover" />
                     </div>
-                    <div className="h-2 bg-slate-100 rounded-full w-3/4" />
-                    <div className="h-2 bg-slate-100 rounded-full w-1/2 mt-2" />
+                    <div className="h-2 bg-[#E5E7EB] rounded-full w-3/4" />
+                    <div className="h-2 bg-[#E5E7EB] rounded-full w-1/2 mt-2" />
                   </div>
                 ))}
               </div>
             </div>
-            <div className="absolute -bottom-6 -left-6 bg-white border border-slate-200 rounded-2xl p-4 shadow-xl hidden lg:flex items-center gap-3">
-              <div className="w-10 h-10 rounded-full bg-[#0057D9] grid place-items-center text-white">↗</div>
+            <div className="absolute -bottom-6 -left-6 bg-white border border-[#E5E7EB] rounded-2xl p-4 shadow-xl hidden lg:flex items-center gap-3">
+              <div className="w-10 h-10 rounded-full bg-[#0A2540] grid place-items-center text-white">↗</div>
               <div>
-                <div className="font-bold text-[#0D2745]">Vigorre Analytics™</div>
-                <div className="text-xs text-slate-500">Correlação treinamento x performance</div>
+                <div className="font-bold text-[#0A2540]">Vigorre Analytics™</div>
+                <div className="text-xs text-[#6B7280]">Correlação treinamento x performance</div>
               </div>
             </div>
           </div>
@@ -695,17 +589,17 @@ export default function HomePage() {
       </section>
 
       {/* PRICING */}
-      <section id="precos" className="bg-[#003C99] relative overflow-hidden">
+      <section id="precos" className="bg-[#0A2540] relative overflow-hidden">
         <div className="absolute inset-0">
           <div className="absolute inset-0 opacity-10" style={{ backgroundImage: `linear-gradient(white 1px, transparent 1px), linear-gradient(90deg, white 1px, transparent 1px)`, backgroundSize: '40px 40px' }} />
-          <div className="absolute -top-32 left-1/2 -translate-x-1/2 w-[1000px] h-[600px] bg-[#7C3AED]/30 rounded-full blur-3xl" />
+          <div className="absolute -top-32 left-1/2 -translate-x-1/2 w-[1000px] h-[600px] bg-[#1E3A8A]/30 rounded-full blur-3xl" />
         </div>
 
         <div className="relative max-w-[1280px] mx-auto px-6 lg:px-8 py-16 lg:py-20">
           <div className="text-center max-w-3xl mx-auto">
             <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur border border-white/15 rounded-full px-4 py-1.5 text-white text-xs font-bold tracking-widest">ACESSO 100% GRATUITO • SEM SURPRESAS</div>
-            <h2 className="text-3xl lg:text-[42px] font-extrabold text-white leading-tight mt-4" style={{ fontFamily: 'Plus Jakarta Sans' }}>
-              Invista <span className="text-[#A855F7]">gratuitamente</span> em <br />conhecimento
+            <h2 className="text-3xl lg:text-[42px] font-extrabold text-white leading-tight mt-4" style={{ fontFamily: 'Poppins' }}>
+              Invista <span className="text-[#D4AF37]">gratuitamente</span> em <br />conhecimento
             </h2>
           </div>
 
@@ -717,22 +611,22 @@ export default function HomePage() {
                 { name: 'Enterprise White Label', desc: 'Universidade própria', features: ['Tudo do Pro +', 'Domínio e marca própria', 'Cursos internos ilimitados', 'API completa + onboarding', 'SLA 99.9%'], cta: 'Falar com especialista', dark: false },
               ].map(plan => (
                 <div key={plan.name} className={`relative rounded-[28px] p-8 border-2 flex flex-col ${plan.dark ? 'bg-white border-white shadow-2xl scale-[1.03] lg:scale-105' : 'bg-white/5 backdrop-blur border-white/15 text-white'}`}>
-                  {plan.badge && <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-[#7C3AED] text-white text-xs font-bold tracking-widest px-4 py-1.5 rounded-full">{plan.badge}</div>}
-                  <h3 className={`font-extrabold text-xl ${plan.dark ? 'text-[#0D2745]' : 'text-white'}`}>{plan.name}</h3>
-                  <p className={`text-sm mt-1 ${plan.dark ? 'text-slate-500' : 'text-white/60'}`}>{plan.desc}</p>
+                  {plan.badge && <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-[#D4AF37] text-white text-xs font-bold tracking-widest px-4 py-1.5 rounded-full">{plan.badge}</div>}
+                  <h3 className={`font-extrabold text-xl ${plan.dark ? 'text-[#0A2540]' : 'text-white'}`}>{plan.name}</h3>
+                  <p className={`text-sm mt-1 ${plan.dark ? 'text-[#6B7280]' : 'text-white/60'}`}>{plan.desc}</p>
                   <div className="mt-6">
-                    <div className={`text-4xl font-black ${plan.dark ? 'text-[#0057D9]' : 'text-white'}`}>Grátis</div>
-                    <div className={`text-xs mt-1 ${plan.dark ? 'text-slate-400' : 'text-white/50'}`}>Acesso corporativo sem custo</div>
+                    <div className={`text-4xl font-black ${plan.dark ? 'text-[#0A2540]' : 'text-white'}`}>Grátis</div>
+                    <div className={`text-xs mt-1 ${plan.dark ? 'text-[#6B7280]' : 'text-white/50'}`}>Acesso corporativo sem custo</div>
                   </div>
                   <ul className="mt-6 space-y-3 flex-1">
                     {plan.features.map(f => (
                       <li key={f} className="flex gap-2 text-sm">
-                        <span className={`w-5 h-5 rounded-full grid place-items-center text-xs flex-shrink-0 ${plan.dark ? 'bg-[#7C3AED]/10 text-[#7C3AED]' : 'bg-white/15 text-white'}`}>✓</span>
-                        <span className={plan.dark ? 'text-slate-700' : 'text-white/80'}>{f}</span>
+                        <span className={`w-5 h-5 rounded-full grid place-items-center text-xs flex-shrink-0 ${plan.dark ? 'bg-[#1E3A8A]/10 text-[#1E3A8A]' : 'bg-white/15 text-white'}`}>✓</span>
+                        <span className={plan.dark ? 'text-[#1F2937]' : 'text-white/80'}>{f}</span>
                       </li>
                     ))}
                   </ul>
-                  <button onClick={() => setShowLeadModal(true)} className={`mt-8 w-full py-3.5 rounded-full font-bold ${plan.dark ? 'bg-[#7C3AED] text-white hover:bg-[#5B21B6]' : 'bg-white text-[#0057D9] hover:bg-slate-100'}`}>
+                  <button onClick={() => setShowLeadModal(true)} className={`mt-8 w-full py-3.5 rounded-full font-bold ${plan.dark ? 'bg-[#0A2540] text-white hover:bg-[#1E3A8A]' : 'bg-white text-[#0A2540] hover:bg-slate-100'}`}>
                     {plan.cta} →
                   </button>
                 </div>
@@ -746,22 +640,22 @@ export default function HomePage() {
                 { name: 'Acesso Total', desc: 'Plataforma completa', features: ['200+ cursos liberados', 'Lançamentos incluso', 'Certificações ilimitadas', 'Cancele quando quiser'], cta: 'Liberar acesso' },
               ].map(plan => (
                 <div key={plan.name} className={`relative rounded-[28px] p-8 border-2 flex flex-col ${plan.dark ? 'bg-white border-white shadow-2xl scale-[1.02]' : 'bg-white/5 backdrop-blur border-white/15 text-white'}`}>
-                  {plan.badge && <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-emerald-500 text-white text-xs font-bold tracking-widest px-4 py-1.5 rounded-full">{plan.badge}</div>}
-                  <h3 className={`font-extrabold text-xl ${plan.dark ? 'text-[#0D2745]' : 'text-white'}`}>{plan.name}</h3>
-                  <p className={`text-sm mt-1 ${plan.dark ? 'text-slate-500' : 'text-white/60'}`}>{plan.desc}</p>
+                  {plan.badge && <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-[#16A34A] text-white text-xs font-bold tracking-widest px-4 py-1.5 rounded-full">{plan.badge}</div>}
+                  <h3 className={`font-extrabold text-xl ${plan.dark ? 'text-[#0A2540]' : 'text-white'}`}>{plan.name}</h3>
+                  <p className={`text-sm mt-1 ${plan.dark ? 'text-[#6B7280]' : 'text-white/60'}`}>{plan.desc}</p>
                   <div className="mt-6">
-                    <div className={`text-4xl font-black ${plan.dark ? 'text-[#0057D9]' : 'text-white'}`}>Grátis</div>
-                    <div className={`text-xs mt-1 ${plan.dark ? 'text-slate-400' : 'text-white/50'}`}>Acesso imediato, sem cartão</div>
+                    <div className={`text-4xl font-black ${plan.dark ? 'text-[#0A2540]' : 'text-white'}`}>Grátis</div>
+                    <div className={`text-xs mt-1 ${plan.dark ? 'text-[#6B7280]' : 'text-white/50'}`}>Acesso imediato, sem cartão</div>
                   </div>
                   <ul className="mt-6 space-y-3 flex-1">
                     {plan.features.map(f => (
                       <li key={f} className="flex gap-2 text-sm">
-                        <span className={`w-5 h-5 rounded-full grid place-items-center text-xs flex-shrink-0 ${plan.dark ? 'bg-[#7C3AED]/10 text-[#7C3AED]' : 'bg-white/15 text-white'}`}>✓</span>
-                        <span className={plan.dark ? 'text-slate-700' : 'text-white/80'}>{f}</span>
+                        <span className={`w-5 h-5 rounded-full grid place-items-center text-xs flex-shrink-0 ${plan.dark ? 'bg-[#1E3A8A]/10 text-[#1E3A8A]' : 'bg-white/15 text-white'}`}>✓</span>
+                        <span className={plan.dark ? 'text-[#1F2937]' : 'text-white/80'}>{f}</span>
                       </li>
                     ))}
                   </ul>
-                  <button onClick={() => setShowCheckout(true)} className={`mt-8 w-full py-3.5 rounded-full font-bold ${plan.dark ? 'bg-[#7C3AED] text-white hover:bg-[#5B21B6]' : 'bg-white text-[#0057D9]'}`}>
+                  <button onClick={() => setShowCheckout(true)} className={`mt-8 w-full py-3.5 rounded-full font-bold ${plan.dark ? 'bg-[#0A2540] text-white hover:bg-[#1E3A8A]' : 'bg-white text-[#0A2540]'}`}>
                     {plan.cta} →
                   </button>
                 </div>
@@ -777,14 +671,14 @@ export default function HomePage() {
 
       {/* COMPARATIVO */}
       <section className="max-w-[1280px] mx-auto px-6 lg:px-8 py-16">
-        <div className="bg-white rounded-[28px] border border-slate-200 overflow-hidden shadow-sm">
+        <div className="bg-white rounded-[28px] border border-[#E5E7EB] overflow-hidden shadow-sm">
           <div className="grid lg:grid-cols-[1.2fr_1fr_1fr] gap-0">
-            <div className="p-8 lg:p-10 bg-[#F6F8FB] border-b lg:border-b-0 lg:border-r border-slate-200">
-              <h3 className="text-2xl font-extrabold text-[#0D2745]" style={{ fontFamily: 'Plus Jakarta Sans' }}>B2B vs. B2C:<br />experiências distintas,<br />mesma excelência</h3>
-              <p className="text-slate-600 mt-3">A plataforma adapta fluxos e acompanhamento para cada perfil — sem comprometer a qualidade.</p>
+            <div className="p-8 lg:p-10 bg-[#F8FAFC] border-b lg:border-b-0 lg:border-r border-[#E5E7EB]">
+              <h3 className="text-2xl font-extrabold text-[#0A2540]" style={{ fontFamily: 'Poppins' }}>B2B vs. B2C:<br />experiências distintas,<br />mesma excelência</h3>
+              <p className="text-[#6B7280] mt-3">A plataforma adapta fluxos e acompanhamento para cada perfil — sem comprometer a qualidade.</p>
               <div className="mt-6 flex gap-3">
-                <button onClick={() => setAudience('b2b')} className={`px-4 py-2 rounded-full text-sm font-bold ${audience === 'b2b' ? 'bg-[#0057D9] text-white' : 'bg-white border border-slate-200'}`}>Ver B2B</button>
-                <button onClick={() => setAudience('b2c')} className={`px-4 py-2 rounded-full text-sm font-bold ${audience === 'b2c' ? 'bg-[#7C3AED] text-white' : 'bg-white border border-slate-200'}`}>Ver B2C</button>
+                <button onClick={() => setAudience('b2b')} className={`px-4 py-2 rounded-full text-sm font-bold ${audience === 'b2b' ? 'bg-[#0A2540] text-white' : 'bg-white border border-[#E5E7EB]'}`}>Ver B2B</button>
+                <button onClick={() => setAudience('b2c')} className={`px-4 py-2 rounded-full text-sm font-bold ${audience === 'b2c' ? 'bg-[#1E3A8A] text-white' : 'bg-white border border-[#E5E7EB]'}`}>Ver B2C</button>
               </div>
             </div>
 
@@ -792,19 +686,19 @@ export default function HomePage() {
               {
                 title: 'Empresa',
                 subtitle: 'PORTAL DO COLABORADOR',
-                color: '#0057D9',
+                color: '#0A2540',
                 rows: ['SSO + integração Vigorre', 'Cursos definidos pelo RH', 'Gestão centralizada pelo RH', 'Dashboard por equipe e filial', 'PDI + IA preditiva']
               },
               {
                 title: 'Pessoa Física',
                 subtitle: 'PORTAL DO ALUNO',
-                color: '#7C3AED',
+                color: '#1E3A8A',
                 rows: ['Login com CPF e e-mail', 'Catálogo livre completo', 'Cadastro simples e imediato', 'Progresso individual + ranking', 'Recomendações personalizadas']
               }
             ].map(col => (
-              <div key={col.title} className="p-8 border-b lg:border-b-0 lg:border-r border-slate-200 last:border-0">
+              <div key={col.title} className="p-8 border-b lg:border-b-0 lg:border-r border-[#E5E7EB] last:border-0">
                 <div className="text-xs font-bold tracking-widest" style={{ color: col.color }}>{col.subtitle}</div>
-                <div className="text-xl font-black text-[#0D2745] mt-1">{col.title}</div>
+                <div className="text-xl font-black text-[#0A2540] mt-1">{col.title}</div>
                 <ul className="mt-6 space-y-3">
                   {[
                     { label: 'Acesso', val: col.rows[0] },
@@ -813,9 +707,9 @@ export default function HomePage() {
                     { label: 'Acompanhamento', val: col.rows[3] },
                     { label: 'Inteligência', val: col.rows[4] },
                   ].map(r => (
-                    <li key={r.label} className="flex justify-between gap-4 py-2.5 border-b border-slate-100 last:border-0">
-                      <span className="text-xs font-bold tracking-widest text-slate-400">{r.label.toUpperCase()}</span>
-                      <span className="text-sm font-medium text-slate-700 text-right">{r.val}</span>
+                    <li key={r.label} className="flex justify-between gap-4 py-2.5 border-b border-[#E5E7EB] last:border-0">
+                      <span className="text-xs font-bold tracking-widest text-[#6B7280]">{r.label.toUpperCase()}</span>
+                      <span className="text-sm font-medium text-[#1F2937] text-right">{r.val}</span>
                     </li>
                   ))}
                 </ul>
@@ -826,17 +720,17 @@ export default function HomePage() {
       </section>
 
       {/* TESTIMONIALS */}
-      <section className="bg-white border-y border-slate-200">
+      <section className="bg-[#F8FAFC] border-y border-[#E5E7EB]">
         <div className="max-w-[1280px] mx-auto px-6 lg:px-8 py-16">
           <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6 mb-10">
             <div>
-              <div className="text-[#7C3AED] text-xs font-bold tracking-[0.18em]">QUEM VIVE, RECOMENDA</div>
-              <h2 className="text-3xl font-extrabold tracking-tight mt-2" style={{ fontFamily: 'Plus Jakarta Sans' }}>Resultados que viram cultura</h2>
+              <div className="text-[#1E3A8A] text-xs font-bold tracking-[0.18em]">QUEM VIVE, RECOMENDA</div>
+              <h2 className="text-3xl font-extrabold tracking-tight mt-2" style={{ fontFamily: 'Poppins' }}>Resultados que viram cultura</h2>
             </div>
             <div className="flex items-center gap-2">
-              <span className="text-2xl font-black text-[#0D2745]">4.9</span>
+              <span className="text-2xl font-black text-[#0A2540]">4.9</span>
               <span className="text-amber-400">★★★★★</span>
-              <span className="text-sm text-slate-500">• 2.847 avaliações verificadas</span>
+              <span className="text-sm text-[#6B7280]">• 2.847 avaliações verificadas</span>
             </div>
           </div>
 
@@ -846,14 +740,14 @@ export default function HomePage() {
               { name: 'Marcos Lima', role: 'Gerente de Operações • Siderúrgica Brasileira', text: '"A White Label nos deu autonomia. Em 3 semanas estávamos com nossa Universidade no ar, com nossa cara."', avatar: 8 },
               { name: 'Juliana Costa', role: 'Aluna • Trilha de Liderança', text: '"Acessei o curso e em 2 minutos já estava estudando. Certificado no LinkedIn rendeu 3 entrevistas."', avatar: 9 },
             ].map(t => (
-              <div key={t.name} className="bg-[#F6F8FB] rounded-[24px] p-6 border border-slate-200 hover:border-[#7C3AED]/20 transition">
+              <div key={t.name} className="bg-white rounded-2xl p-6 border border-[#E5E7EB] hover:border-[#1E3A8A]/20 transition">
                 <div className="flex gap-1 text-amber-400 text-sm">★★★★★</div>
-                <p className="mt-4 text-slate-700 leading-relaxed">{t.text}</p>
+                <p className="mt-4 text-[#1F2937] leading-relaxed">{t.text}</p>
                 <div className="mt-6 flex items-center gap-3">
                   <img src={`https://i.pravatar.cc/100?img=${t.avatar}`} alt={t.name} className="w-10 h-10 rounded-full object-cover" />
                   <div>
-                    <div className="font-bold text-sm text-[#0D2745]">{t.name}</div>
-                    <div className="text-xs text-slate-500">{t.role}</div>
+                    <div className="font-bold text-sm text-[#0A2540]">{t.name}</div>
+                    <div className="text-xs text-[#6B7280]">{t.role}</div>
                   </div>
                 </div>
               </div>
@@ -865,8 +759,8 @@ export default function HomePage() {
       {/* FAQ */}
       <section className="max-w-[960px] mx-auto px-6 lg:px-8 py-16">
         <div className="text-center mb-10">
-          <h2 className="text-3xl font-extrabold tracking-tight" style={{ fontFamily: 'Plus Jakarta Sans' }}>Perguntas frequentes</h2>
-          <p className="text-slate-500 mt-2">Tudo que você precisa para decidir com segurança.</p>
+          <h2 className="text-3xl font-extrabold tracking-tight" style={{ fontFamily: 'Poppins' }}>Perguntas frequentes</h2>
+          <p className="text-[#6B7280] mt-2">Tudo que você precisa para decidir com segurança.</p>
         </div>
 
         <div className="space-y-3">
@@ -877,13 +771,13 @@ export default function HomePage() {
             { q: "Os certificados são reconhecidos?", a: "Sim. Todos os cursos têm certificação com QR Code e validação online. Você pode compartilhar com 1 clique no LinkedIn e validar autenticidade em nosso portal." },
             { q: "Consigo integrar com meu sistema de RH?", a: "Sim. Temos integração nativa com principais HRIS, Active Directory, Google Workspace e API aberta. Também geramos PDI automático e cruzamos dados com o Vigorre Analytics™." },
           ].map((faq, i) => (
-            <div key={i} className={`rounded-2xl border overflow-hidden transition ${openFaq === i ? 'bg-white border-[#7C3AED] shadow' : 'bg-white border-slate-200 hover:border-[#7C3AED]/30'}`}>
+            <div key={i} className={`rounded-2xl border overflow-hidden transition ${openFaq === i ? 'bg-white border-[#1E3A8A] shadow' : 'bg-white border-[#E5E7EB] hover:border-[#1E3A8A]/30'}`}>
               <button onClick={() => setOpenFaq(openFaq === i ? null : i)} className="w-full flex items-center justify-between p-5 text-left">
-                <span className="font-bold text-[#0D2745] pr-6">{faq.q}</span>
-                <span className={`w-8 h-8 rounded-full grid place-items-center border flex-shrink-0 transition ${openFaq === i ? 'bg-[#7C3AED] text-white border-[#7C3AED] rotate-45' : 'bg-slate-50 border-slate-200 text-slate-500'}`}>+</span>
+                <span className="font-bold text-[#0A2540] pr-6">{faq.q}</span>
+                <span className={`w-8 h-8 rounded-full grid place-items-center border flex-shrink-0 transition ${openFaq === i ? 'bg-[#1E3A8A] text-white border-[#1E3A8A] rotate-45' : 'bg-[#F8FAFC] border-[#E5E7EB] text-[#6B7280]'}`}>+</span>
               </button>
               {openFaq === i && (
-                <div className="px-5 pb-5 text-slate-600 leading-relaxed -mt-2">
+                <div className="px-5 pb-5 text-[#6B7280] leading-relaxed -mt-2">
                   {faq.a}
                 </div>
               )}
@@ -894,18 +788,18 @@ export default function HomePage() {
 
       {/* FINAL CTA */}
       <section className="max-w-[1280px] mx-auto px-6 lg:px-8 pb-12">
-        <div className="relative rounded-[36px] overflow-hidden bg-gradient-to-br from-[#003C99] via-[#0057D9] to-[#7C3AED] p-8 lg:p-12">
+        <div className="relative rounded-[36px] overflow-hidden bg-gradient-to-br from-[#0A2540] via-[#1E3A8A] to-[#2563EB] p-8 lg:p-12">
           <div className="absolute inset-0 opacity-20">
-            <div className="absolute right-0 top-0 w-[700px] h-[700px] bg-[#A855F7] rounded-full blur-[100px] -mr-48 -mt-48" />
+            <div className="absolute right-0 top-0 w-[700px] h-[700px] bg-[#D4AF37] rounded-full blur-[100px] -mr-48 -mt-48" />
             <div className="absolute left-0 bottom-0 w-[500px] h-[500px] bg-white/10 rounded-full blur-3xl -ml-32 -mb-32" />
           </div>
 
           <div className="relative grid lg:grid-cols-[1.1fr_0.9fr] gap-8 items-center">
             <div className="text-white">
               <div className="inline-flex items-center gap-2 bg-white/10 border border-white/15 rounded-full px-3 py-1 text-xs font-bold tracking-widest">COMECE HOJE • SEM RISCO</div>
-              <h2 className="text-3xl lg:text-[42px] font-extrabold leading-[0.95] tracking-tight mt-4" style={{ fontFamily: 'Plus Jakarta Sans' }}>
+              <h2 className="text-3xl lg:text-[42px] font-extrabold leading-[0.95] tracking-tight mt-4" style={{ fontFamily: 'Poppins' }}>
                 Pronto para <br />
-                <span className="text-[#A855F7]">acelerar</span> sua<br />
+                <span className="text-[#D4AF37]">acelerar</span> sua<br />
                 estratégia?
               </h2>
               <p className="text-white/70 mt-4 text-lg max-w-xl">
@@ -913,7 +807,7 @@ export default function HomePage() {
               </p>
               <div className="mt-8 flex flex-wrap gap-3">
                 <Link href="/signup">
-                  <button className="bg-white text-[#0057D9] font-bold px-8 py-4 rounded-full hover:bg-slate-100 transition flex items-center gap-2">
+                  <button className="bg-[#D4AF37] text-white font-bold px-8 py-4 rounded-full hover:bg-[#C49F27] transition flex items-center gap-2">
                     {audience === 'b2b' ? 'Quero minha demo gratuita' : 'Criar conta gratuita'} →
                   </button>
                 </Link>
@@ -928,18 +822,18 @@ export default function HomePage() {
             </div>
 
             <div className="bg-white rounded-[24px] p-6 shadow-2xl">
-              <h3 className="font-extrabold text-[#0D2745] text-lg">{audience === 'b2b' ? 'Solicitar proposta personalizada' : 'Receba acesso grátis'}</h3>
-              <p className="text-sm text-slate-500 mt-1">{audience === 'b2b' ? 'Resposta em até 2 horas úteis. Sem spam.' : 'Acesso completo ao catálogo essencial.'}</p>
+              <h3 className="font-extrabold text-[#0A2540] text-lg">{audience === 'b2b' ? 'Solicitar proposta personalizada' : 'Receba acesso grátis'}</h3>
+              <p className="text-sm text-[#6B7280] mt-1">{audience === 'b2b' ? 'Resposta em até 2 horas úteis. Sem spam.' : 'Acesso completo ao catálogo essencial.'}</p>
 
               <div className="mt-5 space-y-3">
                 <div className="grid grid-cols-2 gap-3">
-                  <input placeholder="Nome completo" className="bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-[#7C3AED] focus:bg-white" />
-                  <input placeholder="Empresa" className="bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-[#7C3AED] focus:bg-white" />
+                  <input placeholder="Nome completo" className="bg-[#F8FAFC] border border-[#E5E7EB] rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-[#1E3A8A] focus:bg-white" />
+                  <input placeholder="Empresa" className="bg-[#F8FAFC] border border-[#E5E7EB] rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-[#1E3A8A] focus:bg-white" />
                 </div>
-                <input value={email} onChange={e => setEmail(e.target.value)} placeholder="E-mail corporativo" className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-[#7C3AED] focus:bg-white" />
+                <input value={email} onChange={e => setEmail(e.target.value)} placeholder="E-mail corporativo" className="w-full bg-[#F8FAFC] border border-[#E5E7EB] rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-[#1E3A8A] focus:bg-white" />
                 <div className="grid grid-cols-2 gap-3">
-                  <input placeholder="Telefone / WhatsApp" className="bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-[#7C3AED] focus:bg-white" />
-                  <select className="bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-[#7C3AED] focus:bg-white">
+                  <input placeholder="Telefone / WhatsApp" className="bg-[#F8FAFC] border border-[#E5E7EB] rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-[#1E3A8A] focus:bg-white" />
+                  <select className="bg-[#F8FAFC] border border-[#E5E7EB] rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-[#1E3A8A] focus:bg-white">
                     <option>50-100 colaboradores</option>
                     <option>100-500 colaboradores</option>
                     <option>500+ colaboradores</option>
@@ -952,114 +846,54 @@ export default function HomePage() {
                     setToast(audience === 'b2b' ? "Proposta enviada! Consultor entrará em contato em até 2h" : "Conta criada! Verifique seu e-mail com acesso grátis")
                     setEmail("")
                   }}
-                  className="w-full bg-[#7C3AED] hover:bg-[#5B21B6] text-white font-bold py-3.5 rounded-full transition"
+                  className="w-full bg-[#0A2540] hover:bg-[#1E3A8A] text-white font-bold py-3.5 rounded-full transition"
                 >
                   {audience === 'b2b' ? 'Receber proposta em 2h →' : 'Liberar meu acesso grátis →'}
                 </button>
-                <div className="text-[11px] text-center text-slate-400">Ao continuar você concorda com nossos Termos e Política de Privacidade. LGPD compliant.</div>
+                <div className="text-[11px] text-center text-[#6B7280]">Ao continuar você concorda com nossos Termos e Política de Privacidade. LGPD compliant.</div>
               </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* FOOTER */}
-      <footer className="border-t border-slate-200 bg-white">
-        <div className="max-w-[1280px] mx-auto px-6 lg:px-8 py-12">
-          <div className="grid lg:grid-cols-[1.3fr_1fr_1fr_1fr] gap-10">
-            <div>
-              {/* Logo Footer - VIGORRE ACADEMY lado a lado */}
-              <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[#0057D9] to-[#003C99] grid place-items-center text-white font-black">V</div>
-                <div>
-                  <div className="flex items-baseline gap-1.5 leading-none" style={{ fontFamily: 'Plus Jakarta Sans' }}>
-                    <span className="font-extrabold text-[16px] uppercase text-[#0057D9]">Vigorre</span>
-                    <span className="font-extrabold text-[16px] uppercase text-[#7C3AED]">Academy™</span>
-                  </div>
-                  <div className="text-xs tracking-widest font-semibold text-slate-400 uppercase mt-1">Corporate Learning Platform</div>
-                </div>
-              </div>
-              <p className="text-sm text-slate-500 mt-4 leading-relaxed">A academia inteligente que conecta aprendizado, performance e resultado. B2B e B2C em uma plataforma única, com Vigorre Analytics™.</p>
-              <div className="mt-4 flex gap-2">
-                {['in', 'ig', 'yt', 'li'].map(s => (
-                  <a key={s} href="#" className="w-8 h-8 rounded-full bg-slate-100 hover:bg-[#7C3AED]/10 hover:text-[#7C3AED] grid place-items-center text-xs font-bold text-slate-600 transition">{s}</a>
-                ))}
-              </div>
-            </div>
-
-            <div>
-              <div className="font-bold text-sm text-[#0057D9]">Soluções B2B</div>
-              <ul className="mt-4 space-y-2 text-sm text-slate-600">
-                <li><a href="#" className="hover:text-[#7C3AED] transition">Planos Corporativos</a></li>
-                <li><a href="#" className="hover:text-[#7C3AED] transition">White Label</a></li>
-                <li><a href="#" className="hover:text-[#7C3AED] transition">Créditos Flexíveis</a></li>
-                <li><a href="#" className="hover:text-[#7C3AED] transition">Vigorre Analytics™</a></li>
-              </ul>
-            </div>
-            <div>
-              <div className="font-bold text-sm text-[#0057D9]">Para Você</div>
-              <ul className="mt-4 space-y-2 text-sm text-slate-600">
-                <li><a href="#" className="hover:text-[#7C3AED] transition">Cursos Avulsos</a></li>
-                <li><a href="#" className="hover:text-[#7C3AED] transition">Trilhas Completas</a></li>
-                <li><a href="#" className="hover:text-[#7C3AED] transition">Certificações</a></li>
-                <li><a href="#" className="hover:text-[#7C3AED] transition">Acesso Ilimitado</a></li>
-              </ul>
-            </div>
-            <div>
-              <div className="font-bold text-sm text-[#0057D9]">Contato</div>
-              <ul className="mt-4 space-y-2 text-sm text-slate-600">
-                <li>contato@vigorreacademy.com.br</li>
-                <li>+55 11 4000-2000</li>
-                <li>Av. Paulista, 1000 • São Paulo - SP</li>
-                <li className="pt-2"><span className="inline-flex items-center gap-2 bg-[#7C3AED]/10 text-[#7C3AED] px-3 py-1 rounded-full text-xs font-bold">● Atendimento 24/7 para empresas</span></li>
-              </ul>
-            </div>
-          </div>
-
-          <div className="mt-10 pt-8 border-t border-slate-200 flex flex-col lg:flex-row justify-between gap-4 text-sm text-slate-500">
-            <span>© 2026 Vigorre Academy™. Todos os direitos reservados. CNPJ 00.000.000/0001-00</span>
-            <span className="flex gap-6"><a href="#" className="hover:text-[#7C3AED] transition">Privacidade</a><a href="#" className="hover:text-[#7C3AED] transition">Termos</a><a href="#" className="hover:text-[#7C3AED] transition">LGPD</a></span>
-          </div>
-        </div>
-      </footer>
-
       {/* Checkout Modal */}
       {showCheckout && (
         <div className="fixed inset-0 z-50 grid place-items-center p-4">
-          <div className="absolute inset-0 bg-[#003C99]/60 backdrop-blur-sm" onClick={() => setShowCheckout(false)} />
+          <div className="absolute inset-0 bg-[#0A2540]/60 backdrop-blur-sm" onClick={() => setShowCheckout(false)} />
           <div className="relative bg-white rounded-[28px] max-w-lg w-full max-h-[90vh] overflow-auto shadow-2xl">
-            <div className="sticky top-0 bg-white border-b border-slate-100 p-6 flex justify-between items-center">
-              <h3 className="font-black text-xl text-[#0D2745]">Seus cursos</h3>
-              <button onClick={() => setShowCheckout(false)} className="w-8 h-8 rounded-full bg-slate-100 grid place-items-center hover:bg-slate-200 transition">✕</button>
+            <div className="sticky top-0 bg-white border-b border-[#E5E7EB] p-6 flex justify-between items-center">
+              <h3 className="font-black text-xl text-[#0A2540]">Seus cursos</h3>
+              <button onClick={() => setShowCheckout(false)} className="w-8 h-8 rounded-full bg-[#F8FAFC] grid place-items-center hover:bg-[#E5E7EB] transition">✕</button>
             </div>
 
             <div className="p-6">
               {cart.length === 0 ? (
                 <div className="text-center py-10">
-                  <div className="w-16 h-16 bg-slate-100 rounded-full grid place-items-center mx-auto text-2xl">📚</div>
+                  <div className="w-16 h-16 bg-[#F8FAFC] rounded-full grid place-items-center mx-auto text-2xl">📚</div>
                   <div className="font-bold mt-4">Nenhum curso selecionado</div>
-                  <div className="text-sm text-slate-500 mt-1">Explore nosso catálogo e adicione cursos para começar.</div>
-                  <button onClick={() => setShowCheckout(false)} className="mt-6 bg-[#7C3AED] text-white font-bold px-6 py-3 rounded-full hover:bg-[#5B21B6] transition">Explorar cursos</button>
+                  <div className="text-sm text-[#6B7280] mt-1">Explore nosso catálogo e adicione cursos para começar.</div>
+                  <button onClick={() => setShowCheckout(false)} className="mt-6 bg-[#0A2540] text-white font-bold px-6 py-3 rounded-full hover:bg-[#1E3A8A] transition">Explorar cursos</button>
                 </div>
               ) : (
                 <>
                   <div className="space-y-3">
                     {courses.filter(c => cart.includes(c.id)).map(c => (
-                      <div key={c.id} className="flex gap-3 p-3 border border-slate-200 rounded-2xl hover:border-[#7C3AED]/20 transition">
+                      <div key={c.id} className="flex gap-3 p-3 border border-[#E5E7EB] rounded-2xl hover:border-[#1E3A8A]/20 transition">
                         <img src={c.image} alt={c.title} className="w-20 h-16 rounded-xl object-cover" />
                         <div className="flex-1">
                           <div className="font-bold text-sm leading-tight">{c.title}</div>
-                          <div className="text-xs text-slate-500">{c.category} • {c.duration}</div>
-                          <div className="font-black text-emerald-600 text-sm mt-1">Grátis</div>
+                          <div className="text-xs text-[#6B7280]">{c.category} • {c.duration}</div>
+                          <div className="font-black text-[#16A34A] text-sm mt-1">Grátis</div>
                         </div>
                         <button onClick={() => toggleCart(c.id)} className="text-xs font-bold text-red-500 hover:bg-red-50 px-3 rounded-full self-start py-1 transition">Remover</button>
                       </div>
                     ))}
                   </div>
 
-                  <div className="mt-6 bg-[#F6F8FB] rounded-2xl p-4 border border-slate-200">
-                    <div className="flex justify-between font-black text-lg"><span>Total</span><span className="text-emerald-600">Grátis</span></div>
-                    <div className="text-xs text-slate-500 mt-1">Acesso imediato liberado após cadastro</div>
+                  <div className="mt-6 bg-[#F8FAFC] rounded-2xl p-4 border border-[#E5E7EB]">
+                    <div className="flex justify-between font-black text-lg"><span>Total</span><span className="text-[#16A34A]">Grátis</span></div>
+                    <div className="text-xs text-[#6B7280] mt-1">Acesso imediato liberado após cadastro</div>
                   </div>
 
                   <Link href="/signup">
@@ -1068,12 +902,12 @@ export default function HomePage() {
                         setCart([])
                         setShowCheckout(false)
                       }}
-                      className="w-full mt-6 bg-[#7C3AED] hover:bg-[#5B21B6] text-white font-bold py-4 rounded-full transition"
+                      className="w-full mt-6 bg-[#0A2540] hover:bg-[#1E3A8A] text-white font-bold py-4 rounded-full transition"
                     >
                       Criar conta gratuita → Acesso imediato
                     </button>
                   </Link>
-                  <div className="text-xs text-center text-slate-400 mt-3">Cadastro 100% gratuito • Certificado digital + LinkedIn</div>
+                  <div className="text-xs text-center text-[#6B7280] mt-3">Cadastro 100% gratuito • Certificado digital + LinkedIn</div>
                 </>
               )}
             </div>
@@ -1084,18 +918,18 @@ export default function HomePage() {
       {/* Lead Modal */}
       {showLeadModal && (
         <div className="fixed inset-0 z-50 grid place-items-center p-4">
-          <div className="absolute inset-0 bg-[#003C99]/60 backdrop-blur-sm" onClick={() => setShowLeadModal(false)} />
+          <div className="absolute inset-0 bg-[#0A2540]/60 backdrop-blur-sm" onClick={() => setShowLeadModal(false)} />
           <div className="relative bg-white rounded-[28px] max-w-md w-full p-8 shadow-2xl">
-            <button onClick={() => setShowLeadModal(false)} className="absolute top-4 right-4 w-8 h-8 rounded-full bg-slate-100 grid place-items-center hover:bg-slate-200 transition">✕</button>
-            <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-[#0057D9] to-[#7C3AED] grid place-items-center text-white font-black">V</div>
-            <h3 className="font-black text-2xl text-[#0D2745] mt-4 leading-tight">Vamos desenhar sua<br />academia ideal</h3>
-            <p className="text-sm text-slate-500 mt-2">Converse com um especialista Vigorre. Diagnóstico gratuito + proposta em até 2h.</p>
+            <button onClick={() => setShowLeadModal(false)} className="absolute top-4 right-4 w-8 h-8 rounded-full bg-[#F8FAFC] grid place-items-center hover:bg-[#E5E7EB] transition">✕</button>
+            <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-[#0A2540] to-[#1E3A8A] grid place-items-center text-white font-black">V</div>
+            <h3 className="font-black text-2xl text-[#0A2540] mt-4 leading-tight">Vamos desenhar sua<br />academia ideal</h3>
+            <p className="text-sm text-[#6B7280] mt-2">Converse com um especialista Vigorre. Diagnóstico gratuito + proposta em até 2h.</p>
 
             <div className="mt-6 space-y-3">
-              <input placeholder="Nome completo" className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-[#7C3AED]" />
-              <input placeholder="E-mail corporativo" className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-[#7C3AED]" />
-              <input placeholder="Empresa" className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-[#7C3AED]" />
-              <select className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-[#7C3AED]">
+              <input placeholder="Nome completo" className="w-full bg-[#F8FAFC] border border-[#E5E7EB] rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-[#1E3A8A]" />
+              <input placeholder="E-mail corporativo" className="w-full bg-[#F8FAFC] border border-[#E5E7EB] rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-[#1E3A8A]" />
+              <input placeholder="Empresa" className="w-full bg-[#F8FAFC] border border-[#E5E7EB] rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-[#1E3A8A]" />
+              <select className="w-full bg-[#F8FAFC] border border-[#E5E7EB] rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-[#1E3A8A]">
                 <option>Número de colaboradores</option>
                 <option>Até 50</option>
                 <option>50 - 200</option>
@@ -1107,11 +941,11 @@ export default function HomePage() {
                   setShowLeadModal(false)
                   setToast("Solicitação enviada! Especialista Vigorre entrará em contato em breve")
                 }}
-                className="w-full bg-[#7C3AED] text-white font-bold py-3.5 rounded-full mt-2 hover:bg-[#5B21B6] transition"
+                className="w-full bg-[#0A2540] text-white font-bold py-3.5 rounded-full mt-2 hover:bg-[#1E3A8A] transition"
               >
                 Agendar conversa →
               </button>
-              <div className="text-xs text-center text-slate-400">✓ Sem compromisso • Resposta em até 2h úteis</div>
+              <div className="text-xs text-center text-[#6B7280]">✓ Sem compromisso • Resposta em até 2h úteis</div>
             </div>
           </div>
         </div>
