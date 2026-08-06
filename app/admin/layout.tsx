@@ -3,8 +3,7 @@
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
-import { AdminSidebar } from '@/components/admin/AdminSidebar'
-import { Header } from '@/components/layout/Header'
+import Header from '@/components/layout/Header'  // ✅ IMPORT CORRETO (sem chaves)
 
 export default function AdminLayout({
   children,
@@ -50,12 +49,9 @@ export default function AdminLayout({
   return (
     <div className="min-h-screen bg-[#F8FAFC]">
       <Header />
-      <div className="flex pt-[80px]">
-        <AdminSidebar />
-        <main className="flex-1 ml-[280px] p-8">
-          {children}
-        </main>
-      </div>
+      <main className="pt-[80px]">
+        {children}
+      </main>
     </div>
   )
 }
