@@ -2,7 +2,6 @@
 
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
-import { Button } from '@/components/ui/button'
 
 type Course = {
   id: number
@@ -128,7 +127,7 @@ export default function HomePage() {
       setToast("Removido do carrinho")
     } else {
       setCart([...cart, id])
-      setToast("Adicionado ao carrinho • Checkout Pix em 1 clique")
+      setToast("Adicionado ao carrinho • Acesso imediato")
     }
   }
 
@@ -153,10 +152,9 @@ export default function HomePage() {
       <header className={`fixed top-0 w-full z-50 transition-all duration-300 ${scrolled ? 'bg-white/90 backdrop-blur-xl border-b border-slate-200 shadow-sm' : 'bg-transparent border-b border-transparent'}`}>
         <div className="max-w-[1280px] mx-auto px-6 lg:px-8 h-[76px] flex items-center justify-between">
           <div className="flex items-center gap-10">
-            {/* Logo */}
             <Link href="/" className="flex items-center gap-3">
               <div className="relative w-11 h-11 flex items-center justify-center">
-                <div className="absolute inset-0 bg-gradient-to-br from-[#0D2745] to-[#1E4D7B] rounded-[10px] rotate-0 shadow-lg shadow-[#0D2745]/20" />
+                <div className="absolute inset-0 bg-gradient-to-br from-[#0D2745] to-[#1E4D7B] rounded-[10px] shadow-lg shadow-[#0D2745]/20" />
                 <div className="relative flex flex-col items-center leading-none">
                   <span className="text-white font-black text-[20px] tracking-tighter" style={{ fontFamily: 'Plus Jakarta Sans' }}>V</span>
                   <span className="w-5 h-[2px] bg-gradient-to-r from-[#9BB8D9] to-white -mt-[2px] rounded-full" />
@@ -246,19 +244,16 @@ export default function HomePage() {
         <div className="relative max-w-[1280px] mx-auto px-6 lg:px-8">
           <div className="grid lg:grid-cols-[1.1fr_0.9fr] gap-8 lg:gap-4 pt-8 lg:pt-14 pb-10 items-center">
 
-            {/* Left */}
             <div className="space-y-6">
               <div className="inline-flex items-center gap-2 bg-white border border-slate-200 rounded-full px-3 py-1.5 shadow-sm">
                 <span className="bg-[#0D2745] text-white text-[11px] font-bold tracking-widest px-2.5 py-1 rounded-full">NOVO</span>
                 <span className="text-sm font-medium text-slate-700">Ecossistema B2B + B2C em uma única plataforma</span>
-                <span className="hidden sm:inline-flex w-6 h-6 rounded-full bg-slate-100 items-center justify-center">
-                  <svg width="12" height="12" viewBox="0 0 16 16" fill="none"><path d="M6 12L10 8L6 4" stroke="#0D2745" strokeWidth="1.5" /></svg>
-                </span>
               </div>
 
               <div className="space-y-4">
                 <h1 className="text-[36px] sm:text-[44px] lg:text-[56px] font-extrabold leading-[0.92] tracking-tight" style={{ fontFamily: 'Plus Jakarta Sans' }}>
-                  <span className="text-[#0D2745]">Transforme</span> <span className="relative inline-block">
+                  <span className="text-[#0D2745]">Transforme</span>{' '}
+                  <span className="relative inline-block">
                     <span className="relative z-10 bg-gradient-to-r from-[#1E4D7B] to-[#2A7BD8] bg-clip-text text-transparent">conhecimento</span>
                     <span className="absolute bottom-1.5 left-0 right-0 h-3 bg-[#2A7BD8]/15 -rotate-1" />
                   </span>
@@ -272,7 +267,6 @@ export default function HomePage() {
                 </p>
               </div>
 
-              {/* Audience switch - hero emphasis */}
               <div className="bg-white rounded-[20px] p-2 shadow-xl shadow-slate-200/50 border border-slate-200 flex gap-2 max-w-[520px]">
                 <button onClick={() => setAudience('b2b')} className={`flex-1 rounded-2xl p-[18px] text-left transition border ${audience === 'b2b' ? 'bg-[#0D2745] border-[#0D2745] text-white shadow-lg' : 'bg-slate-50 border-slate-200 hover:border-slate-300'}`}>
                   <div className="flex items-center justify-between mb-1">
@@ -282,7 +276,7 @@ export default function HomePage() {
                     </span>
                   </div>
                   <div className={`text-[15px] font-bold leading-tight ${audience === 'b2b' ? 'text-white' : 'text-[#0D2745]'}`}>Academy corporativa + White Label</div>
-                  <div className={`text-sm ${audience === 'b2b' ? 'text-white/70' : 'text-slate-500'}`}>a partir de R$ 0/colaborador</div>
+                  <div className={`text-sm ${audience === 'b2b' ? 'text-white/70' : 'text-slate-500'}`}>Acesso gratuito para empresas</div>
                 </button>
 
                 <button onClick={() => setAudience('b2c')} className={`flex-1 rounded-2xl p-[18px] text-left transition border ${audience === 'b2c' ? 'bg-[#2A7BD8] border-[#2A7BD8] text-white shadow-lg' : 'bg-slate-50 border-slate-200 hover:border-slate-300'}`}>
@@ -293,7 +287,7 @@ export default function HomePage() {
                     </span>
                   </div>
                   <div className={`text-[15px] font-bold leading-tight ${audience === 'b2c' ? 'text-white' : 'text-[#0D2745]'}`}>Cursos avulsos & trilhas</div>
-                  <div className={`text-sm ${audience === 'b2c' ? 'text-white/80' : 'text-slate-500'}`}>a partir de R$ 0</div>
+                  <div className={`text-sm ${audience === 'b2c' ? 'text-white/80' : 'text-slate-500'}`}>100% gratuito</div>
                 </button>
               </div>
 
@@ -317,15 +311,13 @@ export default function HomePage() {
 
               <div className="flex flex-wrap gap-6 pt-2 text-sm">
                 <span className="flex items-center gap-2"><span className="w-5 h-5 rounded-full bg-emerald-100 grid place-items-center text-emerald-600">✓</span> Certificado com validação LinkedIn</span>
-                <span className="flex items-center gap-2"><span className="w-5 h-5 rounded-full bg-emerald-100 grid place-items-center text-emerald-600">✓</span> Pagamento Pix, boleto e cartão</span>
+                <span className="flex items-center gap-2"><span className="w-5 h-5 rounded-full bg-emerald-100 grid place-items-center text-emerald-600">✓</span> Acesso totalmente gratuito</span>
                 <span className="flex items-center gap-2"><span className="w-5 h-5 rounded-full bg-emerald-100 grid place-items-center text-emerald-600">✓</span> SSO & Integração RH</span>
               </div>
             </div>
 
-            {/* Right - Dashboard Mock */}
             <div className="relative lg:pl-8">
               <div className="relative bg-white rounded-[32px] shadow-[0_32px_80px_-20px_rgba(13,39,69,0.25)] border border-slate-200 overflow-hidden">
-                {/* Top bar - CORRIGIDO: Vigorre Academy */}
                 <div className="h-14 bg-gradient-to-r from-[#0D2745] via-[#1E4D7B] to-[#2A7BD8] flex items-center justify-between px-6">
                   <div className="flex items-center gap-3">
                     <div className="w-8 h-8 rounded-lg bg-white/15 backdrop-blur flex items-center justify-center text-white font-black text-sm">V</div>
@@ -340,7 +332,6 @@ export default function HomePage() {
                   </div>
                 </div>
 
-                {/* Metrics */}
                 <div className="p-6 grid grid-cols-3 gap-3">
                   {[
                     { k: 'Progresso', v: '78%', sub: '+12% vs mês anterior', color: 'from-[#1E4D7B] to-[#2A7BD8]' },
@@ -356,7 +347,6 @@ export default function HomePage() {
                   ))}
                 </div>
 
-                {/* Chart placeholder */}
                 <div className="px-6">
                   <div className="bg-[#0D2745] rounded-2xl p-4 text-white relative overflow-hidden">
                     <div className="flex justify-between items-center mb-3">
@@ -374,7 +364,6 @@ export default function HomePage() {
                   </div>
                 </div>
 
-                {/* Course list */}
                 <div className="p-6 space-y-3">
                   <div className="flex justify-between items-center">
                     <h4 className="font-bold text-[#0D2745]">Trilhas ativas</h4>
@@ -399,7 +388,6 @@ export default function HomePage() {
                   ))}
                 </div>
 
-                {/* Floating badges */}
                 <div className="absolute -left-4 top-28 hidden xl:flex bg-white border border-slate-200 rounded-2xl p-3 shadow-xl items-center gap-3">
                   <div className="w-10 h-10 rounded-xl bg-emerald-500 grid place-items-center text-white">✓</div>
                   <div>
@@ -419,8 +407,6 @@ export default function HomePage() {
               </div>
             </div>
           </div>
-
-          {/* Trust bar - REMOVIDO */}
         </div>
       </section>
 
@@ -444,14 +430,14 @@ export default function HomePage() {
               { icon: '◈', title: 'Planos Corporativos', desc: 'Acesso ilimitado para todos os colaboradores. De 50 a 5.000 vidas.', price: 'R$ 0/colab./mês', highlight: true },
               { icon: '⬢', title: 'Universidade White Label', desc: 'Sua marca, nossa infraestrutura. Portal com domínio próprio.', price: 'Sob consulta', highlight: false },
               { icon: '⬣', title: 'Programas sob Demanda', desc: 'Trilhas personalizadas: NRs, liderança, gestão de obras.', price: 'Projeto exclusivo', highlight: false },
-              { icon: '⬔', title: 'Compra de Créditos', desc: 'Compre pacotes e distribua entre equipes conforme a demanda.', price: '100 créditos • 0% OFF', highlight: false },
+              { icon: '⬔', title: 'Créditos Corporativos', desc: 'Distribua acessos entre equipes conforme a demanda.', price: 'Sob consulta', highlight: false },
             ].map(card => (
               <div key={card.title} className={`rounded-[24px] p-6 border-2 flex flex-col ${card.highlight ? 'bg-[#0D2745] text-white border-[#0D2745] shadow-xl shadow-[#0D2745]/20' : 'bg-white border-slate-200 hover:border-slate-300 hover:shadow-lg'}`}>
                 <div className={`w-12 h-12 rounded-2xl grid place-items-center text-xl mb-4 ${card.highlight ? 'bg-white/15 text-white' : 'bg-slate-100 text-[#0D2745]'}`}>{card.icon}</div>
                 <h3 className={`font-bold text-lg leading-tight ${card.highlight ? 'text-white' : 'text-[#0D2745]'}`}>{card.title}</h3>
                 <p className={`text-sm mt-2 flex-1 ${card.highlight ? 'text-white/70' : 'text-slate-500'}`}>{card.desc}</p>
                 <div className={`mt-6 pt-4 border-t ${card.highlight ? 'border-white/15' : 'border-slate-100'}`}>
-                  <div className={`text-xs font-bold tracking-widest ${card.highlight ? 'text-[#9BB8D9]' : 'text-slate-400'}`}>A PARTIR DE</div>
+                  <div className={`text-xs font-bold tracking-widest ${card.highlight ? 'text-[#9BB8D9]' : 'text-slate-400'}`}>INVESTIMENTO</div>
                   <div className={`font-bold ${card.highlight ? 'text-white' : 'text-[#0D2745]'}`}>{card.price}</div>
                 </div>
                 <button onClick={() => setShowLeadModal(true)} className={`mt-4 w-full py-3 rounded-full font-bold text-sm ${card.highlight ? 'bg-white text-[#0D2745] hover:bg-slate-100' : 'bg-[#0D2745] text-white hover:bg-[#14365E]'}`}>Saber mais →</button>
@@ -461,10 +447,10 @@ export default function HomePage() {
         ) : (
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
             {[
-              { icon: '▶', title: 'Curso Avulso', desc: 'Escolha, pague no Pix e comece agora. Acesso imediato.', price: 'R$ 0', cta: 'Ver cursos' },
-              { icon: '◆', title: 'Trilhas Completas', desc: '6 a 8 cursos com preço promocional e certificado master.', price: 'R$ 0', cta: 'Explorar trilhas' },
-              { icon: '✦', title: 'Certificação Avulsa', desc: 'Já domina o tema? Faça só a prova e garanta seu certificado.', price: 'R$ 0', cta: 'Ver provas' },
-              { icon: '⬣', title: 'Assinatura Individual', desc: 'Acesso ilimitado ao catálogo inteiro. Cancele quando quiser.', price: 'R$ 0/mês', cta: 'Assinar agora' },
+              { icon: '▶', title: 'Curso Avulso', desc: 'Escolha e comece agora. Acesso imediato gratuito.', price: 'Grátis', cta: 'Ver cursos' },
+              { icon: '◆', title: 'Trilhas Completas', desc: '6 a 8 cursos com certificado master.', price: 'Grátis', cta: 'Explorar trilhas' },
+              { icon: '✦', title: 'Certificação Avulsa', desc: 'Já domina o tema? Faça só a prova e garanta seu certificado.', price: 'Grátis', cta: 'Ver provas' },
+              { icon: '⬣', title: 'Acesso Total', desc: 'Acesso ilimitado ao catálogo inteiro. Para sempre.', price: 'Grátis', cta: 'Acessar agora' },
             ].map(card => (
               <div key={card.title} className="rounded-[24px] p-6 bg-white border border-slate-200 hover:border-[#2A7BD8]/30 hover:shadow-xl transition flex flex-col">
                 <div className="w-12 h-12 rounded-2xl bg-[#2A7BD8]/10 text-[#2A7BD8] grid place-items-center font-bold mb-4">{card.icon}</div>
@@ -480,7 +466,6 @@ export default function HomePage() {
           </div>
         )}
 
-        {/* Fluxo */}
         <div className="mt-14 bg-gradient-to-br from-[#0D2745] to-[#1E4D7B] rounded-[28px] p-8 lg:p-10 text-white relative overflow-hidden">
           <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-white/5 rounded-full blur-3xl -mr-48 -mt-48" />
           <div className="grid lg:grid-cols-[420px_1fr] gap-10 items-center relative">
@@ -489,22 +474,22 @@ export default function HomePage() {
               <h3 className="text-3xl font-extrabold leading-tight mt-2" style={{ fontFamily: 'Plus Jakarta Sans' }}>
                 Fluxo {audience === 'b2b' ? 'corporativo' : 'individual'} em <br />{audience === 'b2b' ? '5 passos' : '4 cliques'}
               </h3>
-              <p className="text-white/70 mt-3">{audience === 'b2b' ? 'Do contrato ao relatório de ROI sem fricção. Integração com seu RH em até 48h.' : 'Cadastro com CPF, pagamento Pix e acesso liberado na hora. Certificado digital com QR Code.'}</p>
+              <p className="text-white/70 mt-3">{audience === 'b2b' ? 'Do contrato ao relatório de ROI sem fricção. Integração com seu RH em até 48h.' : 'Cadastro com CPF e acesso liberado na hora. Certificado digital com QR Code.'}</p>
               <button onClick={() => setShowLeadModal(true)} className="mt-6 bg-white text-[#0D2745] font-bold px-6 py-3 rounded-full">
                 {audience === 'b2b' ? 'Falar com consultor →' : 'Criar minha conta gratuita →'}
               </button>
             </div>
 
-            <div className="grid grid-cols-5 lg:grid-cols-5 gap-2 lg:gap-3 relative">
+            <div className="grid grid-cols-5 gap-2 lg:gap-3 relative">
               {(audience === 'b2b' ? [
-                { n: '01', t: 'Escolha o plano', d: 'Créditos ou assinatura' },
+                { n: '01', t: 'Escolha o plano', d: 'Corporativo ou créditos' },
                 { n: '02', t: 'Assine', d: 'Contrato digital' },
                 { n: '03', t: 'Onboard', d: 'SSO + importação' },
                 { n: '04', t: 'Aprendizado', d: 'Portal colaborador' },
                 { n: '05', t: 'Analytics', d: 'ROI em dashboard' },
               ] : [
                 { n: '01', t: 'Explore', d: 'Catálogo + filtros' },
-                { n: '02', t: 'Compre', d: 'Pix, cartão, boleto' },
+                { n: '02', t: 'Cadastre-se', d: 'Em menos de 1 minuto' },
                 { n: '03', t: 'Estude', d: 'Acesso imediato' },
                 { n: '04', t: 'Certifique', d: 'LinkedIn 1-clique' },
                 { n: '05', t: 'Evolua', d: 'Recomendações IA' },
@@ -556,7 +541,7 @@ export default function HomePage() {
                 {cat}
               </button>
             ))}
-            <span className="ml-auto text-sm text-slate-500 self-center hidden sm:block">{filtered.length} cursos encontrados • B2C a partir de R$ 0</span>
+            <span className="ml-auto text-sm text-slate-500 self-center hidden sm:block">{filtered.length} cursos encontrados • 100% gratuitos</span>
           </div>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -582,23 +567,22 @@ export default function HomePage() {
                   <h3 className="font-bold text-lg leading-tight text-[#0D2745] line-clamp-2 group-hover:text-[#1E4D7B] transition">{course.title}</h3>
                   <div className="flex items-center gap-2 mt-3 text-sm text-slate-500">
                     <span className="w-7 h-7 rounded-full bg-slate-100 grid place-items-center text-xs">👨‍🏫</span>
-                    <span>Instrutor Vigorre • Ex-Gerdau / Ambev</span>
+                    <span>Instrutor Vigorre • Especialista no setor</span>
                   </div>
 
                   <div className="mt-4 flex items-end justify-between">
                     <div>
                       <div className="flex items-baseline gap-2">
-                        <span className="text-2xl font-black text-[#0D2745]">R$ 0</span>
-                        {course.originalPrice && <span className="text-sm text-slate-400 line-through">R$ 0</span>}
+                        <span className="text-2xl font-black text-[#0D2745]">Grátis</span>
                       </div>
-                      <div className="text-xs text-slate-500">ou 12x de R$ 0 • Pix -0%</div>
+                      <div className="text-xs text-slate-500">Acesso imediato + Certificado incluso</div>
                     </div>
                     {audience === 'b2c' ? (
                       <button
                         onClick={() => toggleCart(course.id)}
                         className={`px-5 py-2.5 rounded-full font-bold text-sm transition flex items-center gap-2 ${cart.includes(course.id) ? 'bg-emerald-500 text-white' : 'bg-[#0D2745] text-white hover:bg-[#14365E]'}`}
                       >
-                        {cart.includes(course.id) ? '✓ No carrinho' : 'Comprar'}
+                        {cart.includes(course.id) ? '✓ Adicionado' : 'Acessar'}
                       </button>
                     ) : (
                       <button onClick={() => setShowLeadModal(true)} className="px-5 py-2.5 rounded-full font-bold text-sm bg-white border border-slate-200 hover:bg-slate-50 text-[#0D2745]">
@@ -618,7 +602,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* WHITE LABEL - CORRIGIDO */}
+      {/* WHITE LABEL */}
       <section id="whitelabel" className="max-w-[1280px] mx-auto px-6 lg:px-8 py-16">
         <div className="grid lg:grid-cols-2 gap-10 items-center">
           <div>
@@ -643,15 +627,14 @@ export default function HomePage() {
             </ul>
             <div className="mt-8 flex gap-3">
               <button onClick={() => setShowLeadModal(true)} className="bg-[#0D2745] text-white font-bold px-7 py-3.5 rounded-full hover:bg-[#14365E] transition">Agendar visita técnica →</button>
-              <button onClick={() => setToast("Case em PDF enviado para seu e-mail")} className="bg-white border border-slate-200 font-bold px-6 py-3.5 rounded-full hover:bg-slate-50">Ver case Gerdau</button>
+              <button onClick={() => setToast("Case em PDF enviado para seu e-mail")} className="bg-white border border-slate-200 font-bold px-6 py-3.5 rounded-full hover:bg-slate-50">Ver cases de sucesso</button>
             </div>
             <div className="mt-6 flex items-center gap-4 text-sm text-slate-500">
               <span className="flex items-center gap-2"><span className="w-2 h-2 bg-emerald-500 rounded-full" /> Setup em 15 dias</span>
-              <span className="flex items-center gap-2"><span className="w-2 h-2 bg-blue-500 rounded-full" /> Sem fidelidade 12 meses</span>
+              <span className="flex items-center gap-2"><span className="w-2 h-2 bg-blue-500 rounded-full" /> Sem fidelidade</span>
             </div>
           </div>
 
-          {/* Browser mock - CORRIGIDO: Vigorre Academy */}
           <div className="relative">
             <div className="bg-white rounded-[20px] border border-slate-200 shadow-2xl overflow-hidden">
               <div className="h-10 bg-slate-50 border-b border-slate-200 flex items-center gap-2 px-4">
@@ -707,7 +690,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* PRICING - PREÇOS ZERADOS */}
+      {/* PRICING */}
       <section id="precos" className="bg-[#0D2745] relative overflow-hidden">
         <div className="absolute inset-0">
           <div className="absolute inset-0 opacity-10" style={{ backgroundImage: `linear-gradient(white 1px, transparent 1px), linear-gradient(90deg, white 1px, transparent 1px)`, backgroundSize: '40px 40px' }} />
@@ -716,40 +699,26 @@ export default function HomePage() {
 
         <div className="relative max-w-[1280px] mx-auto px-6 lg:px-8 py-16 lg:py-20">
           <div className="text-center max-w-3xl mx-auto">
-            <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur border border-white/15 rounded-full px-4 py-1.5 text-white text-xs font-bold tracking-widest">PREÇOS TRANSPARENTES • SEM SURPRESAS</div>
+            <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur border border-white/15 rounded-full px-4 py-1.5 text-white text-xs font-bold tracking-widest">ACESSO 100% GRATUITO • SEM SURPRESAS</div>
             <h2 className="text-3xl lg:text-[42px] font-extrabold text-white leading-tight mt-4" style={{ fontFamily: 'Plus Jakarta Sans' }}>
               Invista <span className="text-[#7FB1E6]">gratuitamente</span> em <br />conhecimento
             </h2>
-            <div className="mt-8 flex justify-center items-center gap-4">
-              <span className={`text-sm font-bold ${!annual ? 'text-white' : 'text-white/60'}`}>Mensal</span>
-              <button onClick={() => setAnnual(!annual)} className="relative w-14 h-8 bg-white/15 rounded-full border border-white/20 p-1">
-                <span className={`absolute top-1 w-6 h-6 bg-white rounded-full shadow transition-all ${annual ? 'left-7' : 'left-1'}`} />
-              </button>
-              <span className={`text-sm font-bold ${annual ? 'text-white' : 'text-white/60'}`}>Anual <span className="bg-emerald-500 text-white text-xs px-2 py-0.5 rounded-full ml-1">-0%</span></span>
-            </div>
           </div>
 
           {audience === 'b2b' ? (
             <div className="grid lg:grid-cols-3 gap-6 mt-12 max-w-5xl mx-auto">
               {[
-                { name: 'Essential', price: 0, desc: 'Para equipes de até 100 pessoas', features: ['Catálogo essencial (80 cursos)', 'Relatórios básicos', 'Suporte por e-mail', 'Certificados digitais'], cta: 'Começar agora', dark: false },
-                { name: 'Pro', price: 0, desc: 'Mais escolhido • 100 a 500 vidas', features: ['Catálogo completo (200+ cursos)', 'Vigorre Analytics™', 'SSO + Integração RH', 'Trilhas personalizadas', 'Sucesso do cliente dedicado'], cta: 'Solicitar proposta', dark: true, badge: 'MAIS POPULAR' },
-                { name: 'Enterprise White Label', price: null, desc: 'Universidade própria', features: ['Tudo do Pro +', 'Domínio e marca própria', 'Cursos internos ilimitados', 'API completa + onboarding', 'SLA 99.9%'], cta: 'Falar com especialista', dark: false },
+                { name: 'Essential', desc: 'Para equipes de até 100 pessoas', features: ['Catálogo essencial (80 cursos)', 'Relatórios básicos', 'Suporte por e-mail', 'Certificados digitais'], cta: 'Começar agora', dark: false },
+                { name: 'Pro', desc: 'Mais escolhido • 100 a 500 vidas', features: ['Catálogo completo (200+ cursos)', 'Vigorre Analytics™', 'SSO + Integração RH', 'Trilhas personalizadas', 'Sucesso do cliente dedicado'], cta: 'Solicitar proposta', dark: true, badge: 'MAIS POPULAR' },
+                { name: 'Enterprise White Label', desc: 'Universidade própria', features: ['Tudo do Pro +', 'Domínio e marca própria', 'Cursos internos ilimitados', 'API completa + onboarding', 'SLA 99.9%'], cta: 'Falar com especialista', dark: false },
               ].map(plan => (
                 <div key={plan.name} className={`relative rounded-[28px] p-8 border-2 flex flex-col ${plan.dark ? 'bg-white border-white shadow-2xl scale-[1.03] lg:scale-105' : 'bg-white/5 backdrop-blur border-white/15 text-white'}`}>
                   {plan.badge && <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-[#2A7BD8] text-white text-xs font-bold tracking-widest px-4 py-1.5 rounded-full">{plan.badge}</div>}
                   <h3 className={`font-extrabold text-xl ${plan.dark ? 'text-[#0D2745]' : 'text-white'}`}>{plan.name}</h3>
                   <p className={`text-sm mt-1 ${plan.dark ? 'text-slate-500' : 'text-white/60'}`}>{plan.desc}</p>
                   <div className="mt-6">
-                    {plan.price !== null ? (
-                      <div className="flex items-baseline gap-1">
-                        <span className={`text-4xl font-black ${plan.dark ? 'text-[#0D2745]' : 'text-white'}`}>R$ 0</span>
-                        <span className={`text-sm ${plan.dark ? 'text-slate-500' : 'text-white/60'}`}>/colab./mês</span>
-                      </div>
-                    ) : (
-                      <div className={`text-3xl font-black ${plan.dark ? 'text-[#0D2745]' : 'text-white'}`}>Sob consulta</div>
-                    )}
-                    <div className={`text-xs mt-1 ${plan.dark ? 'text-slate-400' : 'text-white/50'}`}>{plan.price !== null ? (annual ? 'cobrado anualmente • 2 meses grátis' : 'cobrado mensalmente') : 'Projeto customizado'}</div>
+                    <div className={`text-4xl font-black ${plan.dark ? 'text-[#0D2745]' : 'text-white'}`}>Grátis</div>
+                    <div className={`text-xs mt-1 ${plan.dark ? 'text-slate-400' : 'text-white/50'}`}>Acesso corporativo sem custo</div>
                   </div>
                   <ul className="mt-6 space-y-3 flex-1">
                     {plan.features.map(f => (
@@ -768,20 +737,17 @@ export default function HomePage() {
           ) : (
             <div className="grid lg:grid-cols-3 gap-6 mt-12 max-w-5xl mx-auto">
               {[
-                { name: 'Avulso', price: 0, desc: 'Pague só pelo que usar', features: ['1 curso à sua escolha', 'Acesso por 12 meses', 'Certificado + LinkedIn', 'Suporte ao aluno'], cta: 'Comprar curso' },
-                { name: 'Trilha Completa', price: 0, desc: 'Melhor custo-benefício', features: ['6 cursos + projeto final', 'Mentoria ao vivo mensal', 'Certificado Master', 'Acesso vitalício ao conteúdo'], cta: 'Garantir minha trilha', badge: 'ECONOMIA DE 40%', dark: true },
-                { name: 'Assinatura Total', price: 0, desc: 'Acesso ilimitado', features: ['200+ cursos liberados', 'Lançamentos incluso', 'Certificações ilimitadas', 'Cancele quando quiser'], cta: 'Assinar agora', sub: '/mês' },
+                { name: 'Avulso', desc: 'Acesso a cursos individuais', features: ['1 curso à sua escolha', 'Acesso por 12 meses', 'Certificado + LinkedIn', 'Suporte ao aluno'], cta: 'Começar agora' },
+                { name: 'Trilha Completa', desc: 'Melhor custo-benefício', features: ['6 cursos + projeto final', 'Mentoria ao vivo mensal', 'Certificado Master', 'Acesso vitalício ao conteúdo'], cta: 'Acessar trilha', badge: 'RECOMENDADO', dark: true },
+                { name: 'Acesso Total', desc: 'Plataforma completa', features: ['200+ cursos liberados', 'Lançamentos incluso', 'Certificações ilimitadas', 'Cancele quando quiser'], cta: 'Liberar acesso' },
               ].map(plan => (
                 <div key={plan.name} className={`relative rounded-[28px] p-8 border-2 flex flex-col ${plan.dark ? 'bg-white border-white shadow-2xl scale-[1.02]' : 'bg-white/5 backdrop-blur border-white/15 text-white'}`}>
                   {plan.badge && <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-emerald-500 text-white text-xs font-bold tracking-widest px-4 py-1.5 rounded-full">{plan.badge}</div>}
                   <h3 className={`font-extrabold text-xl ${plan.dark ? 'text-[#0D2745]' : 'text-white'}`}>{plan.name}</h3>
                   <p className={`text-sm mt-1 ${plan.dark ? 'text-slate-500' : 'text-white/60'}`}>{plan.desc}</p>
                   <div className="mt-6">
-                    <div className="flex items-baseline gap-1">
-                      <span className={`text-4xl font-black ${plan.dark ? 'text-[#0D2745]' : 'text-white'}`}>R$ 0</span>
-                      <span className={`text-sm ${plan.dark ? 'text-slate-500' : 'text-white/60'}`}>{plan.sub || (annual ? ' à vista' : '')}</span>
-                    </div>
-                    <div className={`text-xs mt-1 ${plan.dark ? 'text-slate-400' : 'text-white/50'}`}>{plan.name === 'Assinatura Total' && annual ? 'R$ 0/ano • 2 meses grátis' : 'Pix, cartão em até 12x, boleto'}</div>
+                    <div className={`text-4xl font-black ${plan.dark ? 'text-[#0D2745]' : 'text-white'}`}>Grátis</div>
+                    <div className={`text-xs mt-1 ${plan.dark ? 'text-slate-400' : 'text-white/50'}`}>Acesso imediato, sem cartão</div>
                   </div>
                   <ul className="mt-6 space-y-3 flex-1">
                     {plan.features.map(f => (
@@ -800,7 +766,7 @@ export default function HomePage() {
           )}
 
           <div className="mt-10 text-center text-white/60 text-sm">
-            ✓ Garantia de 7 dias • Nota fiscal • Certificado reconhecido • Suporte humano em até 2h
+            ✓ Acesso ilimitado • Certificado reconhecido • Suporte humano em até 2h
           </div>
         </div>
       </section>
@@ -811,7 +777,7 @@ export default function HomePage() {
           <div className="grid lg:grid-cols-[1.2fr_1fr_1fr] gap-0">
             <div className="p-8 lg:p-10 bg-[#F6F8FB] border-b lg:border-b-0 lg:border-r border-slate-200">
               <h3 className="text-2xl font-extrabold text-[#0D2745]" style={{ fontFamily: 'Plus Jakarta Sans' }}>B2B vs. B2C:<br />experiências distintas,<br />mesma excelência</h3>
-              <p className="text-slate-600 mt-3">A plataforma adapta fluxos, pagamentos e acompanhamento para cada perfil — sem comprometer a qualidade.</p>
+              <p className="text-slate-600 mt-3">A plataforma adapta fluxos e acompanhamento para cada perfil — sem comprometer a qualidade.</p>
               <div className="mt-6 flex gap-3">
                 <button onClick={() => setAudience('b2b')} className={`px-4 py-2 rounded-full text-sm font-bold ${audience === 'b2b' ? 'bg-[#0D2745] text-white' : 'bg-white border border-slate-200'}`}>Ver B2B</button>
                 <button onClick={() => setAudience('b2c')} className={`px-4 py-2 rounded-full text-sm font-bold ${audience === 'b2c' ? 'bg-[#2A7BD8] text-white' : 'bg-white border border-slate-200'}`}>Ver B2C</button>
@@ -823,13 +789,13 @@ export default function HomePage() {
                 title: 'Empresa',
                 subtitle: 'PORTAL DO COLABORADOR',
                 color: '#0D2745',
-                rows: ['SSO + integração Vigorre', 'Cursos definidos pelo RH', 'Faturamento via contrato/NF', 'Dashboard por equipe e filial', 'PDI + IA preditiva']
+                rows: ['SSO + integração Vigorre', 'Cursos definidos pelo RH', 'Gestão centralizada pelo RH', 'Dashboard por equipe e filial', 'PDI + IA preditiva']
               },
               {
                 title: 'Pessoa Física',
                 subtitle: 'PORTAL DO ALUNO',
                 color: '#2A7BD8',
-                rows: ['Login com CPF e e-mail', 'Catálogo livre completo', 'Pix, cartão e boleto imediato', 'Progresso individual + ranking', 'Recomendações personalizadas']
+                rows: ['Login com CPF e e-mail', 'Catálogo livre completo', 'Cadastro simples e imediato', 'Progresso individual + ranking', 'Recomendações personalizadas']
               }
             ].map(col => (
               <div key={col.title} className="p-8 border-b lg:border-b-0 lg:border-r border-slate-200 last:border-0">
@@ -839,7 +805,7 @@ export default function HomePage() {
                   {[
                     { label: 'Acesso', val: col.rows[0] },
                     { label: 'Catálogo', val: col.rows[1] },
-                    { label: 'Pagamento', val: col.rows[2] },
+                    { label: 'Gestão', val: col.rows[2] },
                     { label: 'Acompanhamento', val: col.rows[3] },
                     { label: 'Inteligência', val: col.rows[4] },
                   ].map(r => (
@@ -872,9 +838,9 @@ export default function HomePage() {
 
           <div className="grid md:grid-cols-3 gap-6">
             {[
-              { name: 'Renata Amaral', role: 'Diretora de RH • Empresa', text: '“Reduzimos 42% o tempo de onboarding e aumentamos a retenção em 28%. O Analytics™ mostrou exatamente onde investir.”', avatar: 5 },
-              { name: 'Marcos Lima', role: 'Gerente de Operações • Gerdau', text: '“A White Label nos deu autonomia. Em 3 semanas estávamos com a Universidade Gerdau no ar, com nossa cara.”', avatar: 8 },
-              { name: 'Juliana Costa', role: 'Aluna • Trilha de Liderança', text: '“Comprei o curso avulso no Pix e em 2 minutos já estava estudando. Certificado no LinkedIn rendeu 3 entrevistas.”', avatar: 9 },
+              { name: 'Renata Amaral', role: 'Diretora de RH • Indústria Nacional', text: '“Reduzimos 42% o tempo de onboarding e aumentamos a retenção em 28%. O Analytics™ mostrou exatamente onde investir.”', avatar: 5 },
+              { name: 'Marcos Lima', role: 'Gerente de Operações • Siderúrgica Brasileira', text: '“A White Label nos deu autonomia. Em 3 semanas estávamos com nossa Universidade no ar, com nossa cara.”', avatar: 8 },
+              { name: 'Juliana Costa', role: 'Aluna • Trilha de Liderança', text: '“Acessei o curso e em 2 minutos já estava estudando. Certificado no LinkedIn rendeu 3 entrevistas.”', avatar: 9 },
             ].map(t => (
               <div key={t.name} className="bg-[#F6F8FB] rounded-[24px] p-6 border border-slate-200">
                 <div className="flex gap-1 text-amber-400 text-sm">★★★★★</div>
@@ -901,7 +867,7 @@ export default function HomePage() {
 
         <div className="space-y-3">
           {[
-            { q: "Posso comprar um único curso sendo pessoa física?", a: "Sim! É o nosso modelo B2C. Você escolhe qualquer curso do catálogo, paga via Pix, cartão ou boleto e tem acesso imediato por 12 meses, com certificado digital válido e compartilhável no LinkedIn." },
+            { q: "Posso acessar um único curso sendo pessoa física?", a: "Sim! É o nosso modelo B2C. Você escolhe qualquer curso do catálogo, faz um cadastro rápido e tem acesso imediato por 12 meses, com certificado digital válido e compartilhável no LinkedIn." },
             { q: "Como funciona o White Label para empresas?", a: "Criamos sua universidade corporativa com seu domínio, identidade visual e cursos próprios + todo catálogo Vigorre. SSO, importação de colaboradores e relatórios por filial. Setup médio de 15 dias e suporte dedicado." },
             { q: "Qual a diferença entre créditos e assinatura corporativa?", a: "Assinatura libera acesso ilimitado para todos os colaboradores. Créditos são pacotes (ex: 100 créditos) que o RH distribui conforme a demanda — ideal para equipes sazonais ou projetos específicos." },
             { q: "Os certificados são reconhecidos?", a: "Sim. Todos os cursos têm certificação com QR Code e validação online. Você pode compartilhar com 1 clique no LinkedIn e validar autenticidade em nosso portal." },
@@ -939,7 +905,7 @@ export default function HomePage() {
                 estratégia?
               </h2>
               <p className="text-white/70 mt-4 text-lg max-w-xl">
-                {audience === 'b2b' ? 'Agende uma demo de 20 minutos e receba um diagnóstico gratuito de maturidade de capacitação da sua equipe.' : 'Crie sua conta gratuita, ganhe 7 dias de acesso e faça seu primeiro curso sem pagar nada.'}
+                {audience === 'b2b' ? 'Agende uma demo de 20 minutos e receba um diagnóstico gratuito de maturidade de capacitação da sua equipe.' : 'Crie sua conta gratuita, ganhe acesso imediato e faça seu primeiro curso sem pagar nada.'}
               </p>
               <div className="mt-8 flex flex-wrap gap-3">
                 <Link href="/signup">
@@ -952,13 +918,13 @@ export default function HomePage() {
                 </button>
               </div>
               <div className="mt-6 flex items-center gap-6 text-sm text-white/60">
-                <span>✓ Sem cartão no B2C trial</span>
+                <span>✓ Sem cartão de crédito</span>
                 <span>✓ Setup B2B em 48h</span>
               </div>
             </div>
 
             <div className="bg-white rounded-[24px] p-6 shadow-2xl">
-              <h3 className="font-extrabold text-[#0D2745] text-lg">{audience === 'b2b' ? 'Solicitar proposta personalizada' : 'Receba 7 dias grátis'}</h3>
+              <h3 className="font-extrabold text-[#0D2745] text-lg">{audience === 'b2b' ? 'Solicitar proposta personalizada' : 'Receba acesso grátis'}</h3>
               <p className="text-sm text-slate-500 mt-1">{audience === 'b2b' ? 'Resposta em até 2 horas úteis. Sem spam.' : 'Acesso completo ao catálogo essencial.'}</p>
 
               <div className="mt-5 space-y-3">
@@ -993,7 +959,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* FOOTER - CORRIGIDO: Vigorre Academy */}
+      {/* FOOTER */}
       <footer className="border-t border-slate-200 bg-white">
         <div className="max-w-[1280px] mx-auto px-6 lg:px-8 py-12">
           <div className="grid lg:grid-cols-[1.3fr_1fr_1fr_1fr] gap-10">
@@ -1028,7 +994,7 @@ export default function HomePage() {
                 <li><a href="#" className="hover:text-[#0D2745]">Cursos Avulsos</a></li>
                 <li><a href="#" className="hover:text-[#0D2745]">Trilhas Completas</a></li>
                 <li><a href="#" className="hover:text-[#0D2745]">Certificações</a></li>
-                <li><a href="#" className="hover:text-[#0D2745]">Assinatura Ilimitada</a></li>
+                <li><a href="#" className="hover:text-[#0D2745]">Acesso Ilimitado</a></li>
               </ul>
             </div>
             <div>
@@ -1055,15 +1021,15 @@ export default function HomePage() {
           <div className="absolute inset-0 bg-[#0D2745]/60 backdrop-blur-sm" onClick={() => setShowCheckout(false)} />
           <div className="relative bg-white rounded-[28px] max-w-lg w-full max-h-[90vh] overflow-auto shadow-2xl">
             <div className="sticky top-0 bg-white border-b border-slate-100 p-6 flex justify-between items-center">
-              <h3 className="font-black text-xl text-[#0D2745]">Seu carrinho</h3>
+              <h3 className="font-black text-xl text-[#0D2745]">Seus cursos</h3>
               <button onClick={() => setShowCheckout(false)} className="w-8 h-8 rounded-full bg-slate-100 grid place-items-center">✕</button>
             </div>
 
             <div className="p-6">
               {cart.length === 0 ? (
                 <div className="text-center py-10">
-                  <div className="w-16 h-16 bg-slate-100 rounded-full grid place-items-center mx-auto text-2xl">🛒</div>
-                  <div className="font-bold mt-4">Seu carrinho está vazio</div>
+                  <div className="w-16 h-16 bg-slate-100 rounded-full grid place-items-center mx-auto text-2xl">📚</div>
+                  <div className="font-bold mt-4">Nenhum curso selecionado</div>
                   <div className="text-sm text-slate-500 mt-1">Explore nosso catálogo e adicione cursos para começar.</div>
                   <button onClick={() => setShowCheckout(false)} className="mt-6 bg-[#0D2745] text-white font-bold px-6 py-3 rounded-full">Explorar cursos</button>
                 </div>
@@ -1076,7 +1042,7 @@ export default function HomePage() {
                         <div className="flex-1">
                           <div className="font-bold text-sm leading-tight">{c.title}</div>
                           <div className="text-xs text-slate-500">{c.category} • {c.duration}</div>
-                          <div className="font-black text-[#0D2745] text-sm mt-1">R$ 0</div>
+                          <div className="font-black text-emerald-600 text-sm mt-1">Grátis</div>
                         </div>
                         <button onClick={() => toggleCart(c.id)} className="text-xs font-bold text-red-500 hover:bg-red-50 px-3 rounded-full self-start py-1">Remover</button>
                       </div>
@@ -1084,37 +1050,22 @@ export default function HomePage() {
                   </div>
 
                   <div className="mt-6 bg-[#F6F8FB] rounded-2xl p-4 border border-slate-200">
-                    <div className="flex justify-between text-sm"><span className="text-slate-500">Subtotal</span><span className="font-bold">R$ 0</span></div>
-                    <div className="flex justify-between text-sm mt-2"><span className="text-emerald-600 font-medium">Desconto Pix (-0%)</span><span className="font-bold text-emerald-600">- R$ 0</span></div>
-                    <div className="h-px bg-slate-200 my-3" />
-                    <div className="flex justify-between font-black text-lg"><span>Total</span><span className="text-[#0D2745]">R$ 0</span></div>
-                    <div className="text-xs text-slate-500 mt-1">ou 12x sem juros no cartão</div>
+                    <div className="flex justify-between font-black text-lg"><span>Total</span><span className="text-emerald-600">Grátis</span></div>
+                    <div className="text-xs text-slate-500 mt-1">Acesso imediato liberado após cadastro</div>
                   </div>
 
-                  <div className="mt-4 grid grid-cols-3 gap-2">
-                    {[
-                      { l: 'Pix', d: 'Liberação imediata' },
-                      { l: 'Cartão', d: 'Até 12x' },
-                      { l: 'Boleto', d: '1 dia útil' },
-                    ].map(m => (
-                      <div key={m.l} className="border border-slate-200 rounded-xl p-2 text-center bg-white">
-                        <div className="font-bold text-sm">{m.l}</div>
-                        <div className="text-xs text-slate-500">{m.d}</div>
-                      </div>
-                    ))}
-                  </div>
-
-                  <button
-                    onClick={() => {
-                      setToast("Pedido confirmado! Acesso liberado no seu e-mail em até 2 minutos • Nota fiscal emitida")
-                      setCart([])
-                      setShowCheckout(false)
-                    }}
-                    className="w-full mt-6 bg-[#0D2745] hover:bg-[#14365E] text-white font-bold py-4 rounded-full"
-                  >
-                    Finalizar compra → Acesso imediato
-                  </button>
-                  <div className="text-xs text-center text-slate-400 mt-3">Compra 100% segura • Certificado digital + LinkedIn • 7 dias de garantia</div>
+                  <Link href="/signup">
+                    <button
+                      onClick={() => {
+                        setCart([])
+                        setShowCheckout(false)
+                      }}
+                      className="w-full mt-6 bg-[#0D2745] hover:bg-[#14365E] text-white font-bold py-4 rounded-full"
+                    >
+                      Criar conta gratuita → Acesso imediato
+                    </button>
+                  </Link>
+                  <div className="text-xs text-center text-slate-400 mt-3">Cadastro 100% gratuito • Certificado digital + LinkedIn</div>
                 </>
               )}
             </div>
